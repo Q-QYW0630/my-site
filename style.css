@@ -358,6 +358,43 @@ section {
     line-height: 1.6;
 }
 
+/* Python 课程 */
+.python-course {
+    background: linear-gradient(135deg, var(--dark-color) 0%, #16213e 100%);
+    color: var(--light-color);
+}
+
+.python-course .section-title {
+    color: var(--light-color);
+}
+
+.course-intro {
+    text-align: center;
+    padding: 60px 40px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.course-icon {
+    font-size: 5rem;
+    margin-bottom: 30px;
+    animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+.course-desc {
+    font-size: 1.3rem;
+    margin-bottom: 40px;
+    opacity: 0.9;
+    line-height: 1.8;
+}
+
 /* 作品展示 */
 .gallery {
     background-color: var(--light-color);
@@ -615,4 +652,192 @@ section {
 
 ::-webkit-scrollbar-thumb:hover {
     background: var(--secondary-color);
+}
+
+/* Python 课程页面样式 */
+.course-hero {
+    min-height: 60vh;
+    background: linear-gradient(135deg, var(--dark-color) 0%, #16213e 100%);
+    display: flex;
+    align-items: center;
+    text-align: center;
+    padding: 100px 0;
+}
+
+.course-hero h1 {
+    font-family: 'Permanent Marker', cursive;
+    font-size: 4rem;
+    color: var(--light-color);
+    margin-bottom: 20px;
+    text-shadow: 3px 3px 0 var(--primary-color);
+}
+
+.course-subtitle {
+    font-size: 1.5rem;
+    color: var(--light-color);
+    opacity: 0.9;
+    margin-bottom: 40px;
+}
+
+.course-stats {
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+}
+
+.course-stats .stat-item {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    border-radius: 15px;
+    min-width: 120px;
+}
+
+.course-stats .stat-number {
+    display: block;
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--accent-color);
+    margin-bottom: 10px;
+}
+
+.course-stats .stat-label {
+    font-size: 1rem;
+    color: var(--light-color);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.course-content {
+    background-color: var(--light-color);
+}
+
+.chapters {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.chapter {
+    background-color: #fff;
+    border-radius: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.chapter:hover {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+    transform: translateY(-3px);
+}
+
+.chapter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 30px;
+    cursor: pointer;
+    background: linear-gradient(90deg, rgba(255, 60, 90, 0.05), transparent);
+}
+
+.chapter-header h3 {
+    font-size: 1.3rem;
+    color: var(--dark-color);
+    margin: 0;
+}
+
+.chapter-status {
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 6px 15px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.chapter-status.status-completed {
+    background-color: #4ade80;
+    color: #fff;
+}
+
+.chapter-status.status-active {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+.chapter-status.status-pending {
+    background-color: var(--gray-color);
+    color: #fff;
+}
+
+.chapter-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+}
+
+.chapter.active .chapter-body {
+    max-height: 800px;
+}
+
+.lessons {
+    list-style: none;
+    padding: 20px 30px;
+    margin: 0;
+}
+
+.lesson {
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f2f5;
+    color: var(--dark-color);
+    transition: all 0.2s ease;
+}
+
+.lesson:hover {
+    color: var(--primary-color);
+    padding-left: 10px;
+}
+
+.lesson:last-child {
+    border-bottom: none;
+}
+
+.code-block {
+    margin: 20px 30px 30px;
+    background-color: #1a1a2e;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.code-block pre {
+    margin: 0;
+    padding: 20px;
+    overflow-x: auto;
+}
+
+.code-block code {
+    color: #4ade80;
+    font-family: 'Courier New', monospace;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+    .course-hero h1 {
+        font-size: 2.5rem;
+    }
+
+    .course-subtitle {
+        font-size: 1.1rem;
+    }
+
+    .course-stats {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .chapter-header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
 }
