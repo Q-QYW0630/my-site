@@ -10,18 +10,18 @@
 <body>
     <nav class="navbar">
         <div class="container">
-            <div class="logo"><a href="index.html" style="text-decoration: none; color: inherit;">Y.WEN</a></div>
+            <div class="logo">Python 课程</div>
             <ul class="nav-links">
-                <li><a href="index.html#about">关于我</a></li>
-                <li><a href="index.html#hobbies">兴趣</a></li>
-                <li><a href="index.html#gallery">作品</a></li>
-                <li><a href="python-course.html">Python课程</a></li>
-                <li><a href="index.html#contact">联系</a></li>
+                <li><a href="#overview">课程概览</a></li>
+                <li><a href="#chapters">章节列表</a></li>
+                <li><a href="#resources">学习资源</a></li>
+                <li><a href="#faq">常见问题</a></li>
+                <li><a href="index.html">返回首页</a></li>
             </ul>
         </div>
     </nav>
 
-    <section class="course-hero">
+    <section id="overview" class="course-hero">
         <div class="container">
             <h1>Python 基础课程</h1>
             <p class="course-subtitle">从零开始，掌握 Python 编程与数据分析</p>
@@ -39,12 +39,23 @@
                     <span class="stat-label">代码示例</span>
                 </div>
             </div>
+            <div class="course-description">
+                <h3>课程目标</h3>
+                <p>本课程旨在帮助您掌握 Python 编程的基础知识，为数据分析和其他高级应用打下坚实的基础。通过系统的学习，您将能够编写简单的 Python 程序，理解基本的编程概念，并具备解决实际问题的能力。</p>
+                <h3>适合人群</h3>
+                <ul>
+                    <li>零基础编程爱好者</li>
+                    <li>数据分析相关专业学生</li>
+                    <li>希望转行进入 IT 领域的职场人士</li>
+                    <li>需要掌握编程技能的商务人士</li>
+                </ul>
+            </div>
         </div>
     </section>
 
-    <section class="course-content">
+    <section id="chapters" class="course-content">
         <div class="container">
-            <h2 class="section-title">课程<span class="highlight">大纲</span></h2>
+            <h2 class="section-title">课程<span class="highlight">章节</span></h2>
             <div class="chapters">
                 <div class="chapter" data-chapter="1">
                     <div class="chapter-header">
@@ -170,15 +181,81 @@ print(f"我叫{name}，今年{age}岁")</code></pre>
         </div>
     </section>
 
+    <section id="resources" class="resources">
+        <div class="container">
+            <h2 class="section-title">学习<span class="highlight">资源</span></h2>
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <h3>推荐书籍</h3>
+                    <ul>
+                        <li>《Python 编程：从入门到实践》</li>
+                        <li>《Python 基础教程》</li>
+                        <li>《流畅的 Python》</li>
+                    </ul>
+                </div>
+                <div class="resource-card">
+                    <h3>在线资源</h3>
+                    <ul>
+                        <li>Python 官方文档</li>
+                        <li>W3Schools Python 教程</li>
+                        <li>LeetCode 编程练习</li>
+                    </ul>
+                </div>
+                <div class="resource-card">
+                    <h3>开发工具</h3>
+                    <ul>
+                        <li>VS Code + Python 扩展</li>
+                        <li>PyCharm</li>
+                        <li>Jupyter Notebook</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq" class="faq">
+        <div class="container">
+            <h2 class="section-title">常见<span class="highlight">问题</span></h2>
+            <div class="faq-items">
+                <div class="faq-item">
+                    <div class="faq-question">学习 Python 需要什么基础？</div>
+                    <div class="faq-answer">
+                        <p>本课程是为零基础学员设计的，不需要任何编程基础。只要您有学习的热情和耐心，就可以跟随课程进度逐步掌握 Python 编程。</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">需要安装什么软件？</div>
+                    <div class="faq-answer">
+                        <p>您需要安装 Python 3.8 或更高版本，以及一个代码编辑器，如 VS Code 或 PyCharm。课程第一章会详细讲解安装步骤。</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">学习完本课程能达到什么水平？</div>
+                    <div class="faq-answer">
+                        <p>学习完本课程后，您将掌握 Python 基础编程技能，能够编写简单的程序，理解基本的编程概念，并为学习数据分析或其他高级主题打下基础。</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">如何获取更多帮助？</div>
+                    <div class="faq-answer">
+                        <p>您可以通过搜索引擎查找相关问题的解决方案，也可以加入 Python 学习社区，如 Stack Overflow、Python 中文社区等。</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
-                <div class="footer-logo">Y.WEN</div>
-                <p class="footer-text">© 2026 丘雅雯. All rights reserved.</p>
-                <div class="footer-social">
-                    <a href="#" class="social-link">📷</a>
-                    <a href="#" class="social-link">🎵</a>
-                    <a href="#" class="social-link">📱</a>
+                <div class="footer-logo">Python 课程</div>
+                <p class="footer-text">© 2026 Python 基础课程. All rights reserved.</p>
+                <div class="footer-links">
+                    <a href="#overview">课程概览</a>
+                    <a href="#chapters">章节列表</a>
+                    <a href="#resources">学习资源</a>
+                    <a href="#faq">常见问题</a>
+                    <a href="index.html">返回首页</a>
                 </div>
             </div>
         </div>
@@ -207,6 +284,13 @@ print(f"我叫{name}，今年{age}岁")</code></pre>
             header.addEventListener('click', function() {
                 const chapter = this.parentElement;
                 chapter.classList.toggle('active');
+            });
+        });
+
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', function() {
+                const faqItem = this.parentElement;
+                faqItem.classList.toggle('active');
             });
         });
     </script>
