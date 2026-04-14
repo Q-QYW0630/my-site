@@ -968,6 +968,120 @@ section {
     font-weight: bold;
 }
 
+/* 测验样式 */
+.unit-quiz {
+    background-color: rgba(58, 134, 255, 0.05);
+    padding: 30px;
+    border-radius: 10px;
+    margin-top: 30px;
+    border: 2px solid var(--secondary-color);
+}
+
+.unit-quiz h4 {
+    color: var(--secondary-color);
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+}
+
+.unit-quiz p {
+    color: var(--dark-color);
+    margin-bottom: 20px;
+}
+
+.quiz-section {
+    margin-bottom: 30px;
+}
+
+.quiz-section h5 {
+    color: var(--dark-color);
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--secondary-color);
+}
+
+.quiz-item {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.quiz-item p {
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.options label {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.options label:hover {
+    background-color: rgba(58, 134, 255, 0.05);
+}
+
+.options input[type="radio"] {
+    margin-right: 10px;
+    accent-color: var(--secondary-color);
+}
+
+.code-block.small {
+    margin: 10px 0 15px;
+    font-size: 0.9rem;
+}
+
+.code-block.small pre {
+    padding: 15px;
+}
+
+.quiz-answers {
+    background-color: rgba(255, 190, 11, 0.05);
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 4px solid var(--accent-color);
+}
+
+.quiz-answers p {
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.quiz-answers ol {
+    margin-left: 20px;
+    margin-bottom: 20px;
+}
+
+.quiz-answers li {
+    margin-bottom: 5px;
+    color: var(--dark-color);
+}
+
+@media (max-width: 768px) {
+    .unit-quiz {
+        padding: 20px;
+    }
+    
+    .quiz-item {
+        padding: 15px;
+    }
+    
+    .options label {
+        padding: 6px 10px;
+    }
+}
+
 @media (max-width: 768px) {
     .course-hero h1 {
         font-size: 2.5rem;
