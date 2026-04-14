@@ -24,30 +24,35 @@
     <section id="overview" class="course-hero">
         <div class="container">
             <h1>Python 基础课程</h1>
-            <p class="course-subtitle">从零开始，掌握 Python 编程与数据分析</p>
+            <p class="course-subtitle">AI 时代的高效学习路径，聚焦数据分析核心技能</p>
             <div class="course-stats">
                 <div class="stat-item">
-                    <span class="stat-number">8</span>
-                    <span class="stat-label">章节</span>
+                    <span class="stat-number">4</span>
+                    <span class="stat-label">核心模块</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-number">24</span>
+                    <span class="stat-number">16</span>
                     <span class="stat-label">课时</span>
                 </div>
                 <div class="stat-item">
-                    <span class="stat-number">100+</span>
-                    <span class="stat-label">代码示例</span>
+                    <span class="stat-number">50+</span>
+                    <span class="stat-label">实战案例</span>
                 </div>
             </div>
             <div class="course-description">
                 <h3>课程目标</h3>
-                <p>本课程旨在帮助您掌握 Python 编程的基础知识，为数据分析和其他高级应用打下坚实的基础。通过系统的学习，您将能够编写简单的 Python 程序，理解基本的编程概念，并具备解决实际问题的能力。</p>
+                <p>本课程旨在帮助商务数据分析专业学生在 AI 时代高效学习 Python 基础，聚焦与 AI 协作和数据分析直接相关的核心概念，以“能用、会改、懂查”为目标，跳过孤立、过时的语法细节。</p>
                 <h3>适合人群</h3>
                 <ul>
+                    <li>商务数据分析专业学生</li>
+                    <li>希望掌握数据分析技能的职场人士</li>
                     <li>零基础编程爱好者</li>
-                    <li>数据分析相关专业学生</li>
-                    <li>希望转行进入 IT 领域的职场人士</li>
-                    <li>需要掌握编程技能的商务人士</li>
+                    <li>需要与 AI 协作的技术人员</li>
+                </ul>
+                <h3>学习路径</h3>
+                <ul>
+                    <li><strong>第一阶段（1-2周）</strong>：核心语法与 AI 初协作</li>
+                    <li><strong>第二阶段（2-3周）</strong>：面向对象与数据分析入门</li>
                 </ul>
             </div>
         </div>
@@ -55,126 +60,160 @@
 
     <section id="chapters" class="course-content">
         <div class="container">
-            <h2 class="section-title">课程<span class="highlight">章节</span></h2>
+            <h2 class="section-title">课程<span class="highlight">模块</span></h2>
             <div class="chapters">
                 <div class="chapter" data-chapter="1">
                     <div class="chapter-header">
-                        <h3>第一章：Python 入门</h3>
+                        <h3>模块一：与 AI 沟通的"元语言"</h3>
                         <span class="chapter-status status-completed">已完成</span>
                     </div>
                     <div class="chapter-body">
+                        <h4>1.1 基础语法与数据结构</h4>
                         <ul class="lessons">
-                            <li class="lesson">1.1 什么是 Python</li>
-                            <li class="lesson">1.2 安装 Python</li>
-                            <li class="lesson">1.3 第一个程序：Hello World</li>
+                            <li class="lesson">变量与数据类型（整数、浮点数、字符串、布尔值）</li>
+                            <li class="lesson">运算符与表达式</li>
+                            <li class="lesson">条件语句（if/else）</li>
+                            <li class="lesson">循环（for, while）</li>
+                            <li class="lesson">核心数据结构：列表、元组、字典、集合</li>
+                            <li class="lesson">数据结构的增删改查与遍历</li>
                         </ul>
                         <div class="code-block">
-                            <pre><code>print("Hello, World!")</code></pre>
+                            <pre><code># 列表操作示例
+prices = [100, 200, 300, 400]
+discounted_prices = [price * 0.9 for price in prices]
+print(discounted_prices)
+
+# 字典操作示例
+scores = {"语文": 85, "数学": 90, "英语": 78}
+passed = {subject: score for subject, score in scores.items() if score >= 60}
+print(passed)</code></pre>
+                        </div>
+                        <h4>1.2 函数与模块</h4>
+                        <ul class="lessons">
+                            <li class="lesson">函数的定义与调用</li>
+                            <li class="lesson">参数传递（形参、实参）</li>
+                            <li class="lesson">返回值</li>
+                            <li class="lesson">模块的导入与使用</li>
+                        </ul>
+                        <div class="code-block">
+                            <pre><code>def calculate_discount(price, discount_rate=0.1):
+    """计算折扣后的价格"""
+    return price * (1 - discount_rate)
+
+# 调用函数
+final_price = calculate_discount(1000, 0.2)
+print(f"最终价格: {final_price}")
+
+# 导入模块
+import math
+print(math.pi)</code></pre>
                         </div>
                     </div>
                 </div>
 
                 <div class="chapter active" data-chapter="2">
                     <div class="chapter-header">
-                        <h3>第二章：变量与数据类型</h3>
+                        <h3>模块二：关键思维 - 代码结构化</h3>
                         <span class="chapter-status status-active">进行中</span>
                     </div>
                     <div class="chapter-body">
+                        <h4>2.1 面向对象编程基础</h4>
                         <ul class="lessons">
-                            <li class="lesson">2.1 变量的定义</li>
-                            <li class="lesson">2.2 数字类型</li>
-                            <li class="lesson">2.3 字符串</li>
-                            <li class="lesson">2.4 布尔值</li>
+                            <li class="lesson">类和对象的基本概念</li>
+                            <li class="lesson">属性与方法</li>
+                            <li class="lesson">简单的继承思想</li>
+                            <li class="lesson">理解和使用现有类（如 Pandas DataFrame）</li>
                         </ul>
                         <div class="code-block">
-                            <pre><code>name = "丘雅雯"
-age = 20
-is_student = True
-print(f"我叫{name}，今年{age}岁")</code></pre>
+                            <pre><code>class Student:
+    def __init__(self, name, age, scores):
+        self.name = name
+        self.age = age
+        self.scores = scores
+    
+    def get_average_score(self):
+        return sum(self.scores) / len(self.scores)
+
+# 使用类
+stu = Student("丘雅雯", 20, [85, 90, 78])
+average = stu.get_average_score()
+print(f"{stu.name}的平均成绩: {average}")</code></pre>
                         </div>
                     </div>
                 </div>
 
                 <div class="chapter" data-chapter="3">
                     <div class="chapter-header">
-                        <h3>第三章：列表与元组</h3>
+                        <h3>模块三：数据分析的"枪杆子"</h3>
                         <span class="chapter-status status-pending">待学习</span>
                     </div>
                     <div class="chapter-body">
+                        <h4>3.1 数据处理三件套</h4>
                         <ul class="lessons">
-                            <li class="lesson">3.1 列表的创建</li>
-                            <li class="lesson">3.2 列表操作</li>
-                            <li class="lesson">3.3 元组</li>
+                            <li class="lesson">Pandas 核心操作（数据读取、清洗、转换、分析）</li>
+                            <li class="lesson">NumPy 数值计算基础</li>
+                            <li class="lesson">Matplotlib/Seaborn 数据可视化</li>
+                            <li class="lesson">完整数据分析流程实践</li>
                         </ul>
+                        <div class="code-block">
+                            <pre><code>import pandas as pd
+import matplotlib.pyplot as plt
+
+# 读取数据
+df = pd.read_csv('sales.csv')
+
+# 计算每月销售额总和
+monthly_sales = df.groupby('month')['sales'].sum()
+
+# 绘制柱状图
+monthly_sales.plot(kind='bar')
+plt.title('月度销售额')
+plt.xlabel('月份')
+plt.ylabel('销售额')
+plt.show()</code></pre>
+                        </div>
                     </div>
                 </div>
 
                 <div class="chapter" data-chapter="4">
                     <div class="chapter-header">
-                        <h3>第四章：字典与集合</h3>
+                        <h3>模块四：AI 时代高效学法</h3>
                         <span class="chapter-status status-pending">待学习</span>
                     </div>
                     <div class="chapter-body">
+                        <h4>4.1 与 AI 协作的专项技能</h4>
                         <ul class="lessons">
-                            <li class="lesson">4.1 字典的使用</li>
-                            <li class="lesson">4.2 集合操作</li>
+                            <li class="lesson">精准提问：向 AI 描述数据任务</li>
+                            <li class="lesson">代码调试：利用 AI 解决错误</li>
+                            <li class="lesson">代码理解与修改：阅读和调整 AI 生成的代码</li>
+                            <li class="lesson">模仿与修改：基于 AI 示例进行个性化调整</li>
                         </ul>
-                    </div>
-                </div>
+                        <div class="code-block">
+                            <pre><code># 示例：向 AI 提问
+"""
+请用 pandas 读取 sales.csv，计算每个月的销售额总和，并画出柱状图
+"""
 
-                <div class="chapter" data-chapter="5">
-                    <div class="chapter-header">
-                        <h3>第五章：条件语句</h3>
-                        <span class="chapter-status status-pending">待学习</span>
-                    </div>
-                    <div class="chapter-body">
-                        <ul class="lessons">
-                            <li class="lesson">5.1 if 语句</li>
-                            <li class="lesson">5.2 if-else 语句</li>
-                            <li class="lesson">5.3 多重条件</li>
-                        </ul>
-                    </div>
-                </div>
+# AI 生成的代码（示例）
+import pandas as pd
+import matplotlib.pyplot as plt
 
-                <div class="chapter" data-chapter="6">
-                    <div class="chapter-header">
-                        <h3>第六章：循环</h3>
-                        <span class="chapter-status status-pending">待学习</span>
-                    </div>
-                    <div class="chapter-body">
-                        <ul class="lessons">
-                            <li class="lesson">6.1 for 循环</li>
-                            <li class="lesson">6.2 while 循环</li>
-                            <li class="lesson">6.3 循环控制</li>
-                        </ul>
-                    </div>
-                </div>
+# 读取数据
+df = pd.read_csv('sales.csv')
 
-                <div class="chapter" data-chapter="7">
-                    <div class="chapter-header">
-                        <h3>第七章：函数</h3>
-                        <span class="chapter-status status-pending">待学习</span>
-                    </div>
-                    <div class="chapter-body">
-                        <ul class="lessons">
-                            <li class="lesson">7.1 函数定义</li>
-                            <li class="lesson">7.2 参数与返回值</li>
-                            <li class="lesson">7.3 作用域</li>
-                        </ul>
-                    </div>
-                </div>
+# 计算每月销售额
+monthly_sales = df.groupby('month')['sales'].sum()
 
-                <div class="chapter" data-chapter="8">
-                    <div class="chapter-header">
-                        <h3>第八章：数据分析入门</h3>
-                        <span class="chapter-status status-pending">待学习</span>
-                    </div>
-                    <div class="chapter-body">
-                        <ul class="lessons">
-                            <li class="lesson">8.1 安装 pandas</li>
-                            <li class="lesson">8.2 数据读取</li>
-                            <li class="lesson">8.3 数据处理</li>
-                        </ul>
+# 绘制图表
+plt.figure(figsize=(10, 6))
+monthly_sales.plot(kind='bar', color='skyblue')
+plt.title('Monthly Sales Summary')
+plt.xlabel('Month')
+plt.ylabel('Sales Amount')
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()</code></pre>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -189,24 +228,36 @@ print(f"我叫{name}，今年{age}岁")</code></pre>
                     <h3>推荐书籍</h3>
                     <ul>
                         <li>《Python 编程：从入门到实践》</li>
-                        <li>《Python 基础教程》</li>
+                        <li>《Python 数据分析》（Wes McKinney）</li>
                         <li>《流畅的 Python》</li>
+                        <li>《利用 Python 进行数据分析》</li>
                     </ul>
                 </div>
                 <div class="resource-card">
                     <h3>在线资源</h3>
                     <ul>
                         <li>Python 官方文档</li>
-                        <li>W3Schools Python 教程</li>
-                        <li>LeetCode 编程练习</li>
+                        <li>Pandas 官方文档</li>
+                        <li>Kaggle 数据分析教程</li>
+                        <li>AI 辅助编程平台（如 GitHub Copilot）</li>
                     </ul>
                 </div>
                 <div class="resource-card">
                     <h3>开发工具</h3>
                     <ul>
+                        <li>Jupyter Notebook（数据分析首选）</li>
                         <li>VS Code + Python 扩展</li>
                         <li>PyCharm</li>
-                        <li>Jupyter Notebook</li>
+                        <li>Google Colab（在线运行环境）</li>
+                    </ul>
+                </div>
+                <div class="resource-card">
+                    <h3>数据集资源</h3>
+                    <ul>
+                        <li>Kaggle 公开数据集</li>
+                        <li>UCI 机器学习库</li>
+                        <li>国家统计局数据</li>
+                        <li>企业销售模拟数据</li>
                     </ul>
                 </div>
             </div>
@@ -224,21 +275,39 @@ print(f"我叫{name}，今年{age}岁")</code></pre>
                     </div>
                 </div>
                 <div class="faq-item">
+                    <div class="faq-question">为什么要在 AI 时代学习 Python？</div>
+                    <div class="faq-answer">
+                        <p>在 AI 时代，Python 不仅是编程工具，更是与 AI 协作的"元语言"。通过学习 Python，您可以更有效地指挥 AI 完成数据分析任务，将自己的角色从"代码工人"转变为"产品经理+架构师+质检员"。</p>
+                    </div>
+                </div>
+                <div class="faq-item">
                     <div class="faq-question">需要安装什么软件？</div>
                     <div class="faq-answer">
-                        <p>您需要安装 Python 3.8 或更高版本，以及一个代码编辑器，如 VS Code 或 PyCharm。课程第一章会详细讲解安装步骤。</p>
+                        <p>推荐安装：Python 3.8 或更高版本、Jupyter Notebook（数据分析首选）、VS Code + Python 扩展。课程会详细讲解安装步骤。</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">如何高效利用 AI 辅助学习？</div>
+                    <div class="faq-answer">
+                        <p>1. 精准提问：清晰描述您的任务需求<br>
+                        2. 代码调试：将错误信息直接抛给 AI<br>
+                        3. 代码理解：分析 AI 生成的代码逻辑<br>
+                        4. 模仿修改：基于 AI 示例进行个性化调整</p>
                     </div>
                 </div>
                 <div class="faq-item">
                     <div class="faq-question">学习完本课程能达到什么水平？</div>
                     <div class="faq-answer">
-                        <p>学习完本课程后，您将掌握 Python 基础编程技能，能够编写简单的程序，理解基本的编程概念，并为学习数据分析或其他高级主题打下基础。</p>
+                        <p>学习完本课程后，您将掌握 Python 基础编程技能，能够与 AI 有效协作，完成数据分析的完整流程，为商务数据分析工作打下坚实基础。</p>
                     </div>
                 </div>
                 <div class="faq-item">
                     <div class="faq-question">如何获取更多帮助？</div>
                     <div class="faq-answer">
-                        <p>您可以通过搜索引擎查找相关问题的解决方案，也可以加入 Python 学习社区，如 Stack Overflow、Python 中文社区等。</p>
+                        <p>您可以：1. 利用 AI 工具解决编程问题<br>
+                        2. 参考官方文档和在线教程<br>
+                        3. 加入 Python 学习社区（如 Stack Overflow）<br>
+                        4. 参与 Kaggle 等平台的数据分析竞赛</p>
                     </div>
                 </div>
             </div>
