@@ -82,6 +82,10 @@
                             <h5>1.1.1 变量与数据类型</h5>
                             <p>变量是存储数据的容器，Python 支持多种数据类型：</p>
                             <div class="code-block">
+                                <div class="code-block-header">
+                                    <span>代码示例</span>
+                                    <button class="run-code-btn" onclick="runCodeBlock(this)">运行代码</button>
+                                </div>
                                 <pre><code># 整数
 age = 20
 
@@ -98,6 +102,7 @@ is_student = True
 print(name, "今年", age, "岁")
 print("身高:", height, "米")
 print("是否是学生:", is_student)</code></pre>
+                                <div class="code-output-block"></div>
                             </div>
                             <div class="practice">
                                 <h6>练习 1.1.1</h6>
@@ -109,6 +114,10 @@ print("是否是学生:", is_student)</code></pre>
                             <h5>1.1.2 运算符与表达式</h5>
                             <p>Python 支持多种运算符：</p>
                             <div class="code-block">
+                                <div class="code-block-header">
+                                    <span>代码示例</span>
+                                    <button class="run-code-btn" onclick="runCodeBlock(this)">运行代码</button>
+                                </div>
                                 <pre><code># 算术运算符
 x = 10
 y = 3
@@ -128,6 +137,7 @@ print("x == y:", x == y)    # False
 print("and:", (x > 5) and (y < 5))  # True
 print("or:", (x > 5) or (y > 5))    # True
 print("not:", not (x > y))         # False</code></pre>
+                                <div class="code-output-block"></div>
                             </div>
                             <div class="practice">
                                 <h6>练习 1.1.2</h6>
@@ -139,6 +149,10 @@ print("not:", not (x > y))         # False</code></pre>
                             <h5>1.1.3 条件语句</h5>
                             <p>条件语句用于根据条件执行不同的代码：</p>
                             <div class="code-block">
+                                <div class="code-block-header">
+                                    <span>代码示例</span>
+                                    <button class="run-code-btn" onclick="runCodeBlock(this)">运行代码</button>
+                                </div>
                                 <pre><code>score = 85
 
 if score >= 90:
@@ -158,6 +172,7 @@ if age >= 18:
         print("老年人")
 else:
     print("未成年人")</code></pre>
+                                <div class="code-output-block"></div>
                             </div>
                             <div class="practice">
                                 <h6>练习 1.1.3</h6>
@@ -169,6 +184,10 @@ else:
                             <h5>1.1.4 循环</h5>
                             <p>循环用于重复执行代码：</p>
                             <div class="code-block">
+                                <div class="code-block-header">
+                                    <span>代码示例</span>
+                                    <button class="run-code-btn" onclick="runCodeBlock(this)">运行代码</button>
+                                </div>
                                 <pre><code># for 循环
 print("打印 1-5:")
 for i in range(1, 6):
@@ -188,6 +207,7 @@ for i in range(1, 11):
     if i % 2 != 0:
         continue  # 跳过奇数
     print(i)</code></pre>
+                                <div class="code-output-block"></div>
                             </div>
                             <div class="practice">
                                 <h6>练习 1.1.4</h6>
@@ -201,6 +221,10 @@ for i in range(1, 11):
                             
                             <h6>列表 (List)</h6>
                             <div class="code-block">
+                                <div class="code-block-header">
+                                    <span>代码示例</span>
+                                    <button class="run-code-btn" onclick="runCodeBlock(this)">运行代码</button>
+                                </div>
                                 <pre><code># 创建列表
 fruits = ["苹果", "香蕉", "橙子", "葡萄"]
 
@@ -221,10 +245,15 @@ fruits.remove("橙子")
 print("所有水果:")
 for fruit in fruits:
     print(fruit)</code></pre>
+                                <div class="code-output-block"></div>
                             </div>
 
                             <h6>字典 (Dictionary)</h6>
                             <div class="code-block">
+                                <div class="code-block-header">
+                                    <span>代码示例</span>
+                                    <button class="run-code-btn" onclick="runCodeBlock(this)">运行代码</button>
+                                </div>
                                 <pre><code># 创建字典
 student = {"name": "丘雅雯", "age": 20, "major": "商务数据分析"}
 
@@ -241,10 +270,15 @@ student["grade"] = "大二"
 print("学生信息:")
 for key, value in student.items():
     print(key, ":", value)</code></pre>
+                                <div class="code-output-block"></div>
                             </div>
 
                             <h6>元组 (Tuple) 和集合 (Set)</h6>
                             <div class="code-block">
+                                <div class="code-block-header">
+                                    <span>代码示例</span>
+                                    <button class="run-code-btn" onclick="runCodeBlock(this)">运行代码</button>
+                                </div>
                                 <pre><code># 元组（不可修改）
 tuple1 = (1, 2, 3, 4, 5)
 print(tuple1[0])
@@ -258,6 +292,7 @@ set2 = {4, 5, 6, 7}
 print("交集:", set1 & set2)
 print("并集:", set1 | set2)
 print("差集:", set1 - set2)</code></pre>
+                                <div class="code-output-block"></div>
                             </div>
                             <div class="practice">
                                 <h6>练习 1.1.5</h6>
@@ -271,6 +306,10 @@ print("差集:", set1 - set2)</code></pre>
                             <h5>1.2.1 函数的定义与调用</h5>
                             <p>函数是可重用的代码块：</p>
                             <div class="code-block">
+                                <div class="code-block-header">
+                                    <span>代码示例</span>
+                                    <button class="run-code-btn" onclick="runCodeBlock(this)">运行代码</button>
+                                </div>
                                 <pre><code># 定义函数
 def greet(name):
     """向某人问好"""
@@ -288,6 +327,7 @@ def calculate_discount(price, discount_rate=0.1):
 # 调用函数
 print(calculate_discount(1000))      # 使用默认折扣 10%
 print(calculate_discount(1000, 0.2))  # 使用自定义折扣 20%</code></pre>
+                                <div class="code-output-block"></div>
                             </div>
                             <div class="practice">
                                 <h6>练习 1.2.1</h6>
@@ -299,6 +339,10 @@ print(calculate_discount(1000, 0.2))  # 使用自定义折扣 20%</code></pre>
                             <h5>1.2.2 模块的导入与使用</h5>
                             <p>模块是包含 Python 代码的文件：</p>
                             <div class="code-block">
+                                <div class="code-block-header">
+                                    <span>代码示例</span>
+                                    <button class="run-code-btn" onclick="runCodeBlock(this)">运行代码</button>
+                                </div>
                                 <pre><code># 导入整个模块
 import math
 print("π 的值:", math.pi)
@@ -312,6 +356,7 @@ print("随机选择:", choice(["苹果", "香蕉", "橙子"]))
 # 导入并更名
 import datetime as dt
 print("当前时间:", dt.datetime.now())</code></pre>
+                                <div class="code-output-block"></div>
                             </div>
                             <div class="practice">
                                 <h6>练习 1.2.2</h6>
@@ -738,6 +783,16 @@ plt.show()</code></pre>
             } catch (error) {
                 outputElement.textContent = '错误: ' + error.message;
             }
+        }
+        
+        // 运行代码块
+        async function runCodeBlock(button) {
+            const codeBlock = button.closest('.code-block');
+            const codeElement = codeBlock.querySelector('code');
+            const outputElement = codeBlock.querySelector('.code-output-block');
+            
+            const code = codeElement.textContent;
+            await runPythonCode(code, outputElement);
         }
         
         // 初始化代码运行器
