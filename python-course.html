@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Python 基础课程 | 丘雅雯</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Urbanist:wght@300;400;600;700&display=swap" rel="stylesheet">
-</head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Python 基础课程 | 丘雅雯</title>
+        <link rel="stylesheet" href="style.css">
+        <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Urbanist:wght@300;400;600;700&display=swap" rel="stylesheet">
+        <!-- CodeMirror 样式 -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/codemirror.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/theme/monokai.min.css">
+    </head>
 <body>
     <nav class="navbar">
         <div class="container">
@@ -702,6 +705,113 @@ plt.show()</code></pre>
                 faqItem.classList.toggle('active');
             });
         });
+
+        // 初始化代码运行功能
+        initCodeRunner();
+    </script>
+    
+    <!-- 必要的 JavaScript 库 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/mode/python/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/addon/edit/matchbrackets.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/addon/edit/closebrackets.min.js"></script>
+    <!-- Pyodide 库 -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.25.1/pyodide.js"></script>
+    
+    <script>
+        let pyodide;
+        
+        // 初始化 Pyodide
+        async function initPyodide() {
+            pyodide = await loadPyodide({
+                indexURL: "https://cdn.jsdelivr.net/pyodide/v0.25.1/full/"
+            });
+            console.log('Pyodide 初始化完成');
+        }
+        
+        // 运行 Python 代码
+        async function runPythonCode(code, outputElement) {
+            try {
+                outputElement.textContent = '运行中...';
+                const result = await pyodide.runPythonAsync(code);
+                outputElement.textContent = result !== undefined ? result : '代码执行成功！';
+            } catch (error) {
+                outputElement.textContent = '错误: ' + error.message;
+            }
+        }
+        
+        // 初始化代码运行器
+        function initCodeRunner() {
+            // 创建代码运行器组件
+            const codeRunnerHTML = `
+                <div class="code-runner">
+                    <div class="code-runner-header">
+                        <h4>Python 代码运行器</h4>
+                        <button class="code-runner-toggle">展开/收起</button>
+                    </div>
+                    <div class="code-runner-body">
+                        <div class="code-editor-container">
+                            <textarea id="code-input">print("Hello, World!")
+
+# 尝试修改上面的代码
+# 例如：
+# name = "丘雅雯"
+# print(f"你好，{name}！")
+
+# 或者计算一些东西
+# a = 10
+# b = 20
+# print(f"{a} + {b} = {a + b}")</textarea>
+                        </div>
+                        <div class="code-controls">
+                            <button class="run-button">运行代码</button>
+                            <button class="reset-button">重置</button>
+                        </div>
+                        <div class="code-output">
+                            <h5>输出：</h5>
+                            <div id="code-output"></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // 创建容器并添加到页面
+            const container = document.createElement('div');
+            container.className = 'code-runner-container';
+            container.innerHTML = codeRunnerHTML;
+            document.body.appendChild(container);
+            
+            // 初始化 CodeMirror
+            const codeEditor = CodeMirror.fromTextArea(document.getElementById('code-input'), {
+                mode: 'python',
+                theme: 'monokai',
+                lineNumbers: true,
+                indentUnit: 4,
+                matchBrackets: true,
+                autoCloseBrackets: true,
+                lineWrapping: true
+            });
+            
+            // 绑定事件
+            document.querySelector('.run-button').addEventListener('click', function() {
+                const code = codeEditor.getValue();
+                const outputElement = document.getElementById('code-output');
+                runPythonCode(code, outputElement);
+            });
+            
+            document.querySelector('.reset-button').addEventListener('click', function() {
+                codeEditor.setValue('print("Hello, World!")\n\n# 尝试修改上面的代码\n# 例如：\n# name = "丘雅雯"\n# print(f"你好，{name}！")\n\n# 或者计算一些东西\n# a = 10\n# b = 20\n# print(f"{a} + {b} = {a + b}")');
+                document.getElementById('code-output').textContent = '';
+            });
+            
+            document.querySelector('.code-runner-toggle').addEventListener('click', function() {
+                const body = document.querySelector('.code-runner-body');
+                body.classList.toggle('collapsed');
+            });
+            
+            // 初始化 Pyodide
+            initPyodide();
+        }
     </script>
 </body>
 </html>
