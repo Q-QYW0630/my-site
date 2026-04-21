@@ -795,11 +795,16 @@ try:
 ${originalCode.split('\n').map(line => '    ' + line).join('\n')}
 except Exception as e:
     print(f'错误: {e}')
+    import traceback
+    traceback.print_exc()
 finally:
     sys.stdout = old_stdout
 
 output = mystdout.getvalue()
-print(output if output else '代码执行成功！')
+if output:
+    print(output)
+else:
+    print('代码执行成功，但无输出')
 `;
                 
                 // 使用 Brython 执行代码
@@ -809,7 +814,7 @@ print(output if output else '代码执行成功！')
                 document.body.appendChild(script);
                 
                 // 运行 Brython
-                brython({debug: 1});
+                brython();
                 
                 // 等待执行完成并获取输出
                 setTimeout(() => {
@@ -818,14 +823,14 @@ print(output if output else '代码执行成功！')
                     // 只显示输出结果，不显示代码，模拟 Python 软件的输出方式
                     outputElement.innerHTML = `
 <div style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 15px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 14px; line-height: 1.4; white-space: pre-wrap;">
-${output || '代码执行成功！'}
+${output}
 </div>
 `;
                     
                     // 清理
                     script.remove();
                     outputDiv.remove();
-                }, 1000);
+                }, 1500);
             } catch (error) {
                 outputElement.textContent = '错误: ' + error.message || error;
             }
