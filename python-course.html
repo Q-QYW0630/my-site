@@ -513,6 +513,10 @@ def calculate_average(numbers):
                             <li class="lesson">理解和使用现有类（如 Pandas DataFrame）</li>
                         </ul>
                         <div class="code-block">
+                            <div class="code-block-header">
+                                <span>代码示例</span>
+                                <button class="run-code-btn" onclick="runCodeBlock(this)">运行代码</button>
+                            </div>
                             <pre><code>class Student:
     def __init__(self, name, age, scores):
         self.name = name
@@ -526,6 +530,7 @@ def calculate_average(numbers):
 stu = Student("丘雅雯", 20, [85, 90, 78])
 average = stu.get_average_score()
 print(f"{stu.name}的平均成绩: {average}")</code></pre>
+                            <div class="code-output-block"></div>
                         </div>
                     </div>
                 </div>
@@ -544,11 +549,19 @@ print(f"{stu.name}的平均成绩: {average}")</code></pre>
                             <li class="lesson">完整数据分析流程实践</li>
                         </ul>
                         <div class="code-block">
+                            <div class="code-block-header">
+                                <span>代码示例</span>
+                                <button class="run-code-btn" onclick="runCodeBlock(this)">运行代码</button>
+                            </div>
                             <pre><code>import pandas as pd
 import matplotlib.pyplot as plt
 
-# 读取数据
-df = pd.read_csv('sales.csv')
+# 模拟数据
+data = {
+    'month': ['1月', '2月', '3月', '4月', '5月', '6月'],
+    'sales': [12000, 15000, 18000, 14000, 16000, 20000]
+}
+df = pd.DataFrame(data)
 
 # 计算每月销售额总和
 monthly_sales = df.groupby('month')['sales'].sum()
@@ -558,7 +571,14 @@ monthly_sales.plot(kind='bar')
 plt.title('月度销售额')
 plt.xlabel('月份')
 plt.ylabel('销售额')
-plt.show()</code></pre>
+plt.show()
+
+# 打印数据
+print("销售数据:")
+print(df)
+print("\n每月销售额总和:")
+print(monthly_sales)</code></pre>
+                            <div class="code-output-block"></div>
                         </div>
                     </div>
                 </div>
@@ -577,6 +597,10 @@ plt.show()</code></pre>
                             <li class="lesson">模仿与修改：基于 AI 示例进行个性化调整</li>
                         </ul>
                         <div class="code-block">
+                            <div class="code-block-header">
+                                <span>代码示例</span>
+                                <button class="run-code-btn" onclick="runCodeBlock(this)">运行代码</button>
+                            </div>
                             <pre><code># 示例：向 AI 提问
 """
 请用 pandas 读取 sales.csv，计算每个月的销售额总和，并画出柱状图
@@ -586,8 +610,12 @@ plt.show()</code></pre>
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# 读取数据
-df = pd.read_csv('sales.csv')
+# 模拟数据
+data = {
+    'month': ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+    'sales': [12000, 15000, 18000, 14000, 16000, 20000]
+}
+df = pd.DataFrame(data)
 
 # 计算每月销售额
 monthly_sales = df.groupby('month')['sales'].sum()
@@ -600,7 +628,14 @@ plt.xlabel('Month')
 plt.ylabel('Sales Amount')
 plt.xticks(rotation=45)
 plt.tight_layout()
-plt.show()</code></pre>
+plt.show()
+
+# 打印数据
+print("Sales Data:")
+print(df)
+print("\nMonthly Sales:")
+print(monthly_sales)</code></pre>
+                            <div class="code-output-block"></div>
                         </div>
                     </div>
                 </div>
