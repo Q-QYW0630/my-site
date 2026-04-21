@@ -759,7 +759,7 @@ print(monthly_sales)</code></pre>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/addon/edit/matchbrackets.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/addon/edit/closebrackets.min.js"></script>
     <!-- Pyodide 库 -->
-    <script src="https://cdn.jsdelivr.net/pyodide/v0.25.1/pyodide.js"></script>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/pyodide.js"></script>
     
     <script>
         let pyodide;
@@ -767,12 +767,25 @@ print(monthly_sales)</code></pre>
         // 初始化 Pyodide
         async function initPyodide() {
             try {
+                // 使用更可靠的 CDN 地址和版本
                 pyodide = await loadPyodide({
-                    indexURL: "https://cdn.jsdelivr.net/pyodide/v0.25.1/full/"
+                    indexURL: "https://cdn.jsdelivr.net/pyodide/v0.23.4/full/"
                 });
                 console.log('Pyodide 初始化完成');
+                return true;
             } catch (error) {
                 console.error('Pyodide 初始化失败:', error);
+                // 尝试使用备用 CDN
+                try {
+                    pyodide = await loadPyodide({
+                        indexURL: "https://unpkg.com/pyodide@0.23.4/full/"
+                    });
+                    console.log('Pyodide 初始化完成（备用 CDN）');
+                    return true;
+                } catch (secondError) {
+                    console.error('Pyodide 备用初始化也失败:', secondError);
+                    return false;
+                }
             }
         }
         
@@ -781,12 +794,11 @@ print(monthly_sales)</code></pre>
             try {
                 if (!pyodide) {
                     outputElement.textContent = '正在初始化 Python 环境，请稍候...';
-                    await initPyodide();
-                }
-                
-                if (!pyodide) {
-                    outputElement.textContent = 'Python 环境初始化失败，请刷新页面重试';
-                    return;
+                    const initSuccess = await initPyodide();
+                    if (!initSuccess || !pyodide) {
+                        outputElement.textContent = 'Python 环境初始化失败，请检查网络连接后重试';
+                        return;
+                    }
                 }
                 
                 outputElement.textContent = '运行中...';
