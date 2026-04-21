@@ -1137,8 +1137,8 @@ section {
     }
 }
 
-/* 代码运行器样式 */
-.code-runner-container {
+/* 浮窗代码运行器样式 */
+.floating-code-runner {
     position: fixed;
     bottom: 20px;
     right: 20px;
@@ -1149,10 +1149,12 @@ section {
     border-radius: 10px;
     overflow: hidden;
     background-color: #fff;
+    transition: all 0.3s ease;
+    cursor: grab;
 }
 
-.code-runner {
-    width: 100%;
+.floating-code-runner:active {
+    cursor: grabbing;
 }
 
 .code-runner-header {
@@ -1162,7 +1164,11 @@ section {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    cursor: pointer;
+    cursor: grab;
+}
+
+.code-runner-header:active {
+    cursor: grabbing;
 }
 
 .code-runner-header h4 {
@@ -1273,7 +1279,7 @@ section {
 
 /* 响应式设计 */
 @media (max-width: 768px) {
-    .code-runner-container {
+    .floating-code-runner {
         width: 90vw;
         bottom: 10px;
         right: 10px;
