@@ -815,12 +815,9 @@ print(output if output else '代码执行成功！')
                 setTimeout(() => {
                     const output = outputDiv.textContent;
                     
-                    // 显示代码和输出
+                    // 只显示输出结果，不显示代码，模拟 Python 软件的输出方式
                     outputElement.innerHTML = `
-<div style="background-color: #272822; color: #f8f8f2; padding: 15px; border-radius: 8px 8px 0 0; font-family: 'Courier New', monospace; font-size: 14px; line-height: 1.4; white-space: pre-wrap;">
-${originalCode}
-</div>
-<div style="background-color: #f8f9fa; border: 1px solid #e9ecef; border-top: none; padding: 15px; border-radius: 0 0 8px 8px; font-family: 'Courier New', monospace; font-size: 14px; line-height: 1.4; white-space: pre-wrap;">
+<div style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 15px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 14px; line-height: 1.4; white-space: pre-wrap;">
 ${output || '代码执行成功！'}
 </div>
 `;
