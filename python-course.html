@@ -884,18 +884,21 @@ y = x * 2
                 // 初始化 Brython（如果需要）
                 initBrython();
                 
-                // 重置输出
-                window.brythonStdout = '';
-                window.brythonStderr = '';
-                
                 // 唯一标识符
-                const uniqueId = 'brython-script-' + Date.now();
+                const outputId = 'brython-output-' + Date.now();
+                
+                // 创建一个隐藏的输出元素
+                const outputDiv = document.createElement('div');
+                outputDiv.id = outputId;
+                outputDiv.style.display = 'none';
+                document.body.appendChild(outputDiv);
                 
                 // 构建执行代码，使用更直接的方式
                 const executionCode = `
 import sys
 from io import StringIO
 import traceback
+from browser import document
 
 # 保存原始输出
 _old_stdout = sys.stdout
@@ -910,7 +913,7 @@ sys.stderr = _err_buf
 try:
     # 执行用户代码
 ${code}
-except Exception:
+except Exception as e:
     # 捕获完整的错误信息
     _tb_text = traceback.format_exc()
     print(_tb_text, file=sys.stderr)
@@ -923,70 +926,80 @@ finally:
 _stdout_content = _out_buf.getvalue()
 _stderr_content = _err_buf.getvalue()
 
-# 将输出传递给 JavaScript
-from browser import window
-window.brythonStdout = _stdout_content
-window.brythonStderr = _stderr_content
+# 合并输出
+_output = _stdout_content
+if _stderr_content:
+    if _output:
+        _output += '\n'
+    _output += _stderr_content
+
+# 直接写入到DOM元素
+if _output:
+    document['${outputId}'].textContent = _output
+else:
+    document['${outputId}'].textContent = '(无输出)'
 `;
                 
                 // 创建脚本元素
                 const script = document.createElement('script');
-                script.id = uniqueId;
                 script.type = 'text/python';
                 script.textContent = executionCode;
-                
-                // 添加到文档
                 document.body.appendChild(script);
                 
                 // 执行 Brython
                 try {
-                    brython({debug: 1, pythonpath: '.'});
+                    brython();
                 } catch (e) {
                     console.error('Brython 执行错误:', e);
-                    window.brythonStderr = String(e) || '执行错误';
+                    outputElement.innerHTML = `
+<div style="background-color: #1e1e1e; color: #f44747; border: 1px solid #3c3c3c; padding: 12px 15px; border-radius: 4px; font-family: 'Consolas', 'Courier New', monospace; font-size: 13px; line-height: 1.5; white-space: pre-wrap;">
+[前端错误]
+${e.message || String(e)}
+</div>
+`;
+                    script.remove();
+                    outputDiv.remove();
+                    return;
                 }
                 
                 // 等待输出并显示结果
-                setTimeout(() => {
-                    // 获取输出
-                    const stdout = window.brythonStdout || '';
-                    const stderr = window.brythonStderr || '';
+                let checkCount = 0;
+                const maxChecks = 10;
+                
+                function checkOutput() {
+                    checkCount++;
+                    const output = outputDiv.textContent;
                     
-                    // 合并输出
-                    let combinedOutput = '';
-                    if (stdout) {
-                        combinedOutput += stdout;
-                    }
-                    if (stderr) {
-                        if (combinedOutput) {
-                            combinedOutput += '\n';
-                        }
-                        combinedOutput += stderr;
-                    }
-                    
-                    // 确定样式
-                    const hasError = stderr.trim().length > 0;
-                    const textColor = hasError ? '#f44747' : '#d4d4d4';
-                    
-                    // 显示输出
-                    if (combinedOutput.trim()) {
-                        outputElement.innerHTML = `
+                    if (output || checkCount >= maxChecks) {
+                        if (output) {
+                            // 检查是否有错误
+                            const hasError = output.includes('Traceback') || output.includes('Error:');
+                            const textColor = hasError ? '#f44747' : '#d4d4d4';
+                            
+                            outputElement.innerHTML = `
 <div style="background-color: #1e1e1e; color: ${textColor}; border: 1px solid #3c3c3c; padding: 12px 15px; border-radius: 4px; font-family: 'Consolas', 'Courier New', monospace; font-size: 13px; line-height: 1.5; white-space: pre-wrap; overflow-x: auto;">
-${combinedOutput}
+${output}
 </div>
 `;
-                    } else {
-                        outputElement.innerHTML = `
+                        } else {
+                            outputElement.innerHTML = `
 <div style="background-color: #1e1e1e; color: #808080; border: 1px solid #3c3c3c; padding: 12px 15px; border-radius: 4px; font-family: 'Consolas', 'Courier New', monospace; font-size: 13px; line-height: 1.5; white-space: pre-wrap;">
 (无输出)
 </div>
 `;
+                        }
+                        
+                        // 清理
+                        script.remove();
+                        outputDiv.remove();
+                    } else {
+                        // 继续检查
+                        setTimeout(checkOutput, 300);
                     }
-                    
-                    // 清理
-                    script.remove();
-                    
-                }, 300);
+                }
+                
+                // 开始检查输出
+                setTimeout(checkOutput, 300);
                 
             } catch (error) {
                 // 处理 JavaScript 错误
