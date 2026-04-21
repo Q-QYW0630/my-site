@@ -758,53 +758,30 @@ print(monthly_sales)</code></pre>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/mode/python/python.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/addon/edit/matchbrackets.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/addon/edit/closebrackets.min.js"></script>
-    <!-- Pyodide 库 -->
-    <script src="https://cdn.jsdelivr.net/pyodide/v0.23.4/pyodide.js"></script>
+    <!-- Brython 库 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.10.5/brython.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.10.5/brython_stdlib.js"></script>
     
     <script>
-        let pyodide;
-        
-        // 初始化 Pyodide
-        async function initPyodide() {
-            try {
-                // 使用更可靠的 CDN 地址和版本
-                pyodide = await loadPyodide({
-                    indexURL: "https://cdn.jsdelivr.net/pyodide/v0.23.4/full/"
-                });
-                console.log('Pyodide 初始化完成');
-                return true;
-            } catch (error) {
-                console.error('Pyodide 初始化失败:', error);
-                // 尝试使用备用 CDN
-                try {
-                    pyodide = await loadPyodide({
-                        indexURL: "https://unpkg.com/pyodide@0.23.4/full/"
-                    });
-                    console.log('Pyodide 初始化完成（备用 CDN）');
-                    return true;
-                } catch (secondError) {
-                    console.error('Pyodide 备用初始化也失败:', secondError);
-                    return false;
-                }
-            }
-        }
-        
         // 运行 Python 代码
-        async function runPythonCode(code, outputElement) {
+        function runPythonCode(code, outputElement) {
             try {
-                if (!pyodide) {
-                    outputElement.textContent = '正在初始化 Python 环境，请稍候...';
-                    const initSuccess = await initPyodide();
-                    if (!initSuccess || !pyodide) {
-                        outputElement.textContent = 'Python 环境初始化失败，请检查网络连接后重试';
-                        return;
-                    }
-                }
-                
                 outputElement.textContent = '运行中...';
                 
-                // 使用更安全的方式执行代码
-                const result = await pyodide.runPythonAsync(`
+                // 清空之前的输出
+                const oldOutput = document.getElementById('brython-output');
+                if (oldOutput) {
+                    oldOutput.remove();
+                }
+                
+                // 创建输出元素
+                const outputDiv = document.createElement('div');
+                outputDiv.id = 'brython-output';
+                outputDiv.style.display = 'none';
+                document.body.appendChild(outputDiv);
+                
+                // 重定向标准输出
+                code = `
 import sys
 from io import StringIO
 
@@ -812,31 +789,48 @@ old_stdout = sys.stdout
 sys.stdout = mystdout = StringIO()
 
 try:
-    ${code.replace(/`/g, '\\`').replace(/\$/g, '\\$')}
+${code.split('\n').map(line => '    ' + line).join('\n')}
 except Exception as e:
     print(f'错误: {e}')
 finally:
     sys.stdout = old_stdout
 
 output = mystdout.getvalue()
-output if output else '代码执行成功！'
-                `);
+print(output if output else '代码执行成功！')
+`;
                 
-                outputElement.textContent = result;
+                // 使用 Brython 执行代码
+                const script = document.createElement('script');
+                script.type = 'text/python';
+                script.textContent = code;
+                document.body.appendChild(script);
+                
+                // 运行 Brython
+                brython({debug: 1});
+                
+                // 等待执行完成并获取输出
+                setTimeout(() => {
+                    const output = outputDiv.textContent;
+                    outputElement.textContent = output || '代码执行成功！';
+                    
+                    // 清理
+                    script.remove();
+                    outputDiv.remove();
+                }, 1000);
             } catch (error) {
                 outputElement.textContent = '错误: ' + error.message || error;
             }
         }
         
         // 运行代码块
-        async function runCodeBlock(button) {
+        function runCodeBlock(button) {
             const codeBlock = button.closest('.code-block');
             const codeElement = codeBlock.querySelector('pre code');
             const outputElement = codeBlock.querySelector('.code-output-block');
             
             // 获取代码内容
             const code = codeElement.textContent;
-            await runPythonCode(code, outputElement);
+            runPythonCode(code, outputElement);
         }
         
         // 初始化代码运行器
@@ -910,9 +904,6 @@ output if output else '代码执行成功！'
                 
                 // 添加拖拽功能
                 makeDraggable(document.querySelector('.floating-code-runner'));
-                
-                // 初始化 Pyodide
-                initPyodide();
             } catch (error) {
                 console.error('代码运行器初始化失败:', error);
             }
