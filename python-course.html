@@ -780,6 +780,9 @@ print(monthly_sales)</code></pre>
                 outputDiv.style.display = 'none';
                 document.body.appendChild(outputDiv);
                 
+                // 保存原始代码
+                const originalCode = code;
+                
                 // 重定向标准输出
                 code = `
 import sys
@@ -789,7 +792,7 @@ old_stdout = sys.stdout
 sys.stdout = mystdout = StringIO()
 
 try:
-${code.split('\n').map(line => '    ' + line).join('\n')}
+${originalCode.split('\n').map(line => '    ' + line).join('\n')}
 except Exception as e:
     print(f'错误: {e}')
 finally:
@@ -811,7 +814,16 @@ print(output if output else '代码执行成功！')
                 // 等待执行完成并获取输出
                 setTimeout(() => {
                     const output = outputDiv.textContent;
-                    outputElement.textContent = output || '代码执行成功！';
+                    
+                    // 显示代码和输出
+                    outputElement.innerHTML = `
+<div style="background-color: #272822; color: #f8f8f2; padding: 15px; border-radius: 8px 8px 0 0; font-family: 'Courier New', monospace; font-size: 14px; line-height: 1.4; white-space: pre-wrap;">
+${originalCode}
+</div>
+<div style="background-color: #f8f9fa; border: 1px solid #e9ecef; border-top: none; padding: 15px; border-radius: 0 0 8px 8px; font-family: 'Courier New', monospace; font-size: 14px; line-height: 1.4; white-space: pre-wrap;">
+${output || '代码执行成功！'}
+</div>
+`;
                     
                     // 清理
                     script.remove();
