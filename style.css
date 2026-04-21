@@ -1484,3 +1484,37 @@ section {
     color: var(--accent-color);
     transform: translateY(-2px);
 }
+
+/* 测试区域样式 */
+.testing {
+    background-color: #f0f2f5;
+}
+
+.test-section {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
+}
+
+.test-section:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
+
+.test-section h3 {
+    color: var(--dark-color);
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+}
+
+.test-section p {
+    color: var(--gray-color);
+    margin-bottom: 20px;
+}
+
+.test-section .code-block {
+    margin: 0;
+}

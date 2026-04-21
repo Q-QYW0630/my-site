@@ -737,6 +737,101 @@ print(monthly_sales)</code></pre>
         </div>
     </section>
 
+    <!-- 测试区域 -->
+    <section id="testing" class="testing">
+        <div class="container">
+            <h2 class="section-title">测试<span class="highlight">区域</span></h2>
+            
+            <div class="test-section">
+                <h3>测试1：标准输出</h3>
+                <p>测试print输出和变量打印</p>
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span>测试代码</span>
+                        <button class="run-code-btn" onclick="runCodeBlock(this)">运行代码</button>
+                    </div>
+                    <pre><code>print("Hello, World!")
+print("测试中文输出")
+
+# 打印多个值
+x = 10
+y = 20
+print("x =", x, "y =", y)
+print(x + y)
+
+# 多行输出
+for i in range(1, 6):
+    print(f"第 {i} 行")
+</code></pre>
+                    <div class="code-output-block"></div>
+                </div>
+            </div>
+            
+            <div class="test-section">
+                <h3>测试2：SyntaxError</h3>
+                <p>测试语法错误捕获和显示</p>
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span>测试代码</span>
+                        <button class="run-code-btn" onclick="runCodeBlock(this)">运行代码</button>
+                    </div>
+                    <pre><code># 语法错误
+if x > 0
+    print("x is positive")
+</code></pre>
+                    <div class="code-output-block"></div>
+                </div>
+            </div>
+            
+            <div class="test-section">
+                <h3>测试3：NameError</h3>
+                <p>测试未定义变量错误</p>
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span>测试代码</span>
+                        <button class="run-code-btn" onclick="runCodeBlock(this)">运行代码</button>
+                    </div>
+                    <pre><code># 使用未定义的变量
+print(undefined_variable)
+</code></pre>
+                    <div class="code-output-block"></div>
+                </div>
+            </div>
+            
+            <div class="test-section">
+                <h3>测试4：IndexError</h3>
+                <p>测试索引越界错误</p>
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span>测试代码</span>
+                        <button class="run-code-btn" onclick="runCodeBlock(this)">运行代码</button>
+                    </div>
+                    <pre><code># 列表索引越界
+my_list = [1, 2, 3]
+print(my_list[10])
+</code></pre>
+                    <div class="code-output-block"></div>
+                </div>
+            </div>
+            
+            <div class="test-section">
+                <h3>测试5：无输出</h3>
+                <p>测试没有输出的情况</p>
+                <div class="code-block">
+                    <div class="code-block-header">
+                        <span>测试代码</span>
+                        <button class="run-code-btn" onclick="runCodeBlock(this)">运行代码</button>
+                    </div>
+                    <pre><code># 没有输出的代码
+x = 1 + 1
+y = x * 2
+</code></pre>
+                    <div class="code-output-block"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
@@ -763,90 +858,142 @@ print(monthly_sales)</code></pre>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.10.5/brython_stdlib.js"></script>
     
     <script>
+        // 全局变量，用于存储输出
+        window.brythonStdout = '';
+        window.brythonStderr = '';
+        window.brythonInitialized = false;
+        
+        // 初始化 Brython
+        function initBrython() {
+            if (!window.brythonInitialized) {
+                try {
+                    brython({debug: 1});
+                    window.brythonInitialized = true;
+                    console.log('Brython 初始化成功');
+                } catch (e) {
+                    console.error('Brython 初始化失败:', e);
+                }
+            }
+        }
+        
         // 运行 Python 代码
         function runPythonCode(code, outputElement) {
             try {
                 outputElement.textContent = '运行中...';
                 
-                // 保存原始代码
-                const originalCode = code;
+                // 初始化 Brython（如果需要）
+                initBrython();
                 
-                // 创建一个唯一的输出元素 ID
-                const outputId = 'brython-output-' + Date.now();
+                // 重置输出
+                window.brythonStdout = '';
+                window.brythonStderr = '';
                 
-                // 创建输出元素
-                const outputDiv = document.createElement('div');
-                outputDiv.id = outputId;
-                outputDiv.style.display = 'none';
-                document.body.appendChild(outputDiv);
+                // 唯一标识符
+                const uniqueId = 'brython-script-' + Date.now();
                 
-                // 重定向标准输出
-                code = `
+                // 构建执行代码，使用更直接的方式
+                const executionCode = `
 import sys
 from io import StringIO
+import traceback
 
 # 保存原始输出
-old_stdout = sys.stdout
+_old_stdout = sys.stdout
+_old_stderr = sys.stderr
 
 # 创建字符串缓冲区
-mystdout = StringIO()
-sys.stdout = mystdout
+_out_buf = StringIO()
+_err_buf = StringIO()
+sys.stdout = _out_buf
+sys.stderr = _err_buf
 
 try:
     # 执行用户代码
-${originalCode.split('\n').map(line => '    ' + line).join('\n')}
-except Exception as e:
-    print(f'错误: {e}')
-    import traceback
-    traceback.print_exc()
+${code}
+except Exception:
+    # 捕获完整的错误信息
+    _tb_text = traceback.format_exc()
+    print(_tb_text, file=sys.stderr)
 finally:
     # 恢复原始输出
-    sys.stdout = old_stdout
+    sys.stdout = _old_stdout
+    sys.stderr = _old_stderr
 
 # 获取输出
-output = mystdout.getvalue()
+_stdout_content = _out_buf.getvalue()
+_stderr_content = _err_buf.getvalue()
 
-# 写入到输出元素
-from browser import document
-document['${outputId}'].text = output
+# 将输出传递给 JavaScript
+from browser import window
+window.brythonStdout = _stdout_content
+window.brythonStderr = _stderr_content
 `;
                 
-                // 使用 Brython 执行代码
+                // 创建脚本元素
                 const script = document.createElement('script');
+                script.id = uniqueId;
                 script.type = 'text/python';
-                script.textContent = code;
+                script.textContent = executionCode;
+                
+                // 添加到文档
                 document.body.appendChild(script);
                 
-                // 运行 Brython
-                brython();
+                // 执行 Brython
+                try {
+                    brython({debug: 1, pythonpath: '.'});
+                } catch (e) {
+                    console.error('Brython 执行错误:', e);
+                    window.brythonStderr = String(e) || '执行错误';
+                }
                 
-                // 等待执行完成并获取输出
+                // 等待输出并显示结果
                 setTimeout(() => {
-                    const output = outputDiv.textContent;
+                    // 获取输出
+                    const stdout = window.brythonStdout || '';
+                    const stderr = window.brythonStderr || '';
                     
-                    // 只显示输出结果，不显示代码，模拟 Python 软件的输出方式
-                    if (output) {
+                    // 合并输出
+                    let combinedOutput = '';
+                    if (stdout) {
+                        combinedOutput += stdout;
+                    }
+                    if (stderr) {
+                        if (combinedOutput) {
+                            combinedOutput += '\n';
+                        }
+                        combinedOutput += stderr;
+                    }
+                    
+                    // 确定样式
+                    const hasError = stderr.trim().length > 0;
+                    const textColor = hasError ? '#f44747' : '#d4d4d4';
+                    
+                    // 显示输出
+                    if (combinedOutput.trim()) {
                         outputElement.innerHTML = `
-<div style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 15px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 14px; line-height: 1.4; white-space: pre-wrap;">
-${output}
+<div style="background-color: #1e1e1e; color: ${textColor}; border: 1px solid #3c3c3c; padding: 12px 15px; border-radius: 4px; font-family: 'Consolas', 'Courier New', monospace; font-size: 13px; line-height: 1.5; white-space: pre-wrap; overflow-x: auto;">
+${combinedOutput}
 </div>
 `;
                     } else {
                         outputElement.innerHTML = `
-<div style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 15px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 14px; line-height: 1.4; white-space: pre-wrap;">
-代码执行成功，但无输出
+<div style="background-color: #1e1e1e; color: #808080; border: 1px solid #3c3c3c; padding: 12px 15px; border-radius: 4px; font-family: 'Consolas', 'Courier New', monospace; font-size: 13px; line-height: 1.5; white-space: pre-wrap;">
+(无输出)
 </div>
 `;
                     }
                     
                     // 清理
                     script.remove();
-                    outputDiv.remove();
-                }, 1500);
+                    
+                }, 300);
+                
             } catch (error) {
+                // 处理 JavaScript 错误
                 outputElement.innerHTML = `
-<div style="background-color: #f8f9fa; border: 1px solid #e9ecef; padding: 15px; border-radius: 8px; font-family: 'Courier New', monospace; font-size: 14px; line-height: 1.4; white-space: pre-wrap;">
-错误: ${error.message || error}
+<div style="background-color: #1e1e1e; color: #f44747; border: 1px solid #3c3c3c; padding: 12px 15px; border-radius: 4px; font-family: 'Consolas', 'Courier New', monospace; font-size: 13px; line-height: 1.5; white-space: pre-wrap;">
+[前端错误]
+${error.message || String(error)}
 </div>
 `;
             }
@@ -1018,7 +1165,15 @@ ${output}
         // 页面加载完成后初始化代码运行功能
         window.addEventListener('DOMContentLoaded', function() {
             initCodeRunner();
+            // 延迟初始化 Brython
+            setTimeout(initBrython, 500);
         });
+        
+        // Brython 加载完成回调
+        window.brythonLoadComplete = function() {
+            console.log('Brython 加载完成');
+            window.brythonInitialized = true;
+        };
     </script>
 </body>
 </html>
