@@ -894,6 +894,16 @@ y = x * 2
                 document.body.appendChild(outputDiv);
                 
                 // 构建执行代码，使用更直接的方式
+                // 确保用户代码有正确的缩进
+                let indentedCode = code.trim();
+                if (indentedCode) {
+                    // 为每一行添加4个空格的缩进
+                    indentedCode = indentedCode.split('\n').map(line => '    ' + line).join('\n');
+                } else {
+                    // 如果代码为空，添加pass语句
+                    indentedCode = '    pass';
+                }
+                
                 const executionCode = `
 import sys
 from io import StringIO
@@ -912,7 +922,7 @@ sys.stderr = _err_buf
 
 try:
     # 执行用户代码
-${code}
+${indentedCode}
 except Exception as e:
     # 捕获完整的错误信息
     _tb_text = traceback.format_exc()
