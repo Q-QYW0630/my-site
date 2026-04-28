@@ -888,10 +888,10 @@ y = x * 2
                 const uniqueId = 'brython-script-' + Date.now();
                 
                 // 创建输出容器
-                let outputData = { stdout: '', stderr: '' };
+                let outputData = { stdout: '', stderr: '', error: '' };
                 window[uniqueId] = outputData;
                 
-                // 构建执行代码 - 使用更简单的方式
+                // 构建执行代码 - 使用更完整的错误处理
                 const executionCode = `
 import sys
 from io import StringIO
@@ -908,12 +908,36 @@ _err_buf = StringIO()
 sys.stdout = _out_buf
 sys.stderr = _err_buf
 
+# 标记是否有运行时错误
+_has_error = False
+
 try:
 ${code.split('\n').map(line => '    ' + line).join('\n')}
-except Exception:
-    # 捕获完整的错误信息
+except SyntaxError as e:
+    # 捕获语法错误
     _tb_text = traceback.format_exc()
     print(_tb_text, file=sys.stderr)
+    _has_error = True
+except NameError as e:
+    # 捕获名称错误
+    _tb_text = traceback.format_exc()
+    print(_tb_text, file=sys.stderr)
+    _has_error = True
+except IndexError as e:
+    # 捕获索引错误
+    _tb_text = traceback.format_exc()
+    print(_tb_text, file=sys.stderr)
+    _has_error = True
+except TypeError as e:
+    # 捕获类型错误
+    _tb_text = traceback.format_exc()
+    print(_tb_text, file=sys.stderr)
+    _has_error = True
+except Exception as e:
+    # 捕获其他所有错误
+    _tb_text = traceback.format_exc()
+    print(_tb_text, file=sys.stderr)
+    _has_error = True
 finally:
     # 恢复原始输出
     sys.stdout = _old_stdout
@@ -926,6 +950,7 @@ _stderr_content = _err_buf.getvalue()
 # 将输出传递给 JavaScript
 window['${uniqueId}']['stdout'] = _stdout_content
 window['${uniqueId}']['stderr'] = _stderr_content
+window['${uniqueId}']['error'] = str(_has_error)
 `;
                 
                 // 创建脚本元素
@@ -934,26 +959,42 @@ window['${uniqueId}']['stderr'] = _stderr_content
                 script.textContent = executionCode;
                 document.body.appendChild(script);
                 
-                // 执行 Brython
+                // 执行 Brython 并捕获编译错误
+                let brythonError = null;
                 try {
+                    // 保存原始错误处理
+                    const originalOnError = window.onerror;
+                    
+                    // 设置临时错误处理来捕获 Brython 编译错误
+                    window.onerror = function(msg, url, line, col, err) {
+                        brythonError = { message: msg, line: line, column: col, error: err };
+                        return true; // 阻止错误继续传播
+                    };
+                    
                     brython();
+                    
+                    // 恢复原始错误处理
+                    window.onerror = originalOnError;
                 } catch (e) {
                     console.error('Brython 执行错误:', e);
-                    outputElement.innerHTML = `
-<div style="background-color: #1e1e1e; color: #f44747; border: 1px solid #3c3c3c; padding: 12px 15px; border-radius: 4px; font-family: 'Consolas', 'Courier New', monospace; font-size: 13px; line-height: 1.5; white-space: pre-wrap;">
-[前端错误]
-${e.message || String(e)}
-</div>
-`;
-                    script.remove();
-                    delete window[uniqueId];
-                    return;
+                    brythonError = { message: String(e), line: 0, column: 0, error: e };
                 }
                 
                 // 等待输出并显示结果
                 setTimeout(() => {
                     let stdout = outputData.stdout || '';
                     let stderr = outputData.stderr || '';
+                    
+                    // 如果有 Brython 编译错误，添加到错误输出
+                    if (brythonError) {
+                        if (!stderr) {
+                            stderr = '';
+                        }
+                        stderr += '\n[编译错误]\n';
+                        stderr += 'Traceback (most recent call last):\n';
+                        stderr += `  File "<input>", line ${brythonError.line || 'unknown'}\n`;
+                        stderr += `    ${brythonError.message || 'Unknown error'}\n`;
+                    }
                     
                     // 合并输出
                     let combinedOutput = '';
@@ -989,7 +1030,7 @@ ${combinedOutput}
                     // 清理
                     script.remove();
                     delete window[uniqueId];
-                }, 500);
+                }, 800);
                 
             } catch (error) {
                 // 处理 JavaScript 错误
