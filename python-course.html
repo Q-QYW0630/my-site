@@ -885,30 +885,18 @@ y = x * 2
                 initBrython();
                 
                 // 唯一标识符
-                const outputId = 'brython-output-' + Date.now();
+                const uniqueId = 'brython-script-' + Date.now();
                 
-                // 创建一个隐藏的输出元素
-                const outputDiv = document.createElement('div');
-                outputDiv.id = outputId;
-                outputDiv.style.display = 'none';
-                document.body.appendChild(outputDiv);
+                // 创建输出容器
+                let outputData = { stdout: '', stderr: '' };
+                window[uniqueId] = outputData;
                 
-                // 构建执行代码，使用更直接的方式
-                // 确保用户代码有正确的缩进
-                let indentedCode = code.trim();
-                if (indentedCode) {
-                    // 为每一行添加4个空格的缩进
-                    indentedCode = indentedCode.split('\n').map(line => '    ' + line).join('\n');
-                } else {
-                    // 如果代码为空，添加pass语句
-                    indentedCode = '    pass';
-                }
-                
+                // 构建执行代码 - 使用更简单的方式
                 const executionCode = `
 import sys
 from io import StringIO
 import traceback
-from browser import document
+from browser import window
 
 # 保存原始输出
 _old_stdout = sys.stdout
@@ -921,9 +909,8 @@ sys.stdout = _out_buf
 sys.stderr = _err_buf
 
 try:
-    # 执行用户代码
-${indentedCode}
-except Exception as e:
+${code.split('\n').map(line => '    ' + line).join('\n')}
+except Exception:
     # 捕获完整的错误信息
     _tb_text = traceback.format_exc()
     print(_tb_text, file=sys.stderr)
@@ -936,18 +923,9 @@ finally:
 _stdout_content = _out_buf.getvalue()
 _stderr_content = _err_buf.getvalue()
 
-# 合并输出
-_output = _stdout_content
-if _stderr_content:
-    if _output:
-        _output += '\n'
-    _output += _stderr_content
-
-# 直接写入到DOM元素
-if _output:
-    document['${outputId}'].textContent = _output
-else:
-    document['${outputId}'].textContent = '(无输出)'
+# 将输出传递给 JavaScript
+window['${uniqueId}']['stdout'] = _stdout_content
+window['${uniqueId}']['stderr'] = _stderr_content
 `;
                 
                 // 创建脚本元素
@@ -968,48 +946,50 @@ ${e.message || String(e)}
 </div>
 `;
                     script.remove();
-                    outputDiv.remove();
+                    delete window[uniqueId];
                     return;
                 }
                 
                 // 等待输出并显示结果
-                let checkCount = 0;
-                const maxChecks = 10;
-                
-                function checkOutput() {
-                    checkCount++;
-                    const output = outputDiv.textContent;
+                setTimeout(() => {
+                    let stdout = outputData.stdout || '';
+                    let stderr = outputData.stderr || '';
                     
-                    if (output || checkCount >= maxChecks) {
-                        if (output) {
-                            // 检查是否有错误
-                            const hasError = output.includes('Traceback') || output.includes('Error:');
-                            const textColor = hasError ? '#f44747' : '#d4d4d4';
-                            
-                            outputElement.innerHTML = `
+                    // 合并输出
+                    let combinedOutput = '';
+                    if (stdout) {
+                        combinedOutput += stdout;
+                    }
+                    if (stderr) {
+                        if (combinedOutput) {
+                            combinedOutput += '\n';
+                        }
+                        combinedOutput += stderr;
+                    }
+                    
+                    // 确定样式
+                    const hasError = stderr.trim().length > 0;
+                    const textColor = hasError ? '#f44747' : '#d4d4d4';
+                    
+                    // 显示输出
+                    if (combinedOutput.trim()) {
+                        outputElement.innerHTML = `
 <div style="background-color: #1e1e1e; color: ${textColor}; border: 1px solid #3c3c3c; padding: 12px 15px; border-radius: 4px; font-family: 'Consolas', 'Courier New', monospace; font-size: 13px; line-height: 1.5; white-space: pre-wrap; overflow-x: auto;">
-${output}
+${combinedOutput}
 </div>
 `;
-                        } else {
-                            outputElement.innerHTML = `
+                    } else {
+                        outputElement.innerHTML = `
 <div style="background-color: #1e1e1e; color: #808080; border: 1px solid #3c3c3c; padding: 12px 15px; border-radius: 4px; font-family: 'Consolas', 'Courier New', monospace; font-size: 13px; line-height: 1.5; white-space: pre-wrap;">
 (无输出)
 </div>
 `;
-                        }
-                        
-                        // 清理
-                        script.remove();
-                        outputDiv.remove();
-                    } else {
-                        // 继续检查
-                        setTimeout(checkOutput, 300);
                     }
-                }
-                
-                // 开始检查输出
-                setTimeout(checkOutput, 300);
+                    
+                    // 清理
+                    script.remove();
+                    delete window[uniqueId];
+                }, 500);
                 
             } catch (error) {
                 // 处理 JavaScript 错误
