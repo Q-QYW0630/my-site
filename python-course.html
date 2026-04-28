@@ -881,22 +881,26 @@ y = x * 2
             try {
                 outputElement.textContent = '运行中...';
                 
-                // 初始化 Brython（如果需要）
-                initBrython();
+                // 确保 Brython 已初始化
+                if (!window.brythonInitialized) {
+                    initBrython();
+                }
                 
                 // 唯一标识符
-                const uniqueId = 'brython-script-' + Date.now();
+                const uniqueId = 'brython-output-' + Date.now();
                 
-                // 创建输出容器
-                let outputData = { stdout: '', stderr: '' };
-                window[uniqueId] = outputData;
+                // 创建隐藏的输出元素
+                const outputDiv = document.createElement('div');
+                outputDiv.id = uniqueId;
+                outputDiv.style.display = 'none';
+                document.body.appendChild(outputDiv);
                 
-                // 构建执行代码 - 直接执行，不做额外处理
+                // 构建执行代码 - 使用 exec 函数动态执行
                 const executionCode = `
 import sys
 from io import StringIO
 import traceback
-from browser import window
+from browser import document
 
 # 保存原始输出
 _old_stdout = sys.stdout
@@ -908,57 +912,57 @@ _err_buf = StringIO()
 sys.stdout = _out_buf
 sys.stderr = _err_buf
 
+# 要执行的代码
+_code = """
+${code}
+"""
+
 try:
-${code.split('\n').map(line => '    ' + line).join('\n')}
+    exec(_code)
 except:
-    # 捕获所有错误，原样输出
     print(traceback.format_exc(), file=sys.stderr)
 finally:
-    # 恢复原始输出
     sys.stdout = _old_stdout
     sys.stderr = _old_stderr
 
-# 获取输出并传递给 JavaScript
-window['${uniqueId}']['stdout'] = _out_buf.getvalue()
-window['${uniqueId}']['stderr'] = _err_buf.getvalue()
+# 获取输出
+_output = _out_buf.getvalue()
+_error_output = _err_buf.getvalue()
+
+# 合并输出
+_result = _output
+if _error_output:
+    if _result:
+        _result += '\\n'
+    _result += _error_output
+
+# 将结果写入DOM
+document['${uniqueId}'].textContent = _result
 `;
                 
                 // 创建脚本元素
                 const script = document.createElement('script');
+                script.id = 'script-' + uniqueId;
                 script.type = 'text/python';
                 script.textContent = executionCode;
                 document.body.appendChild(script);
                 
-                // 执行 Brython
+                // 执行 Brython（第二次及之后调用会处理新添加的脚本）
                 brython();
                 
-                // 等待输出并显示结果
+                // 等待执行完成并获取输出
                 setTimeout(() => {
-                    // 获取输出
-                    let stdout = outputData.stdout || '';
-                    let stderr = outputData.stderr || '';
-                    
-                    // 合并输出（原样输出，不做任何处理）
-                    let combinedOutput = '';
-                    if (stdout) {
-                        combinedOutput += stdout;
-                    }
-                    if (stderr) {
-                        if (combinedOutput) {
-                            combinedOutput += '\n';
-                        }
-                        combinedOutput += stderr;
-                    }
+                    const output = outputDiv.textContent;
                     
                     // 确定样式
-                    const hasError = stderr.trim().length > 0;
+                    const hasError = output.includes('Traceback') || output.includes('Error');
                     const textColor = hasError ? '#f44747' : '#d4d4d4';
                     
-                    // 显示输出（原样显示）
-                    if (combinedOutput.trim()) {
+                    // 显示输出
+                    if (output && output.trim()) {
                         outputElement.innerHTML = `
 <div style="background-color: #1e1e1e; color: ${textColor}; border: 1px solid #3c3c3c; padding: 12px 15px; border-radius: 4px; font-family: 'Consolas', 'Courier New', monospace; font-size: 13px; line-height: 1.5; white-space: pre-wrap; overflow-x: auto;">
-${combinedOutput}
+${output}
 </div>
 `;
                     } else {
@@ -971,8 +975,8 @@ ${combinedOutput}
                     
                     // 清理
                     script.remove();
-                    delete window[uniqueId];
-                }, 800);
+                    outputDiv.remove();
+                }, 1000);
                 
             } catch (error) {
                 // 处理 JavaScript 错误
