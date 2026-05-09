@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python 基础练习题 | 丘雅雯</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Urbanist:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/theme/monokai.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/mode/python/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/addon/edit/matchbrackets.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/addon/edit/closebrackets.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.10.5/brython.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.10.5/brython_stdlib.min.js"></script>
+    <style>
+        .exercises-page {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        
+        .page-header h1 {
+            font-family: 'Permanent Marker', cursive;
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .page-header p {
+            font-size: 1.2rem;
+            color: var(--gray-color);
+        }
+        
+        .difficulty-legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+        
+        .difficulty-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .difficulty-badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .difficulty-easy {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .difficulty-medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .difficulty-hard {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .chapter-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .chapter-title {
+            font-family: 'Permanent Marker', cursive;
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--accent-color);
+        }
+        
+        .chapter-intro {
+            background: var(--light-bg);
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            font-size: 1rem;
+            color: var(--gray-color);
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .exercise-item {
+            background: var(--light-bg);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+        
+        .exercise-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .exercise-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .exercise-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+        
+        .exercise-description {
+            color: var(--gray-color);
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        
+        .exercise-hint {
+            background: #e7f3ff;
+            border-left: 4px solid #2196F3;
+            padding: 10px 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+            color: #1976D2;
+        }
+        
+        .exercise-code-block {
+            background: #1e1e1e;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+        
+        .exercise-code-header {
+            background: #2d2d2d;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .exercise-code-header span {
+            color: #d4d4d4;
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        
+        /* 代码编辑框样式 */
+        textarea.exercise-code {
+            width: 100%;
+            min-height: 200px;
+            height: 200px;
+            padding: 15px 20px;
+            background: #1e1e1e;
+            color: #d4d4d4;
+            border: none;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 15px;
+            line-height: 1.8;
+            resize: vertical;
+            outline: none;
+            display: block;
+            box-sizing: border-box;
+        }
+        
+        textarea.exercise-code:focus {
+            background: #252525;
+        }
+        
+        /* CodeMirror 编辑器样式 */
+        .CodeMirror {
+            height: 200px !important;
+            min-height: 200px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 15px;
+            line-height: 1.8;
+            background: #1e1e1e;
+        }
+        
+        .CodeMirror-gutters {
+            background: #2d2d2d;
+            border-right: 1px solid #3c3c3c;
+        }
+        
+        .CodeMirror-linenumber {
+            color: #858585;
+            padding: 0 8px;
+        }
+        
+        .CodeMirror-cursor {
+            border-left: 2px solid #f44747;
+        }
+        
+        .CodeMirror-selected {
+            background: #264f78 !important;
+        }
+        
+        .run-exercise-btn {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+        
+        .run-exercise-btn:hover {
+            background: var(--primary-color);
+            transform: translateY(-2px);
+        }
+        
+        .exercise-output {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px 20px;
+            font-family: 'Consolas', 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            min-height: 80px;
+            border-top: 1px solid #3c3c3c;
+        }
+        
+        .exercise-output.error {
+            color: #f44747;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 30px;
+            background: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .back-link:hover {
+            background: var(--accent-color);
+            transform: translateY(-2px);
+        }
+        
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            
+            .chapter-section {
+                padding: 20px;
+            }
+            
+            .chapter-title {
+                font-size: 1.5rem;
+            }
+            
+            .difficulty-legend {
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">Python 课程</div>
+            <ul class="nav-links">
+                <li><a href="python-course.html">返回课程</a></li>
+                <li><a href="index.html">返回首页</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="exercises-page">
+        <div class="page-header">
+            <h1>Python 基础练习题</h1>
+            <p>循序渐进，助你掌握 Python 基础技能</p>
+            
+            <div class="difficulty-legend">
+                <div class="difficulty-item">
+                    <span class="difficulty-badge difficulty-easy">★ 入门</span>
+                    <span>基础语法和数据类型</span>
+                </div>
+                <div class="difficulty-item">
+                    <span class="difficulty-badge difficulty-medium">★★ 进阶</span>
+                    <span>控制流程和函数</span>
+                </div>
+                <div class="difficulty-item">
+                    <span class="difficulty-badge difficulty-hard">★★★ 挑战</span>
+                    <span>数据结构和综合应用</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第一章：变量与数据类型 -->
+        <div class="chapter-section">
+            <h2 class="chapter-title">第一章：变量与数据类型</h2>
+            <div class="chapter-intro">
+                本章练习主要围绕 Python 的基本数据类型展开，包括整数、浮点数、字符串、布尔值等。
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-header">
+                    <span class="exercise-title">练习 1.1 - 你好，世界！</span>
+                    <span class="difficulty-badge difficulty-easy">★ 入门</span>
+                </div>
+                <div class="exercise-description">
+                    创建变量存储你的姓名和年龄，然后打印出来。格式要求：<br>
+                    输出格式：<code>我叫[姓名]，今年[年龄]岁</code>
+                </div>
+                <div class="exercise-code-block">
+                    <div class="exercise-code-header">
+                        <span>练习代码</span>
+                        <button class="run-exercise-btn" onclick="runExercise(this)">运行代码</button>
+                    </div>
+                    <textarea class="exercise-code">
+# 请在这里编写代码
+name = "小明"
+age = 20
+print(f"我叫{name}，今年{age}岁")
+</textarea>
+                    <div class="exercise-output"></div>
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-header">
+                    <span class="exercise-title">练习 1.2 - 计算圆面积</span>
+                    <span class="difficulty-badge difficulty-easy">★ 入门</span>
+                </div>
+                <div class="exercise-description">
+                    创建一个变量存储圆周率 π（取 3.14159），然后计算半径为 5 的圆的面积并打印出来。
+                </div>
+                <div class="exercise-hint">
+                    💡 提示：圆面积公式 = π × r²
+                </div>
+                <div class="exercise-code-block">
+                    <div class="exercise-code-header">
+                        <span>练习代码</span>
+                        <button class="run-exercise-btn" onclick="runExercise(this)">运行代码</button>
+                    </div>
+                    <textarea class="exercise-code">
+# 请在这里编写代码
+</textarea>
+                    <div class="exercise-output"></div>
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-header">
+                    <span class="exercise-title">练习 1.3 - 变量交换</span>
+                    <span class="difficulty-badge difficulty-easy">★ 入门</span>
+                </div>
+                <div class="exercise-description">
+                    交换两个变量的值。给定 x = 10, y = 20，交换后 x 应该是 20，y 应该是 10。
+                </div>
+                <div class="exercise-code-block">
+                    <div class="exercise-code-header">
+                        <span>练习代码</span>
+                        <button class="run-exercise-btn" onclick="runExercise(this)">运行代码</button>
+                    </div>
+                    <textarea class="exercise-code">
+# 请在这里编写代码
+x = 10
+y = 20
+print(f"交换前: x={x}, y={y}")
+# 交换 x 和 y 的值
+x, y = y, x
+print(f"交换后: x={x}, y={y}")
+</textarea>
+                    <div class="exercise-output"></div>
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-header">
+                    <span class="exercise-title">练习 1.4 - 数据类型转换</span>
+                    <span class="difficulty-badge difficulty-easy">★ 入门</span>
+                </div>
+                <div class="exercise-description">
+                    将字符串 "123" 转换为整数，将整数 456 转换为字符串，并计算它们的和。
+                </div>
+                <div class="exercise-code-block">
+                    <div class="exercise-code-header">
+                        <span>练习代码</span>
+                        <button class="run-exercise-btn" onclick="runExercise(this)">运行代码</button>
+                    </div>
+                    <textarea class="exercise-code">
+# 请在这里编写代码
+</textarea>
+                    <div class="exercise-output"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第二章：运算符与表达式 -->
+        <div class="chapter-section">
+            <h2 class="chapter-title">第二章：运算符与表达式</h2>
+            <div class="chapter-intro">
+                本章练习涵盖算术运算符、比较运算符和逻辑运算符的使用。
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-header">
+                    <span class="exercise-title">练习 2.1 - 购物打折</span>
+                    <span class="difficulty-badge difficulty-easy">★ 入门</span>
+                </div>
+                <div class="exercise-description">
+                    计算 100 元打 8 折后的价格，以及 50 元打 9 折后的价格。
+                </div>
+                <div class="exercise-hint">
+                    💡 提示：打折后的价格 = 原价 × 折扣率
+                </div>
+                <div class="exercise-code-block">
+                    <div class="exercise-code-header">
+                        <span>练习代码</span>
+                        <button class="run-exercise-btn" onclick="runExercise(this)">运行代码</button>
+                    </div>
+                    <textarea class="exercise-code">
+# 请在这里编写代码
+price1 = 100
+price2 = 50
+# 计算打折后的价格
+</textarea>
+                    <div class="exercise-output"></div>
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-header">
+                    <span class="exercise-title">练习 2.2 - 幂运算与比较</span>
+                    <span class="difficulty-badge difficulty-medium">★★ 进阶</span>
+                </div>
+                <div class="exercise-description">
+                    计算 2 的 10 次方，并判断结果是否大于 1000。
+                </div>
+                <div class="exercise-code-block">
+                    <div class="exercise-code-header">
+                        <span>练习代码</span>
+                        <button class="run-exercise-btn" onclick="runExercise(this)">运行代码</button>
+                    </div>
+                    <textarea class="exercise-code">
+# 请在这里编写代码
+</textarea>
+                    <div class="exercise-output"></div>
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-header">
+                    <span class="exercise-title">练习 2.3 - 统计运算</span>
+                    <span class="difficulty-badge difficulty-medium">★★ 进阶</span>
+                </div>
+                <div class="exercise-description">
+                    有三个数：15、28、42。计算它们的和、平均值、最大值和最小值。
+                </div>
+                <div class="exercise-hint">
+                    💡 提示：可以使用 max()、min() 函数
+                </div>
+                <div class="exercise-code-block">
+                    <div class="exercise-code-header">
+                        <span>练习代码</span>
+                        <button class="run-exercise-btn" onclick="runExercise(this)">运行代码</button>
+                    </div>
+                    <textarea class="exercise-code">
+# 请在这里编写代码
+</textarea>
+                    <div class="exercise-output"></div>
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-header">
+                    <span class="exercise-title">练习 2.4 - 逻辑运算</span>
+                    <span class="difficulty-badge difficulty-medium">★★ 进阶</span>
+                </div>
+                <div class="exercise-description">
+                    判断一个年份（2024）是否是闰年。闰年条件：能被4整除但不能被100整除，或者能被400整除。
+                </div>
+                <div class="exercise-code-block">
+                    <div class="exercise-code-header">
+                        <span>练习代码</span>
+                        <button class="run-exercise-btn" onclick="runExercise(this)">运行代码</button>
+                    </div>
+                    <textarea class="exercise-code">
+# 请在这里编写代码
+year = 2024
+</textarea>
+                    <div class="exercise-output"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第三章：条件语句 -->
+        <div class="chapter-section">
+            <h2 class="chapter-title">第三章：条件语句</h2>
+            <div class="chapter-intro">
+                本章练习聚焦 if-elif-else 条件语句的使用。
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-header">
+                    <span class="exercise-title">练习 3.1 - 成绩评级</span>
+                    <span class="difficulty-badge difficulty-medium">★★ 进阶</span>
+                </div>
+                <div class="exercise-description">
+                    根据输入的成绩，判断等级：<br>
+                    - 90-100：优秀<br>
+                    - 80-89：良好<br>
+                    - 70-79：中等<br>
+                    - 60-69：及格<br>
+                    - 60 以下：不及格
+                </div>
+                <div class="exercise-code-block">
+                    <div class="exercise-code-header">
+                        <span>练习代码</span>
+                        <button class="run-exercise-btn" onclick="runExercise(this)">运行代码</button>
+                    </div>
+                    <textarea class="exercise-code">
+# 请在这里编写代码
+score = 85
+# 根据分数判断等级
+</textarea>
+                    <div class="exercise-output"></div>
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-header">
+                    <span class="exercise-title">练习 3.2 - 三数排序</span>
+                    <span class="difficulty-badge difficulty-medium">★★ 进阶</span>
+                </div>
+                <div class="exercise-description">
+                    输入三个数：10, 25, 5，按从大到小的顺序打印出来。
+                </div>
+                <div class="exercise-code-block">
+                    <div class="exercise-code-header">
+                        <span>练习代码</span>
+                        <button class="run-exercise-btn" onclick="runExercise(this)">运行代码</button>
+                    </div>
+                    <textarea class="exercise-code">
+# 请在这里编写代码
+</textarea>
+                    <div class="exercise-output"></div>
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-header">
+                    <span class="exercise-title">练习 3.3 - BMI 计算器</span>
+                    <span class="difficulty-badge difficulty-hard">★★★ 挑战</span>
+                </div>
+                <div class="exercise-description">
+                    计算体重指数 BMI。已知体重 65kg，身高 1.75m。<br>
+                    BMI = 体重(kg) / 身高(m)²<br>
+                    判断标准：BMI < 18.5 为偏瘦，18.5-23.9 为正常，24-27.9 为偏胖，>=28 为肥胖
+                </div>
+                <div class="exercise-code-block">
+                    <div class="exercise-code-header">
+                        <span>练习代码</span>
+                        <button class="run-exercise-btn" onclick="runExercise(this)">运行代码</button>
+                    </div>
+                    <textarea class="exercise-code">
+# 请在这里编写代码
+weight = 65  # kg
+height = 1.75  # m
+</textarea>
+                    <div class="exercise-output"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第四章：循环 -->
+        <div class="chapter-section">
+            <h2 class="chapter-title">第四章：循环</h2>
+            <div class="chapter-intro">
+                本章练习包括 for 循环和 while 循环的使用。
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-header">
+                    <span class="exercise-title">练习 4.1 - 打印数字</span>
+                    <span class="difficulty-badge difficulty-easy">★ 入门</span>
+                </div>
+                <div class="exercise-description">
+                    使用 for 循环打印 1 到 10 的数字。
+                </div>
+                <div class="exercise-code-block">
+                    <div class="exercise-code-header">
+                        <span>练习代码</span>
+                        <button class="run-exercise-btn" onclick="runExercise(this)">运行代码</button>
+                    </div>
+                    <textarea class="exercise-code">
+# 请在这里编写代码
+</textarea>
+                    <div class="exercise-output"></div>
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-header">
+                    <span class="exercise-title">练习 4.2 - 累加求和</span>
+                    <span class="difficulty-badge difficulty-medium">★★ 进阶</span>
+                </div>
+                <div class="exercise-description">
+                    使用 for 循环计算 1+2+3+...+100 的总和。
+                </div>
+                <div class="exercise-code-block">
+                    <div class="exercise-code-header">
+                        <span>练习代码</span>
+                        <button class="run-exercise-btn" onclick="runExercise(this)">运行代码</button>
+                    </div>
+                    <textarea class="exercise-code">
+# 请在这里编写代码
+</textarea>
+                    <div class="exercise-output"></div>
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-header">
+                    <span class="exercise-title">练习 4.3 - 九九乘法表</span>
+                    <span class="difficulty-badge difficulty-hard">★★★ 挑战</span>
+                </div>
+                <div class="exercise-description">
+                    使用双层循环打印九九乘法表。
+                </div>
+                <div class="exercise-hint">
+                    💡 提示：使用 end='' 可以让 print 不换行
+                </div>
+                <div class="exercise-code-block">
+                    <div class="exercise-code-header">
+                        <span>练习代码</span>
+                        <button class="run-exercise-btn" onclick="runExercise(this)">运行代码</button>
+                    </div>
+                    <textarea class="exercise-code">
+# 请在这里编写代码
+</textarea>
+                    <div class="exercise-output"></div>
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-header">
+                    <span class="exercise-title">练习 4.4 - 找出质数</span>
+                    <span class="difficulty-badge difficulty-hard">★★★ 挑战</span>
+                </div>
+                <div class="exercise-description">
+                    使用循环找出 1-50 中的所有质数并打印出来。
+                </div>
+                <div class="exercise-hint">
+                    💡 提示：质数是只能被 1 和自身整除的数
+                </div>
+                <div class="exercise-code-block">
+                    <div class="exercise-code-header">
+                        <span>练习代码</span>
+                        <button class="run-exercise-btn" onclick="runExercise(this)">运行代码</button>
+                    </div>
+                    <textarea class="exercise-code">
+# 请在这里编写代码
+</textarea>
+                    <div class="exercise-output"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第五章：数据结构 -->
+        <div class="chapter-section">
+            <h2 class="chapter-title">第五章：数据结构</h2>
+            <div class="chapter-intro">
+                本章练习涵盖列表、元组、字典和集合的使用。
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-header">
+                    <span class="exercise-title">练习 5.1 - 列表操作</span>
+                    <span class="difficulty-badge difficulty-medium">★★ 进阶</span>
+                </div>
+                <div class="exercise-description">
+                    创建一个列表存储 5 个学生的成绩 [85, 92, 78, 90, 88]，计算平均分并找出最高分和最低分。
+                </div>
+                <div class="exercise-code-block">
+                    <div class="exercise-code-header">
+                        <span>练习代码</span>
+                        <button class="run-exercise-btn" onclick="runExercise(this)">运行代码</button>
+                    </div>
+                    <textarea class="exercise-code">
+# 请在这里编写代码
+</textarea>
+                    <div class="exercise-output"></div>
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-header">
+                    <span class="exercise-title">练习 5.2 - 列表推导式</span>
+                    <span class="difficulty-badge difficulty-medium">★★ 进阶</span>
+                </div>
+                <div class="exercise-description">
+                    使用列表推导式生成一个包含 1-10 各数平方的列表 [1, 4, 9, 16, 25, 36, 49, 64, 81, 100]。
+                </div>
+                <div class="exercise-code-block">
+                    <div class="exercise-code-header">
+                        <span>练习代码</span>
+                        <button class="run-exercise-btn" onclick="runExercise(this)">运行代码</button>
+                    </div>
+                    <textarea class="exercise-code">
+# 请在这里编写代码
+</textarea>
+                    <div class="exercise-output"></div>
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-header">
+                    <span class="exercise-title">练习 5.3 - 字典操作</span>
+                    <span class="difficulty-badge difficulty-medium">★★ 进阶</span>
+                </div>
+                <div class="exercise-description">
+                    创建一个字典存储 3 个学生的信息（姓名、年龄、成绩），然后打印出来。
+                </div>
+                <div class="exercise-code-block">
+                    <div class="exercise-code-header">
+                        <span>练习代码</span>
+                        <button class="run-exercise-btn" onclick="runExercise(this)">运行代码</button>
+                    </div>
+                    <textarea class="exercise-code">
+# 请在这里编写代码
+</textarea>
+                    <div class="exercise-output"></div>
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-header">
+                    <span class="exercise-title">练习 5.4 - 数据筛选</span>
+                    <span class="difficulty-badge difficulty-hard">★★★ 挑战</span>
+                </div>
+                <div class="exercise-description">
+                    有一个学生成绩列表 [75, 82, 90, 61, 88, 95, 70, 45, 100, 78]，<br>
+                    1) 找出所有及格的成绩（>=60）<br>
+                    2) 计算及格学生的平均分
+                </div>
+                <div class="exercise-code-block">
+                    <div class="exercise-code-header">
+                        <span>练习代码</span>
+                        <button class="run-exercise-btn" onclick="runExercise(this)">运行代码</button>
+                    </div>
+                    <textarea class="exercise-code">
+# 请在这里编写代码
+</textarea>
+                    <div class="exercise-output"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 第六章：函数 -->
+        <div class="chapter-section">
+            <h2 class="chapter-title">第六章：函数</h2>
+            <div class="chapter-intro">
+                本章练习聚焦函数的定义、参数传递和返回值。
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-header">
+                    <span class="exercise-title">练习 6.1 - 计算圆面积</span>
+                    <span class="difficulty-badge difficulty-medium">★★ 进阶</span>
+                </div>
+                <div class="exercise-description">
+                    定义一个函数 calculate_circle_area()，接收半径作为参数，返回圆的面积。
+                </div>
+                <div class="exercise-hint">
+                    💡 提示：圆面积公式 = π × r²
+                </div>
+                <div class="exercise-code-block">
+                    <div class="exercise-code-header">
+                        <span>练习代码</span>
+                        <button class="run-exercise-btn" onclick="runExercise(this)">运行代码</button>
+                    </div>
+                    <textarea class="exercise-code">
+# 请在这里编写代码
+def calculate_circle_area(radius):
+    pass  # 请实现这个函数
+
+# 测试函数
+result = calculate_circle_area(5)
+print(f"半径为5的圆面积是: {result}")
+</textarea>
+                    <div class="exercise-output"></div>
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-header">
+                    <span class="exercise-title">练习 6.2 - 判断奇偶数</span>
+                    <span class="difficulty-badge difficulty-medium">★★ 进阶</span>
+                </div>
+                <div class="exercise-description">
+                    定义一个函数 is_even()，判断一个数是奇数还是偶数，返回相应的字符串。
+                </div>
+                <div class="exercise-code-block">
+                    <div class="exercise-code-header">
+                        <span>练习代码</span>
+                        <button class="run-exercise-btn" onclick="runExercise(this)">运行代码</button>
+                    </div>
+                    <textarea class="exercise-code">
+# 请在这里编写代码
+</textarea>
+                    <div class="exercise-output"></div>
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-header">
+                    <span class="exercise-title">练习 6.3 - 可变参数函数</span>
+                    <span class="difficulty-badge difficulty-hard">★★★ 挑战</span>
+                </div>
+                <div class="exercise-description">
+                    定义一个函数 find_max_min()，接受任意数量的数字作为参数，返回它们的最大值和最小值。
+                </div>
+                <div class="exercise-code-block">
+                    <div class="exercise-code-header">
+                        <span>练习代码</span>
+                        <button class="run-exercise-btn" onclick="runExercise(this)">运行代码</button>
+                    </div>
+                    <textarea class="exercise-code">
+# 请在这里编写代码
+</textarea>
+                    <div class="exercise-output"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 综合练习 -->
+        <div class="chapter-section">
+            <h2 class="chapter-title">综合练习</h2>
+            <div class="chapter-intro">
+                综合运用所学知识，完成这些更有挑战性的练习。
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-header">
+                    <span class="exercise-title">综合练习 1 - 猜数字游戏</span>
+                    <span class="difficulty-badge difficulty-hard">★★★ 挑战</span>
+                </div>
+                <div class="exercise-description">
+                    实现一个猜数字游戏。预设数字为 42，玩家有 5 次猜测机会，每次猜测后提示"太大"或"太小"。
+                </div>
+                <div class="exercise-code-block">
+                    <div class="exercise-code-header">
+                        <span>练习代码</span>
+                        <button class="run-exercise-btn" onclick="runExercise(this)">运行代码</button>
+                    </div>
+                    <textarea class="exercise-code">
+# 请在这里编写代码
+target_number = 42
+max_attempts = 5
+
+print("欢迎来到猜数字游戏！")
+print(f"我想了一个1-100之间的数字，你有{max_attempts}次机会。")
+
+# 请实现猜数字的逻辑
+</textarea>
+                    <div class="exercise-output"></div>
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-header">
+                    <span class="exercise-title">综合练习 2 - 斐波那契数列</span>
+                    <span class="difficulty-badge difficulty-hard">★★★ 挑战</span>
+                </div>
+                <div class="exercise-description">
+                    生成斐波那契数列的前 15 项。斐波那契数列：1, 1, 2, 3, 5, 8, 13, ... (从第三项开始，每项等于前两项之和)
+                </div>
+                <div class="exercise-code-block">
+                    <div class="exercise-code-header">
+                        <span>练习代码</span>
+                        <button class="run-exercise-btn" onclick="runExercise(this)">运行代码</button>
+                    </div>
+                    <textarea class="exercise-code">
+# 请在这里编写代码
+</textarea>
+                    <div class="exercise-output"></div>
+                </div>
+            </div>
+
+            <div class="exercise-item">
+                <div class="exercise-header">
+                    <span class="exercise-title">综合练习 3 - 统计分析器</span>
+                    <span class="difficulty-badge difficulty-hard">★★★ 挑战</span>
+                </div>
+                <div class="exercise-description">
+                    创建一个学生成绩分析器。给定成绩列表 [85, 92, 78, 90, 88, 76, 95, 82, 70, 68]，<br>
+                    1) 计算平均分<br>
+                    2) 找出最高分和最低分<br>
+                    3) 统计及格人数（>=60）<br>
+                    4) 按从高到低排序并打印
+                </div>
+                <div class="exercise-code-block">
+                    <div class="exercise-code-header">
+                        <span>练习代码</span>
+                        <button class="run-exercise-btn" onclick="runExercise(this)">运行代码</button>
+                    </div>
+                    <textarea class="exercise-code">
+# 请在这里编写代码
+scores = [85, 92, 78, 90, 88, 76, 95, 82, 70, 68]
+</textarea>
+                    <div class="exercise-output"></div>
+                </div>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px;">
+            <a href="python-course.html" class="back-link">返回课程页面</a>
+        </div>
+    </div>
+
+    <script>
+        // 全局变量
+        window.brythonInitialized = false;
+        
+        // 初始化 Brython
+        function initBrython() {
+            if (!window.brythonInitialized) {
+                try {
+                    brython({debug: 1});
+                    window.brythonInitialized = true;
+                    console.log('Brython 初始化成功');
+                } catch (e) {
+                    console.error('Brython 初始化失败:', e);
+                }
+            }
+        }
+        
+        // 页面加载时初始化 Brython
+        window.addEventListener('DOMContentLoaded', function() {
+            setTimeout(initBrython, 500);
+        });
+        
+        // 运行练习代码
+        function runExercise(button) {
+            const exerciseBlock = button.closest('.exercise-code-block');
+            const code = exerciseBlock.querySelector('textarea').value;
+            const outputDiv = exerciseBlock.querySelector('.exercise-output');
+            
+            try {
+                outputDiv.textContent = '运行中...';
+                outputDiv.classList.remove('error');
+                
+                // 确保 Brython 已初始化
+                initBrython();
+                
+                // 唯一标识符
+                const uniqueId = 'brython-output-' + Date.now();
+                
+                // 创建隐藏的输出元素
+                const outputElement = document.createElement('div');
+                outputElement.id = uniqueId;
+                outputElement.style.display = 'none';
+                document.body.appendChild(outputElement);
+                
+                // 构建执行代码
+                const executionCode = `
+import sys
+from io import StringIO
+import traceback
+from browser import document
+
+# 保存原始输出
+_old_stdout = sys.stdout
+_old_stderr = sys.stderr
+
+# 创建字符串缓冲区
+_out_buf = StringIO()
+_err_buf = StringIO()
+sys.stdout = _out_buf
+sys.stderr = _err_buf
+
+# 要执行的代码
+_code = """
+${code}
+"""
+
+try:
+    exec(_code)
+except:
+    print(traceback.format_exc(), file=sys.stderr)
+finally:
+    sys.stdout = _old_stdout
+    sys.stderr = _old_stderr
+
+# 获取输出
+_output = _out_buf.getvalue()
+_error_output = _err_buf.getvalue()
+
+# 合并输出
+_result = _output
+if _error_output:
+    if _result:
+        _result += '\\n'
+    _result += _error_output
+
+# 将结果写入DOM
+document['${uniqueId}'].textContent = _result
+`;
+                
+                // 创建脚本元素
+                const script = document.createElement('script');
+                script.type = 'text/python';
+                script.textContent = executionCode;
+                document.body.appendChild(script);
+                
+                // 执行 Brython
+                brython();
+                
+                // 等待执行完成并获取输出
+                setTimeout(() => {
+                    const output = outputElement.textContent;
+                    
+                    if (output && output.trim()) {
+                        // 检查是否有错误
+                        const hasError = output.includes('Traceback') || output.includes('Error');
+                        if (hasError) {
+                            outputDiv.classList.add('error');
+                        }
+                        outputDiv.textContent = output;
+                    } else {
+                        outputDiv.textContent = '(无输出)';
+                    }
+                    
+                    // 清理
+                    script.remove();
+                    outputElement.remove();
+                }, 1000);
+                
+            } catch (error) {
+                outputDiv.classList.add('error');
+                outputDiv.textContent = '[前端错误] ' + (error.message || String(error));
+            }
+        }
+    </script>
+</body>
+</html>
