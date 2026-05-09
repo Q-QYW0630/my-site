@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python 练习目录 | 丘雅雯</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Urbanist:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        .index-page {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        
+        .page-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .page-header h1 {
+            font-family: 'Permanent Marker', cursive;
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+        
+        .page-header p {
+            font-size: 1.3rem;
+            color: var(--gray-color);
+            margin-bottom: 30px;
+        }
+        
+        .chapters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+        
+        .chapter-card {
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .chapter-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+        }
+        
+        .chapter-card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--accent-color);
+        }
+        
+        .chapter-icon {
+            font-size: 2.5rem;
+        }
+        
+        .chapter-card-title {
+            font-family: 'Permanent Marker', cursive;
+            font-size: 1.4rem;
+            color: var(--primary-color);
+        }
+        
+        .chapter-intro {
+            color: var(--gray-color);
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        .exercise-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .exercise-list li {
+            margin-bottom: 12px;
+        }
+        
+        .exercise-link {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 15px;
+            background: var(--light-bg);
+            border-radius: 10px;
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .exercise-link:hover {
+            background: var(--accent-color);
+            color: white;
+            transform: translateX(10px);
+        }
+        
+        .exercise-link .exercise-name {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .exercise-link .exercise-number {
+            background: rgba(0, 0, 0, 0.1);
+            padding: 4px 10px;
+            border-radius: 5px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        
+        .exercise-link:hover .exercise-number {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .difficulty-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .difficulty-easy {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .difficulty-medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .difficulty-hard {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .exercise-link:hover .difficulty-badge {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+        
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-number {
+            font-family: 'Permanent Marker', cursive;
+            font-size: 3rem;
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        .back-link {
+            display: inline-block;
+            padding: 15px 40px;
+            background: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .back-link:hover {
+            background: var(--accent-color);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+        }
+        
+        .start-practice-btn {
+            display: inline-block;
+            margin: 30px auto 0;
+            padding: 15px 40px;
+            background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .start-practice-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            
+            .chapters-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">Python 课程</div>
+            <ul class="nav-links">
+                <li><a href="python-course.html">返回课程</a></li>
+                <li><a href="index.html">返回首页</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="index-page">
+        <div class="page-header">
+            <h1>📚 Python 练习目录</h1>
+            <p>循序渐进，从入门到精通的完整学习路径</p>
+            
+            <div class="stats-section">
+                <div class="stat-card">
+                    <div class="stat-number">6</div>
+                    <div class="stat-label">章节模块</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">25</div>
+                    <div class="stat-label">精选练习</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">难度等级</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="chapters-grid">
+            <!-- 第一章 -->
+            <div class="chapter-card">
+                <div class="chapter-card-header">
+                    <span class="chapter-icon">📝</span>
+                    <h2 class="chapter-card-title">第一章：变量与数据类型</h2>
+                </div>
+                <p class="chapter-intro">学习 Python 的基本数据类型，包括整数、浮点数、字符串、布尔值等。</p>
+                <ul class="exercise-list">
+                    <li>
+                        <a href="python-exercises.html?chapter=1#ex1-1" class="exercise-link">
+                            <span class="exercise-name">
+                                <span class="exercise-number">1.1</span>
+                                你好，世界！
+                            </span>
+                            <span class="difficulty-badge difficulty-easy">入门</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="python-exercises.html?chapter=1#ex1-2" class="exercise-link">
+                            <span class="exercise-name">
+                                <span class="exercise-number">1.2</span>
+                                计算圆面积
+                            </span>
+                            <span class="difficulty-badge difficulty-easy">入门</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="python-exercises.html?chapter=1#ex1-3" class="exercise-link">
+                            <span class="exercise-name">
+                                <span class="exercise-number">1.3</span>
+                                变量交换
+                            </span>
+                            <span class="difficulty-badge difficulty-easy">入门</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="python-exercises.html?chapter=1#ex1-4" class="exercise-link">
+                            <span class="exercise-name">
+                                <span class="exercise-number">1.4</span>
+                                数据类型转换
+                            </span>
+                            <span class="difficulty-badge difficulty-easy">入门</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 第二章 -->
+            <div class="chapter-card">
+                <div class="chapter-card-header">
+                    <span class="chapter-icon">🔢</span>
+                    <h2 class="chapter-card-title">第二章：运算符与表达式</h2>
+                </div>
+                <p class="chapter-intro">掌握算术运算符、比较运算符和逻辑运算符的使用方法。</p>
+                <ul class="exercise-list">
+                    <li>
+                        <a href="python-exercises.html?chapter=2#ex2-1" class="exercise-link">
+                            <span class="exercise-name">
+                                <span class="exercise-number">2.1</span>
+                                购物打折
+                            </span>
+                            <span class="difficulty-badge difficulty-easy">入门</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="python-exercises.html?chapter=2#ex2-2" class="exercise-link">
+                            <span class="exercise-name">
+                                <span class="exercise-number">2.2</span>
+                                幂运算与比较
+                            </span>
+                            <span class="difficulty-badge difficulty-medium">进阶</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="python-exercises.html?chapter=2#ex2-3" class="exercise-link">
+                            <span class="exercise-name">
+                                <span class="exercise-number">2.3</span>
+                                统计运算
+                            </span>
+                            <span class="difficulty-badge difficulty-medium">进阶</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="python-exercises.html?chapter=2#ex2-4" class="exercise-link">
+                            <span class="exercise-name">
+                                <span class="exercise-number">2.4</span>
+                                逻辑运算
+                            </span>
+                            <span class="difficulty-badge difficulty-medium">进阶</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 第三章 -->
+            <div class="chapter-card">
+                <div class="chapter-card-header">
+                    <span class="chapter-icon">🔀</span>
+                    <h2 class="chapter-card-title">第三章：条件语句</h2>
+                </div>
+                <p class="chapter-intro">学习 if-elif-else 条件语句的使用，实现程序的条件分支。</p>
+                <ul class="exercise-list">
+                    <li>
+                        <a href="python-exercises.html?chapter=3#ex3-1" class="exercise-link">
+                            <span class="exercise-name">
+                                <span class="exercise-number">3.1</span>
+                                成绩评级
+                            </span>
+                            <span class="difficulty-badge difficulty-medium">进阶</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="python-exercises.html?chapter=3#ex3-2" class="exercise-link">
+                            <span class="exercise-name">
+                                <span class="exercise-number">3.2</span>
+                                三数排序
+                            </span>
+                            <span class="difficulty-badge difficulty-medium">进阶</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="python-exercises.html?chapter=3#ex3-3" class="exercise-link">
+                            <span class="exercise-name">
+                                <span class="exercise-number">3.3</span>
+                                BMI 计算器
+                            </span>
+                            <span class="difficulty-badge difficulty-hard">挑战</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 第四章 -->
+            <div class="chapter-card">
+                <div class="chapter-card-header">
+                    <span class="chapter-icon">🔄</span>
+                    <h2 class="chapter-card-title">第四章：循环</h2>
+                </div>
+                <p class="chapter-intro">掌握 for 循环和 while 循环，实现代码的重复执行。</p>
+                <ul class="exercise-list">
+                    <li>
+                        <a href="python-exercises.html?chapter=4#ex4-1" class="exercise-link">
+                            <span class="exercise-name">
+                                <span class="exercise-number">4.1</span>
+                                打印数字
+                            </span>
+                            <span class="difficulty-badge difficulty-easy">入门</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="python-exercises.html?chapter=4#ex4-2" class="exercise-link">
+                            <span class="exercise-name">
+                                <span class="exercise-number">4.2</span>
+                                累加求和
+                            </span>
+                            <span class="difficulty-badge difficulty-medium">进阶</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="python-exercises.html?chapter=4#ex4-3" class="exercise-link">
+                            <span class="exercise-name">
+                                <span class="exercise-number">4.3</span>
+                                九九乘法表
+                            </span>
+                            <span class="difficulty-badge difficulty-hard">挑战</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="python-exercises.html?chapter=4#ex4-4" class="exercise-link">
+                            <span class="exercise-name">
+                                <span class="exercise-number">4.4</span>
+                                找出质数
+                            </span>
+                            <span class="difficulty-badge difficulty-hard">挑战</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 第五章 -->
+            <div class="chapter-card">
+                <div class="chapter-card-header">
+                    <span class="chapter-icon">📊</span>
+                    <h2 class="chapter-card-title">第五章：数据结构</h2>
+                </div>
+                <p class="chapter-intro">深入学习列表、元组、字典和集合的使用方法和技巧。</p>
+                <ul class="exercise-list">
+                    <li>
+                        <a href="python-exercises.html?chapter=5#ex5-1" class="exercise-link">
+                            <span class="exercise-name">
+                                <span class="exercise-number">5.1</span>
+                                列表操作
+                            </span>
+                            <span class="difficulty-badge difficulty-medium">进阶</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="python-exercises.html?chapter=5#ex5-2" class="exercise-link">
+                            <span class="exercise-name">
+                                <span class="exercise-number">5.2</span>
+                                列表推导式
+                            </span>
+                            <span class="difficulty-badge difficulty-medium">进阶</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="python-exercises.html?chapter=5#ex5-3" class="exercise-link">
+                            <span class="exercise-name">
+                                <span class="exercise-number">5.3</span>
+                                字典操作
+                            </span>
+                            <span class="difficulty-badge difficulty-medium">进阶</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="python-exercises.html?chapter=5#ex5-4" class="exercise-link">
+                            <span class="exercise-name">
+                                <span class="exercise-number">5.4</span>
+                                数据筛选
+                            </span>
+                            <span class="difficulty-badge difficulty-hard">挑战</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- 第六章 -->
+            <div class="chapter-card">
+                <div class="chapter-card-header">
+                    <span class="chapter-icon">⚙️</span>
+                    <h2 class="chapter-card-title">第六章：函数</h2>
+                </div>
+                <p class="chapter-intro">学习函数的定义、参数传递和返回值，提高代码复用性。</p>
+                <ul class="exercise-list">
+                    <li>
+                        <a href="python-exercises.html?chapter=6#ex6-1" class="exercise-link">
+                            <span class="exercise-name">
+                                <span class="exercise-number">6.1</span>
+                                计算圆面积
+                            </span>
+                            <span class="difficulty-badge difficulty-medium">进阶</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="python-exercises.html?chapter=6#ex6-2" class="exercise-link">
+                            <span class="exercise-name">
+                                <span class="exercise-number">6.2</span>
+                                判断奇偶数
+                            </span>
+                            <span class="difficulty-badge difficulty-medium">进阶</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="python-exercises.html?chapter=6#ex6-3" class="exercise-link">
+                            <span class="exercise-name">
+                                <span class="exercise-number">6.3</span>
+                                可变参数函数
+                            </span>
+                            <span class="difficulty-badge difficulty-hard">挑战</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 综合练习 -->
+        <div class="chapter-card" style="max-width: 800px; margin: 0 auto 50px;">
+            <div class="chapter-card-header">
+                <span class="chapter-icon">🎯</span>
+                <h2 class="chapter-card-title">综合练习</h2>
+            </div>
+            <p class="chapter-intro">综合运用所学知识，完成这些更有挑战性的练习。</p>
+            <ul class="exercise-list">
+                <li>
+                    <a href="python-exercises.html?chapter=comprehensive#ex-comprehensive-1" class="exercise-link">
+                        <span class="exercise-name">
+                            <span class="exercise-number">C1</span>
+                            猜数字游戏
+                        </span>
+                        <span class="difficulty-badge difficulty-hard">挑战</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="python-exercises.html?chapter=comprehensive#ex-comprehensive-2" class="exercise-link">
+                        <span class="exercise-name">
+                            <span class="exercise-number">C2</span>
+                            斐波那契数列
+                        </span>
+                        <span class="difficulty-badge difficulty-hard">挑战</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="python-exercises.html?chapter=comprehensive#ex-comprehensive-3" class="exercise-link">
+                        <span class="exercise-name">
+                            <span class="exercise-number">C3</span>
+                            统计分析器
+                        </span>
+                        <span class="difficulty-badge difficulty-hard">挑战</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div style="text-align: center;">
+            <a href="python-course.html" class="back-link">← 返回课程页面</a>
+        </div>
+    </div>
+
+</body>
+</html>

@@ -19,6 +19,171 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 40px 20px;
+            display: flex;
+            gap: 30px;
+        }
+        
+        .exercises-main {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        /* 目录侧边栏样式 */
+        .toc-sidebar {
+            width: 280px;
+            flex-shrink: 0;
+            position: sticky;
+            top: 100px;
+            height: fit-content;
+            max-height: calc(100vh - 120px);
+            overflow-y: auto;
+        }
+        
+        .toc-container {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+        
+        .toc-title {
+            font-family: 'Permanent Marker', cursive;
+            font-size: 1.3rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--accent-color);
+        }
+        
+        .toc-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .toc-chapter {
+            margin-bottom: 15px;
+        }
+        
+        .toc-chapter-title {
+            font-weight: 600;
+            color: var(--dark-color);
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+        
+        .toc-exercises {
+            list-style: none;
+            padding-left: 15px;
+            margin: 0;
+        }
+        
+        .toc-exercise {
+            margin-bottom: 5px;
+        }
+        
+        .toc-exercise a {
+            color: var(--gray-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 8px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .toc-exercise a:hover {
+            background: var(--light-bg);
+            color: var(--primary-color);
+        }
+        
+        .toc-exercise a.active {
+            background: var(--accent-color);
+            color: white;
+        }
+        
+        .toc-difficulty {
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-weight: 600;
+        }
+        
+        .toc-difficulty.easy {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .toc-difficulty.medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .toc-difficulty.hard {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        /* 移动端目录按钮 */
+        .toc-toggle-btn {
+            display: none;
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        .toc-toggle-btn:hover {
+            background: var(--primary-color);
+            transform: scale(1.1);
+        }
+        
+        @media (max-width: 1024px) {
+            .exercises-page {
+                flex-direction: column;
+            }
+            
+            .toc-sidebar {
+                width: 100%;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                z-index: 999;
+                background: rgba(0, 0, 0, 0.5);
+                display: none;
+                padding: 20px;
+            }
+            
+            .toc-sidebar.show {
+                display: block;
+            }
+            
+            .toc-container {
+                max-width: 400px;
+                margin: 0 auto;
+                max-height: 80vh;
+                overflow-y: auto;
+            }
+            
+            .toc-toggle-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
         }
         
         .page-header {
@@ -298,7 +463,79 @@
         </div>
     </nav>
 
-    <div class="exercises-page">
+    <!-- 目录侧边栏 -->
+    <aside class="toc-sidebar" id="tocSidebar">
+        <div class="toc-container">
+            <h3 class="toc-title">📚 练习目录</h3>
+            <ul class="toc-list">
+                <li class="toc-chapter">
+                    <div class="toc-chapter-title">第一章：变量与数据类型</div>
+                    <ul class="toc-exercises">
+                        <li class="toc-exercise"><a href="#ex1-1" onclick="scrollToExercise('ex1-1')">练习 1.1 <span class="toc-difficulty easy">入门</span></a></li>
+                        <li class="toc-exercise"><a href="#ex1-2" onclick="scrollToExercise('ex1-2')">练习 1.2 <span class="toc-difficulty easy">入门</span></a></li>
+                        <li class="toc-exercise"><a href="#ex1-3" onclick="scrollToExercise('ex1-3')">练习 1.3 <span class="toc-difficulty easy">入门</span></a></li>
+                        <li class="toc-exercise"><a href="#ex1-4" onclick="scrollToExercise('ex1-4')">练习 1.4 <span class="toc-difficulty easy">入门</span></a></li>
+                    </ul>
+                </li>
+                <li class="toc-chapter">
+                    <div class="toc-chapter-title">第二章：运算符与表达式</div>
+                    <ul class="toc-exercises">
+                        <li class="toc-exercise"><a href="#ex2-1" onclick="scrollToExercise('ex2-1')">练习 2.1 <span class="toc-difficulty easy">入门</span></a></li>
+                        <li class="toc-exercise"><a href="#ex2-2" onclick="scrollToExercise('ex2-2')">练习 2.2 <span class="toc-difficulty medium">进阶</span></a></li>
+                        <li class="toc-exercise"><a href="#ex2-3" onclick="scrollToExercise('ex2-3')">练习 2.3 <span class="toc-difficulty medium">进阶</span></a></li>
+                        <li class="toc-exercise"><a href="#ex2-4" onclick="scrollToExercise('ex2-4')">练习 2.4 <span class="toc-difficulty medium">进阶</span></a></li>
+                    </ul>
+                </li>
+                <li class="toc-chapter">
+                    <div class="toc-chapter-title">第三章：条件语句</div>
+                    <ul class="toc-exercises">
+                        <li class="toc-exercise"><a href="#ex3-1" onclick="scrollToExercise('ex3-1')">练习 3.1 <span class="toc-difficulty medium">进阶</span></a></li>
+                        <li class="toc-exercise"><a href="#ex3-2" onclick="scrollToExercise('ex3-2')">练习 3.2 <span class="toc-difficulty medium">进阶</span></a></li>
+                        <li class="toc-exercise"><a href="#ex3-3" onclick="scrollToExercise('ex3-3')">练习 3.3 <span class="toc-difficulty hard">挑战</span></a></li>
+                    </ul>
+                </li>
+                <li class="toc-chapter">
+                    <div class="toc-chapter-title">第四章：循环</div>
+                    <ul class="toc-exercises">
+                        <li class="toc-exercise"><a href="#ex4-1" onclick="scrollToExercise('ex4-1')">练习 4.1 <span class="toc-difficulty easy">入门</span></a></li>
+                        <li class="toc-exercise"><a href="#ex4-2" onclick="scrollToExercise('ex4-2')">练习 4.2 <span class="toc-difficulty medium">进阶</span></a></li>
+                        <li class="toc-exercise"><a href="#ex4-3" onclick="scrollToExercise('ex4-3')">练习 4.3 <span class="toc-difficulty hard">挑战</span></a></li>
+                        <li class="toc-exercise"><a href="#ex4-4" onclick="scrollToExercise('ex4-4')">练习 4.4 <span class="toc-difficulty hard">挑战</span></a></li>
+                    </ul>
+                </li>
+                <li class="toc-chapter">
+                    <div class="toc-chapter-title">第五章：数据结构</div>
+                    <ul class="toc-exercises">
+                        <li class="toc-exercise"><a href="#ex5-1" onclick="scrollToExercise('ex5-1')">练习 5.1 <span class="toc-difficulty medium">进阶</span></a></li>
+                        <li class="toc-exercise"><a href="#ex5-2" onclick="scrollToExercise('ex5-2')">练习 5.2 <span class="toc-difficulty medium">进阶</span></a></li>
+                        <li class="toc-exercise"><a href="#ex5-3" onclick="scrollToExercise('ex5-3')">练习 5.3 <span class="toc-difficulty medium">进阶</span></a></li>
+                        <li class="toc-exercise"><a href="#ex5-4" onclick="scrollToExercise('ex5-4')">练习 5.4 <span class="toc-difficulty hard">挑战</span></a></li>
+                    </ul>
+                </li>
+                <li class="toc-chapter">
+                    <div class="toc-chapter-title">第六章：函数</div>
+                    <ul class="toc-exercises">
+                        <li class="toc-exercise"><a href="#ex6-1" onclick="scrollToExercise('ex6-1')">练习 6.1 <span class="toc-difficulty medium">进阶</span></a></li>
+                        <li class="toc-exercise"><a href="#ex6-2" onclick="scrollToExercise('ex6-2')">练习 6.2 <span class="toc-difficulty medium">进阶</span></a></li>
+                        <li class="toc-exercise"><a href="#ex6-3" onclick="scrollToExercise('ex6-3')">练习 6.3 <span class="toc-difficulty hard">挑战</span></a></li>
+                    </ul>
+                </li>
+                <li class="toc-chapter">
+                    <div class="toc-chapter-title">综合练习</div>
+                    <ul class="toc-exercises">
+                        <li class="toc-exercise"><a href="#ex-comprehensive-1" onclick="scrollToExercise('ex-comprehensive-1')">综合练习 1 <span class="toc-difficulty hard">挑战</span></a></li>
+                        <li class="toc-exercise"><a href="#ex-comprehensive-2" onclick="scrollToExercise('ex-comprehensive-2')">综合练习 2 <span class="toc-difficulty hard">挑战</span></a></li>
+                        <li class="toc-exercise"><a href="#ex-comprehensive-3" onclick="scrollToExercise('ex-comprehensive-3')">综合练习 3 <span class="toc-difficulty hard">挑战</span></a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </aside>
+
+    <!-- 移动端目录按钮 -->
+    <button class="toc-toggle-btn" id="tocToggleBtn" onclick="toggleToc()">📚</button>
+
+    <div class="exercises-main">
         <div class="page-header">
             <h1>Python 基础练习题</h1>
             <p>循序渐进，助你掌握 Python 基础技能</p>
@@ -320,13 +557,13 @@
         </div>
 
         <!-- 第一章：变量与数据类型 -->
-        <div class="chapter-section">
+        <div class="chapter-section" id="chapter-1">
             <h2 class="chapter-title">第一章：变量与数据类型</h2>
             <div class="chapter-intro">
                 本章练习主要围绕 Python 的基本数据类型展开，包括整数、浮点数、字符串、布尔值等。
             </div>
 
-            <div class="exercise-item">
+            <div class="exercise-item" id="ex1-1">
                 <div class="exercise-header">
                     <span class="exercise-title">练习 1.1 - 你好，世界！</span>
                     <span class="difficulty-badge difficulty-easy">★ 入门</span>
@@ -350,7 +587,7 @@ print(f"我叫{name}，今年{age}岁")
                 </div>
             </div>
 
-            <div class="exercise-item">
+            <div class="exercise-item" id="ex1-2">
                 <div class="exercise-header">
                     <span class="exercise-title">练习 1.2 - 计算圆面积</span>
                     <span class="difficulty-badge difficulty-easy">★ 入门</span>
@@ -373,7 +610,7 @@ print(f"我叫{name}，今年{age}岁")
                 </div>
             </div>
 
-            <div class="exercise-item">
+            <div class="exercise-item" id="ex1-3">
                 <div class="exercise-header">
                     <span class="exercise-title">练习 1.3 - 变量交换</span>
                     <span class="difficulty-badge difficulty-easy">★ 入门</span>
@@ -399,7 +636,7 @@ print(f"交换后: x={x}, y={y}")
                 </div>
             </div>
 
-            <div class="exercise-item">
+            <div class="exercise-item" id="ex1-4">
                 <div class="exercise-header">
                     <span class="exercise-title">练习 1.4 - 数据类型转换</span>
                     <span class="difficulty-badge difficulty-easy">★ 入门</span>
@@ -421,13 +658,13 @@ print(f"交换后: x={x}, y={y}")
         </div>
 
         <!-- 第二章：运算符与表达式 -->
-        <div class="chapter-section">
+        <div class="chapter-section" id="chapter-2">
             <h2 class="chapter-title">第二章：运算符与表达式</h2>
             <div class="chapter-intro">
                 本章练习涵盖算术运算符、比较运算符和逻辑运算符的使用。
             </div>
 
-            <div class="exercise-item">
+            <div class="exercise-item" id="ex2-1">
                 <div class="exercise-header">
                     <span class="exercise-title">练习 2.1 - 购物打折</span>
                     <span class="difficulty-badge difficulty-easy">★ 入门</span>
@@ -453,7 +690,7 @@ price2 = 50
                 </div>
             </div>
 
-            <div class="exercise-item">
+            <div class="exercise-item" id="ex2-2">
                 <div class="exercise-header">
                     <span class="exercise-title">练习 2.2 - 幂运算与比较</span>
                     <span class="difficulty-badge difficulty-medium">★★ 进阶</span>
@@ -473,7 +710,7 @@ price2 = 50
                 </div>
             </div>
 
-            <div class="exercise-item">
+            <div class="exercise-item" id="ex2-3">
                 <div class="exercise-header">
                     <span class="exercise-title">练习 2.3 - 统计运算</span>
                     <span class="difficulty-badge difficulty-medium">★★ 进阶</span>
@@ -496,7 +733,7 @@ price2 = 50
                 </div>
             </div>
 
-            <div class="exercise-item">
+            <div class="exercise-item" id="ex2-4">
                 <div class="exercise-header">
                     <span class="exercise-title">练习 2.4 - 逻辑运算</span>
                     <span class="difficulty-badge difficulty-medium">★★ 进阶</span>
@@ -519,13 +756,13 @@ year = 2024
         </div>
 
         <!-- 第三章：条件语句 -->
-        <div class="chapter-section">
+        <div class="chapter-section" id="chapter-3">
             <h2 class="chapter-title">第三章：条件语句</h2>
             <div class="chapter-intro">
                 本章练习聚焦 if-elif-else 条件语句的使用。
             </div>
 
-            <div class="exercise-item">
+            <div class="exercise-item" id="ex3-1">
                 <div class="exercise-header">
                     <span class="exercise-title">练习 3.1 - 成绩评级</span>
                     <span class="difficulty-badge difficulty-medium">★★ 进阶</span>
@@ -552,7 +789,7 @@ score = 85
                 </div>
             </div>
 
-            <div class="exercise-item">
+            <div class="exercise-item" id="ex3-2">
                 <div class="exercise-header">
                     <span class="exercise-title">练习 3.2 - 三数排序</span>
                     <span class="difficulty-badge difficulty-medium">★★ 进阶</span>
@@ -572,7 +809,7 @@ score = 85
                 </div>
             </div>
 
-            <div class="exercise-item">
+            <div class="exercise-item" id="ex3-3">
                 <div class="exercise-header">
                     <span class="exercise-title">练习 3.3 - BMI 计算器</span>
                     <span class="difficulty-badge difficulty-hard">★★★ 挑战</span>
@@ -598,13 +835,13 @@ height = 1.75  # m
         </div>
 
         <!-- 第四章：循环 -->
-        <div class="chapter-section">
+        <div class="chapter-section" id="chapter-4">
             <h2 class="chapter-title">第四章：循环</h2>
             <div class="chapter-intro">
                 本章练习包括 for 循环和 while 循环的使用。
             </div>
 
-            <div class="exercise-item">
+            <div class="exercise-item" id="ex4-1">
                 <div class="exercise-header">
                     <span class="exercise-title">练习 4.1 - 打印数字</span>
                     <span class="difficulty-badge difficulty-easy">★ 入门</span>
@@ -624,7 +861,7 @@ height = 1.75  # m
                 </div>
             </div>
 
-            <div class="exercise-item">
+            <div class="exercise-item" id="ex4-2">
                 <div class="exercise-header">
                     <span class="exercise-title">练习 4.2 - 累加求和</span>
                     <span class="difficulty-badge difficulty-medium">★★ 进阶</span>
@@ -644,7 +881,7 @@ height = 1.75  # m
                 </div>
             </div>
 
-            <div class="exercise-item">
+            <div class="exercise-item" id="ex4-3">
                 <div class="exercise-header">
                     <span class="exercise-title">练习 4.3 - 九九乘法表</span>
                     <span class="difficulty-badge difficulty-hard">★★★ 挑战</span>
@@ -667,7 +904,7 @@ height = 1.75  # m
                 </div>
             </div>
 
-            <div class="exercise-item">
+            <div class="exercise-item" id="ex4-4">
                 <div class="exercise-header">
                     <span class="exercise-title">练习 4.4 - 找出质数</span>
                     <span class="difficulty-badge difficulty-hard">★★★ 挑战</span>
@@ -692,13 +929,13 @@ height = 1.75  # m
         </div>
 
         <!-- 第五章：数据结构 -->
-        <div class="chapter-section">
+        <div class="chapter-section" id="chapter-5">
             <h2 class="chapter-title">第五章：数据结构</h2>
             <div class="chapter-intro">
                 本章练习涵盖列表、元组、字典和集合的使用。
             </div>
 
-            <div class="exercise-item">
+            <div class="exercise-item" id="ex5-1">
                 <div class="exercise-header">
                     <span class="exercise-title">练习 5.1 - 列表操作</span>
                     <span class="difficulty-badge difficulty-medium">★★ 进阶</span>
@@ -718,7 +955,7 @@ height = 1.75  # m
                 </div>
             </div>
 
-            <div class="exercise-item">
+            <div class="exercise-item" id="ex5-2">
                 <div class="exercise-header">
                     <span class="exercise-title">练习 5.2 - 列表推导式</span>
                     <span class="difficulty-badge difficulty-medium">★★ 进阶</span>
@@ -738,7 +975,7 @@ height = 1.75  # m
                 </div>
             </div>
 
-            <div class="exercise-item">
+            <div class="exercise-item" id="ex5-3">
                 <div class="exercise-header">
                     <span class="exercise-title">练习 5.3 - 字典操作</span>
                     <span class="difficulty-badge difficulty-medium">★★ 进阶</span>
@@ -758,7 +995,7 @@ height = 1.75  # m
                 </div>
             </div>
 
-            <div class="exercise-item">
+            <div class="exercise-item" id="ex5-4">
                 <div class="exercise-header">
                     <span class="exercise-title">练习 5.4 - 数据筛选</span>
                     <span class="difficulty-badge difficulty-hard">★★★ 挑战</span>
@@ -782,13 +1019,13 @@ height = 1.75  # m
         </div>
 
         <!-- 第六章：函数 -->
-        <div class="chapter-section">
+        <div class="chapter-section" id="chapter-6">
             <h2 class="chapter-title">第六章：函数</h2>
             <div class="chapter-intro">
                 本章练习聚焦函数的定义、参数传递和返回值。
             </div>
 
-            <div class="exercise-item">
+            <div class="exercise-item" id="ex6-1">
                 <div class="exercise-header">
                     <span class="exercise-title">练习 6.1 - 计算圆面积</span>
                     <span class="difficulty-badge difficulty-medium">★★ 进阶</span>
@@ -817,7 +1054,7 @@ print(f"半径为5的圆面积是: {result}")
                 </div>
             </div>
 
-            <div class="exercise-item">
+            <div class="exercise-item" id="ex6-2">
                 <div class="exercise-header">
                     <span class="exercise-title">练习 6.2 - 判断奇偶数</span>
                     <span class="difficulty-badge difficulty-medium">★★ 进阶</span>
@@ -837,7 +1074,7 @@ print(f"半径为5的圆面积是: {result}")
                 </div>
             </div>
 
-            <div class="exercise-item">
+            <div class="exercise-item" id="ex6-3">
                 <div class="exercise-header">
                     <span class="exercise-title">练习 6.3 - 可变参数函数</span>
                     <span class="difficulty-badge difficulty-hard">★★★ 挑战</span>
@@ -859,13 +1096,13 @@ print(f"半径为5的圆面积是: {result}")
         </div>
 
         <!-- 综合练习 -->
-        <div class="chapter-section">
+        <div class="chapter-section" id="chapter-comprehensive">
             <h2 class="chapter-title">综合练习</h2>
             <div class="chapter-intro">
                 综合运用所学知识，完成这些更有挑战性的练习。
             </div>
 
-            <div class="exercise-item">
+            <div class="exercise-item" id="ex-comprehensive-1">
                 <div class="exercise-header">
                     <span class="exercise-title">综合练习 1 - 猜数字游戏</span>
                     <span class="difficulty-badge difficulty-hard">★★★ 挑战</span>
@@ -892,7 +1129,7 @@ print(f"我想了一个1-100之间的数字，你有{max_attempts}次机会。")
                 </div>
             </div>
 
-            <div class="exercise-item">
+            <div class="exercise-item" id="ex-comprehensive-2">
                 <div class="exercise-header">
                     <span class="exercise-title">综合练习 2 - 斐波那契数列</span>
                     <span class="difficulty-badge difficulty-hard">★★★ 挑战</span>
@@ -912,7 +1149,7 @@ print(f"我想了一个1-100之间的数字，你有{max_attempts}次机会。")
                 </div>
             </div>
 
-            <div class="exercise-item">
+            <div class="exercise-item" id="ex-comprehensive-3">
                 <div class="exercise-header">
                     <span class="exercise-title">综合练习 3 - 统计分析器</span>
                     <span class="difficulty-badge difficulty-hard">★★★ 挑战</span>
@@ -962,8 +1199,99 @@ scores = [85, 92, 78, 90, 88, 76, 95, 82, 70, 68]
         
         // 页面加载时初始化 Brython
         window.addEventListener('DOMContentLoaded', function() {
+            // 检查URL参数，只显示指定章节
+            const urlParams = new URLSearchParams(window.location.search);
+            const chapter = urlParams.get('chapter');
+            
+            if (chapter) {
+                // 隐藏所有章节
+                document.querySelectorAll('.chapter-section').forEach(section => {
+                    section.style.display = 'none';
+                });
+                
+                // 显示指定章节
+                const targetSection = document.getElementById('chapter-' + chapter);
+                if (targetSection) {
+                    targetSection.style.display = 'block';
+                }
+                
+                // 隐藏目录
+                document.querySelector('.toc-sidebar').style.display = 'none';
+                
+                // 添加返回按钮
+                addBackButton(chapter);
+            }
+            
             setTimeout(initBrython, 500);
+            initTocActiveState();
         });
+        
+        // 添加返回按钮
+        function addBackButton(chapter) {
+            const main = document.querySelector('.exercises-main');
+            const backBtn = document.createElement('a');
+            backBtn.href = 'python-exercises-index.html';
+            backBtn.className = 'back-to-index-btn';
+            backBtn.innerHTML = '← 返回目录';
+            backBtn.style.cssText = 'display: inline-block; margin: 20px 0; padding: 12px 30px; background: var(--primary-color); color: white; text-decoration: none; border-radius: 25px; font-weight: 600; transition: all 0.3s ease;';
+            backBtn.onmouseover = function() { this.style.background = 'var(--accent-color)'; };
+            backBtn.onmouseout = function() { this.style.background = 'var(--primary-color)'; };
+            main.insertBefore(backBtn, main.firstChild);
+        }
+        
+        // 目录滚动功能
+        function scrollToExercise(exerciseId) {
+            const element = document.getElementById(exerciseId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                // 移动端关闭目录
+                if (window.innerWidth <= 1024) {
+                    document.getElementById('tocSidebar').classList.remove('show');
+                }
+            }
+        }
+        
+        // 移动端目录切换
+        function toggleToc() {
+            const sidebar = document.getElementById('tocSidebar');
+            sidebar.classList.toggle('show');
+        }
+        
+        // 点击目录外部关闭
+        document.addEventListener('click', function(e) {
+            const sidebar = document.getElementById('tocSidebar');
+            const toggleBtn = document.getElementById('tocToggleBtn');
+            if (window.innerWidth <= 1024 && 
+                sidebar.classList.contains('show') &&
+                !sidebar.contains(e.target) &&
+                e.target !== toggleBtn) {
+                sidebar.classList.remove('show');
+            }
+        });
+        
+        // 初始化目录激活状态
+        function initTocActiveState() {
+            const tocLinks = document.querySelectorAll('.toc-exercise a');
+            const exerciseItems = document.querySelectorAll('.exercise-item');
+            
+            // 监听滚动
+            window.addEventListener('scroll', function() {
+                let current = '';
+                exerciseItems.forEach(item => {
+                    const itemTop = item.getBoundingClientRect().top;
+                    if (itemTop <= 150) {
+                        current = item.getAttribute('id');
+                    }
+                });
+                
+                tocLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === '#' + current) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        }
         
         // 运行练习代码
         function runExercise(button) {
