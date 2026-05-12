@@ -151,28 +151,40 @@
         }
         
         .exercises-page .navbar {
-            background-color: var(--dark-color);
+            background-color: var(--primary-color);
             padding: 15px 0;
-            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 4px 20px rgba(255, 60, 90, 0.4);
+            position: relative;
+            z-index: 1000;
         }
         
         .exercises-page .navbar .logo {
-            color: var(--light-color);
+            color: white;
+            font-size: 1.8rem;
+            text-shadow: none;
+        }
+        
+        .exercises-page .nav-links {
+            gap: 20px;
         }
         
         .exercises-page .nav-links a {
-            color: var(--light-color);
-            font-size: 1.1rem;
-            font-weight: 600;
-            padding: 10px 20px;
-            border-radius: 25px;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 700;
+            padding: 12px 25px;
+            border-radius: 30px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
             transition: all 0.3s ease;
         }
         
         .exercises-page .nav-links a:hover {
-            color: var(--accent-color);
-            background-color: rgba(255, 255, 255, 0.1);
-            transform: none;
+            color: var(--primary-color);
+            background-color: white;
+            border-color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
         
         @media (max-width: 1024px) {
