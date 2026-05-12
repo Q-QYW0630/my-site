@@ -150,6 +150,31 @@
             transform: scale(1.1);
         }
         
+        .exercises-page .navbar {
+            background-color: var(--dark-color);
+            padding: 15px 0;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.15);
+        }
+        
+        .exercises-page .navbar .logo {
+            color: var(--light-color);
+        }
+        
+        .exercises-page .nav-links a {
+            color: var(--light-color);
+            font-size: 1.1rem;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+        
+        .exercises-page .nav-links a:hover {
+            color: var(--accent-color);
+            background-color: rgba(255, 255, 255, 0.1);
+            transform: none;
+        }
+        
         @media (max-width: 1024px) {
             .exercises-page {
                 flex-direction: column;
