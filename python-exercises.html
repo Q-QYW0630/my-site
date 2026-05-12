@@ -150,7 +150,7 @@
             transform: scale(1.1);
         }
         
-        .exercises-page .navbar {
+        nav.navbar.exercise-navbar {
             background-color: var(--primary-color);
             padding: 15px 0;
             box-shadow: 0 4px 20px rgba(255, 60, 90, 0.4);
@@ -158,17 +158,17 @@
             z-index: 1000;
         }
         
-        .exercises-page .navbar .logo {
+        nav.navbar.exercise-navbar .logo {
             color: var(--accent-color);
             font-size: 1.8rem;
             text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
         }
         
-        .exercises-page .nav-links {
+        nav.navbar.exercise-navbar .nav-links {
             gap: 20px;
         }
         
-        .exercises-page .navbar .nav-links a {
+        nav.navbar.exercise-navbar .nav-links a {
             color: #333333 !important;
             font-size: 1.2rem;
             font-weight: 700;
@@ -180,7 +180,7 @@
             text-shadow: none !important;
         }
         
-        .exercises-page .navbar .nav-links a:hover {
+        nav.navbar.exercise-navbar .nav-links a:hover {
             color: white !important;
             background-color: #333333 !important;
             border-color: #333333;
@@ -490,8 +490,8 @@
         }
     </style>
 </head>
-<body class="exercises-page">
-    <nav class="navbar">
+<body>
+    <nav class="navbar exercise-navbar">
         <div class="container">
             <div class="logo">Python 课程</div>
             <ul class="nav-links">
