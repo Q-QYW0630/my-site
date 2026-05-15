@@ -1344,15 +1344,8 @@ scores = [85, 92, 78, 90, 88, 76, 95, 82, 70, 68]
                 // 确保 Brython 已初始化
                 initBrython();
                 
-                // 转义用户代码中的特殊字符
-                const escapedCode = code
-                    .replace(/\\/g, '\\\\')
-                    .replace(/'/g, "\\'")
-                    .replace(/"/g, '\\"')
-                    .replace(/`/g, '\\`')
-                    .replace(/\n/g, '\\n')
-                    .replace(/\r/g, '\\r')
-                    .replace(/\t/g, '\\t');
+                // 将代码编码为 Base64，避免转义问题
+                const encodedCode = btoa(unescape(encodeURIComponent(code)));
                 
                 // 唯一标识符
                 const uniqueId = 'brython-output-' + Date.now();
@@ -1368,6 +1361,7 @@ scores = [85, 92, 78, 90, 88, 76, 95, 82, 70, 68]
 import sys
 from io import StringIO
 import traceback
+import base64
 from browser import document
 
 # 保存原始输出
@@ -1380,10 +1374,9 @@ _err_buf = StringIO()
 sys.stdout = _out_buf
 sys.stderr = _err_buf
 
-# 要执行的代码
-_code = '${escapedCode}'
-
+# 解码并执行代码
 try:
+    _code = base64.b64decode('${encodedCode}').decode('utf-8')
     exec(_code)
 except:
     print(traceback.format_exc(), file=sys.stderr)

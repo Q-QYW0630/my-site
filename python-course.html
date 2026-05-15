@@ -923,15 +923,8 @@ y = x * 2
                     initBrython();
                 }
                 
-                // 转义用户代码中的特殊字符
-                const escapedCode = code
-                    .replace(/\\/g, '\\\\')
-                    .replace(/'/g, "\\'")
-                    .replace(/"/g, '\\"')
-                    .replace(/`/g, '\\`')
-                    .replace(/\n/g, '\\n')
-                    .replace(/\r/g, '\\r')
-                    .replace(/\t/g, '\\t');
+                // 将代码编码为 Base64，避免转义问题
+                const encodedCode = btoa(unescape(encodeURIComponent(code)));
                 
                 // 唯一标识符
                 const uniqueId = 'brython-output-' + Date.now();
@@ -942,11 +935,12 @@ y = x * 2
                 outputDiv.style.display = 'none';
                 document.body.appendChild(outputDiv);
                 
-                // 构建执行代码 - 使用 exec 函数动态执行
+                // 构建执行代码
                 const executionCode = `
 import sys
 from io import StringIO
 import traceback
+import base64
 from browser import document
 
 # 保存原始输出
@@ -959,10 +953,9 @@ _err_buf = StringIO()
 sys.stdout = _out_buf
 sys.stderr = _err_buf
 
-# 要执行的代码
-_code = '${escapedCode}'
-
+# 解码并执行代码
 try:
+    _code = base64.b64decode('${encodedCode}').decode('utf-8')
     exec(_code)
 except:
     print(traceback.format_exc(), file=sys.stderr)
@@ -992,7 +985,7 @@ document['${uniqueId}'].textContent = _result
                 script.textContent = executionCode;
                 document.body.appendChild(script);
                 
-                // 执行 Brython（第二次及之后调用会处理新添加的脚本）
+                // 执行 Brython
                 brython();
                 
                 // 等待执行完成并获取输出
