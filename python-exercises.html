@@ -1223,16 +1223,7 @@ scores = [85, 92, 78, 90, 88, 76, 95, 82, 70, 68]
         window.brythonInitialized = false;
         
         // 初始化 Brython
-        function initBrython() {
-            if (!window.brythonInitialized) {
-                try {
-                    brython({debug: 1});
-                    window.brythonInitialized = true;
-                    console.log('Brython 初始化成功');
-                } catch (e) {
-                    console.error('Brython 初始化失败:', e);
-                }
-            }
+        
         }
         
         // 页面加载时初始化 Brython

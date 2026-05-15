@@ -886,149 +886,36 @@ y = x * 2
     </footer>
 
     <!-- 必要的 JavaScript 库 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/codemirror.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/mode/python/python.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/addon/edit/matchbrackets.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/addon/edit/closebrackets.min.js"></script>
-    <!-- Brython 库 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.10.5/brython.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.10.5/brython_stdlib.js"></script>
-    
-    <script>
-        // 全局变量，用于存储输出
-        window.brythonStdout = '';
-        window.brythonStderr = '';
-        window.brythonInitialized = false;
+        <script type="text/javascript">
+        // Pyodide 初始化状态
+        let pyodide = null;
+        let pyodideReady = false;
         
-        // 初始化 Brython
-        function initBrython() {
-            if (!window.brythonInitialized) {
-                try {
-                    brython({debug: 1});
-                    window.brythonInitialized = true;
-                    console.log('Brython 初始化成功');
-                } catch (e) {
-                    console.error('Brython 初始化失败:', e);
-                }
-            }
-        }
-        
-        // 运行 Python 代码
-        function runPythonCode(code, outputElement) {
+        // 加载 Pyodide
+        async function loadPyodide() {
             try {
-                outputElement.textContent = '运行中...';
-                
-                // 确保 Brython 已初始化
-                if (!window.brythonInitialized) {
-                    initBrython();
-                }
-                
-                // 将代码编码为 Base64，避免转义问题
-                const encodedCode = btoa(unescape(encodeURIComponent(code)));
-                
-                // 唯一标识符
-                const uniqueId = 'brython-output-' + Date.now();
-                
-                // 创建隐藏的输出元素
-                const outputDiv = document.createElement('div');
-                outputDiv.id = uniqueId;
-                outputDiv.style.display = 'none';
-                document.body.appendChild(outputDiv);
-                
-                // 构建执行代码
-                const executionCode = `
-import sys
-from io import StringIO
-import traceback
-import base64
-from browser import document
-
-# 保存原始输出
-_old_stdout = sys.stdout
-_old_stderr = sys.stderr
-
-# 创建字符串缓冲区
-_out_buf = StringIO()
-_err_buf = StringIO()
-sys.stdout = _out_buf
-sys.stderr = _err_buf
-
-# 解码并执行代码
-try:
-    _code = base64.b64decode('${encodedCode}').decode('utf-8')
-    exec(_code)
-except:
-    print(traceback.format_exc(), file=sys.stderr)
-finally:
-    sys.stdout = _old_stdout
-    sys.stderr = _old_stderr
-
-# 获取输出
-_output = _out_buf.getvalue()
-_error_output = _err_buf.getvalue()
-
-# 合并输出
-_result = _output
-if _error_output:
-    if _result:
-        _result += '\\n'
-    _result += _error_output
-
-# 将结果写入DOM
-document['${uniqueId}'].textContent = _result
-`;
-                
-                // 创建脚本元素
-                const script = document.createElement('script');
-                script.id = 'script-' + uniqueId;
-                script.type = 'text/python';
-                script.textContent = executionCode;
-                document.body.appendChild(script);
-                
-                // 执行 Brython
-                brython();
-                
-                // 等待执行完成并获取输出
-                setTimeout(() => {
-                    const output = outputDiv.textContent;
-                    
-                    // 确定样式
-                    const hasError = output.includes('Traceback') || output.includes('Error');
-                    const textColor = hasError ? '#f44747' : '#d4d4d4';
-                    
-                    // 显示输出
-                    if (output && output.trim()) {
-                        outputElement.innerHTML = `
-<div style="background-color: #1e1e1e; color: ${textColor}; border: 1px solid #3c3c3c; padding: 12px 15px; border-radius: 4px; font-family: 'Consolas', 'Courier New', monospace; font-size: 13px; line-height: 1.5; white-space: pre-wrap; overflow-x: auto;">
-${output}
-</div>
-`;
-                    } else {
-                        outputElement.innerHTML = `
-<div style="background-color: #1e1e1e; color: #808080; border: 1px solid #3c3c3c; padding: 12px 15px; border-radius: 4px; font-family: 'Consolas', 'Courier New', monospace; font-size: 13px; line-height: 1.5; white-space: pre-wrap;">
-(无输出)
-</div>
-`;
+                console.log('正在加载 Pyodide...');
+                pyodide = await loadPyodide({
+                    indexURL: "https://cdn.jsdelivr.net/pyodide/v0.26.1/full/",
+                    stdout: ({text}) => {
+                        if (window.currentOutputElement) {
+                            window.currentOutputElement.textContent += text;
+                        }
+                    },
+                    stderr: ({text}) => {
+                        if (window.currentOutputElement) {
+                            window.currentOutputElement.textContent += text;
+                        }
                     }
-                    
-                    // 清理
-                    script.remove();
-                    outputDiv.remove();
-                }, 1000);
-                
+                });
+                pyodideReady = true;
+                console.log('Pyodide 加载完成');
             } catch (error) {
-                // 处理 JavaScript 错误
-                outputElement.innerHTML = `
-<div style="background-color: #1e1e1e; color: #f44747; border: 1px solid #3c3c3c; padding: 12px 15px; border-radius: 4px; font-family: 'Consolas', 'Courier New', monospace; font-size: 13px; line-height: 1.5; white-space: pre-wrap;">
-[前端错误]
-${error.message || String(error)}
-</div>
-`;
+                console.error('Pyodide 加载失败:', error);
             }
         }
         
-        // 运行代码块
-        function runCodeBlock(button) {
+        // runCodeBlock 保持不变，使用新的 runPythonCode(button) {
             const codeBlock = button.closest('.code-block');
             const codeElement = codeBlock.querySelector('pre code');
             const outputElement = codeBlock.querySelector('.code-output-block');
@@ -1038,77 +925,7 @@ ${error.message || String(error)}
             runPythonCode(code, outputElement);
         }
         
-        // 初始化代码运行器
-        function initCodeRunner() {
-            try {
-                // 创建代码运行器组件
-                const codeRunnerHTML = `
-                    <div class="floating-code-runner">
-                        <div class="code-runner-header" id="code-runner-drag-handle">
-                            <h4>Python 代码运行器</h4>
-                            <button class="code-runner-toggle">展开/收起</button>
-                        </div>
-                        <div class="code-runner-body">
-                            <div class="code-editor-container">
-                                <textarea id="code-input">print("Hello, World!")
-
-# 尝试修改上面的代码
-# 例如：
-# name = "丘雅雯"
-# print(f"你好，{name}！")
-
-# 或者计算一些东西
-# a = 10
-# b = 20
-# print(f"{a} + {b} = {a + b}")</textarea>
-                            </div>
-                            <div class="code-controls">
-                                <button class="run-button">运行代码</button>
-                                <button class="reset-button">重置</button>
-                            </div>
-                            <div class="code-output">
-                                <h5>输出：</h5>
-                                <div id="code-output"></div>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                
-                // 创建容器并添加到页面
-                const container = document.createElement('div');
-                container.innerHTML = codeRunnerHTML;
-                document.body.appendChild(container);
-                
-                // 初始化 CodeMirror
-                const codeEditor = CodeMirror.fromTextArea(document.getElementById('code-input'), {
-                    mode: 'python',
-                    theme: 'monokai',
-                    lineNumbers: true,
-                    indentUnit: 4,
-                    matchBrackets: true,
-                    autoCloseBrackets: true,
-                    lineWrapping: true
-                });
-                
-                // 绑定事件
-                document.querySelector('.run-button').addEventListener('click', function() {
-                    const code = codeEditor.getValue();
-                    const outputElement = document.getElementById('code-output');
-                    runPythonCode(code, outputElement);
-                });
-                
-                document.querySelector('.reset-button').addEventListener('click', function() {
-                    codeEditor.setValue('print("Hello, World!")\n\n# 尝试修改上面的代码\n# 例如：\n# name = "丘雅雯"\n# print(f"你好，{name}！")\n\n# 或者计算一些东西\n# a = 10\n# b = 20\n# print(f"{a} + {b} = {a + b}")');
-                    document.getElementById('code-output').textContent = '';
-                });
-                
-                document.querySelector('.code-runner-toggle').addEventListener('click', function() {
-                    const body = document.querySelector('.code-runner-body');
-                    body.classList.toggle('collapsed');
-                });
-                
-                // 添加拖拽功能
-                makeDraggable(document.querySelector('.floating-code-runner'));
+        // 代码运行器使用 Pyodide.querySelector('.floating-code-runner'));
             } catch (error) {
                 console.error('代码运行器初始化失败:', error);
             }
