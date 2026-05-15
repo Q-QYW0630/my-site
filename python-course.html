@@ -923,6 +923,16 @@ y = x * 2
                     initBrython();
                 }
                 
+                // 转义用户代码中的特殊字符
+                const escapedCode = code
+                    .replace(/\\/g, '\\\\')
+                    .replace(/'/g, "\\'")
+                    .replace(/"/g, '\\"')
+                    .replace(/`/g, '\\`')
+                    .replace(/\n/g, '\\n')
+                    .replace(/\r/g, '\\r')
+                    .replace(/\t/g, '\\t');
+                
                 // 唯一标识符
                 const uniqueId = 'brython-output-' + Date.now();
                 
@@ -950,9 +960,7 @@ sys.stdout = _out_buf
 sys.stderr = _err_buf
 
 # 要执行的代码
-_code = """
-${code}
-"""
+_code = '${escapedCode}'
 
 try:
     exec(_code)
