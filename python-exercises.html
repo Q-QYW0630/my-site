@@ -12,8 +12,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/mode/python/python.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/addon/edit/matchbrackets.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/addon/edit/closebrackets.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.10.5/brython.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/brython/3.10.5/brython_stdlib.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.26.1/full/pyodide.js"></script>
     <style>
         .exercises-page {
             max-width: 1200px;
@@ -1219,14 +1218,66 @@ scores = [85, 92, 78, 90, 88, 76, 95, 82, 70, 68]
     </div>
 
     <script>
-        // 全局变量
-        window.brythonInitialized = false;
+        // Pyodide 全局变量
+        let pyodide = null;
+        let pyodideReady = false;
         
-        // 初始化 Brython
-        
+        // 加载 Pyodide
+        async function loadPyodideRuntime() {
+            try {
+                console.log('正在加载 Pyodide...');
+                pyodide = await loadPyodide({
+                    indexURL: "https://cdn.jsdelivr.net/pyodide/v0.26.1/full/"
+                });
+                pyodideReady = true;
+                console.log('Pyodide 加载完成');
+            } catch (error) {
+                console.error('Pyodide 加载失败:', error);
+            }
         }
         
-        // 页面加载时初始化 Brython
+        // 运行 Python 代码
+        async function runPythonCode(code, outputElement) {
+            outputElement.textContent = '';
+            outputElement.classList.remove('error');
+            
+            if (!pyodideReady) {
+                outputElement.textContent = '正在加载 Python 运行时...\n';
+                await loadPyodideRuntime();
+            }
+            
+            try {
+                outputElement.textContent = '';
+                
+                let output = '';
+                const originalStdout = pyodide.stdout;
+                const originalStderr = pyodide.stderr;
+                
+                pyodide.stdout = (text) => {
+                    output += text;
+                    outputElement.textContent = output;
+                };
+                
+                pyodide.stderr = (text) => {
+                    output += text;
+                    outputElement.textContent = output;
+                };
+                
+                await pyodide.runPythonAsync(code);
+                
+                pyodide.stdout = originalStdout;
+                pyodide.stderr = originalStderr;
+                
+                if (output === '') {
+                    outputElement.textContent = '(无输出)';
+                }
+            } catch (error) {
+                outputElement.classList.add('error');
+                outputElement.textContent = '错误: ' + error.message;
+            }
+        }
+        
+        // 页面加载时初始化
         window.addEventListener('DOMContentLoaded', function() {
             // 检查URL参数，只显示指定章节
             const urlParams = new URLSearchParams(window.location.search);
@@ -1251,7 +1302,6 @@ scores = [85, 92, 78, 90, 88, 76, 95, 82, 70, 68]
                 addBackButton(chapter);
             }
             
-            setTimeout(initBrython, 500);
             initTocActiveState();
         });
         
@@ -1328,101 +1378,8 @@ scores = [85, 92, 78, 90, 88, 76, 95, 82, 70, 68]
             const code = exerciseBlock.querySelector('textarea').value;
             const outputDiv = exerciseBlock.querySelector('.exercise-output');
             
-            try {
-                outputDiv.textContent = '运行中...';
-                outputDiv.classList.remove('error');
-                
-                // 确保 Brython 已初始化
-                initBrython();
-                
-                // 将代码编码为 Base64，避免转义问题
-                const encodedCode = btoa(unescape(encodeURIComponent(code)));
-                
-                // 唯一标识符
-                const uniqueId = 'brython-output-' + Date.now();
-                
-                // 创建隐藏的输出元素
-                const outputElement = document.createElement('div');
-                outputElement.id = uniqueId;
-                outputElement.style.display = 'none';
-                document.body.appendChild(outputElement);
-                
-                // 构建执行代码
-                const executionCode = `
-import sys
-from io import StringIO
-import traceback
-import base64
-from browser import document
-
-# 保存原始输出
-_old_stdout = sys.stdout
-_old_stderr = sys.stderr
-
-# 创建字符串缓冲区
-_out_buf = StringIO()
-_err_buf = StringIO()
-sys.stdout = _out_buf
-sys.stderr = _err_buf
-
-# 解码并执行代码
-try:
-    _code = base64.b64decode('${encodedCode}').decode('utf-8')
-    exec(_code)
-except:
-    print(traceback.format_exc(), file=sys.stderr)
-finally:
-    sys.stdout = _old_stdout
-    sys.stderr = _old_stderr
-
-# 获取输出
-_output = _out_buf.getvalue()
-_error_output = _err_buf.getvalue()
-
-# 合并输出
-_result = _output
-if _error_output:
-    if _result:
-        _result += '\\n'
-    _result += _error_output
-
-# 将结果写入DOM
-document['${uniqueId}'].textContent = _result
-`;
-                
-                // 创建脚本元素
-                const script = document.createElement('script');
-                script.type = 'text/python';
-                script.textContent = executionCode;
-                document.body.appendChild(script);
-                
-                // 执行 Brython
-                brython();
-                
-                // 等待执行完成并获取输出
-                setTimeout(() => {
-                    const output = outputElement.textContent;
-                    
-                    if (output && output.trim()) {
-                        // 检查是否有错误
-                        const hasError = output.includes('Traceback') || output.includes('Error');
-                        if (hasError) {
-                            outputDiv.classList.add('error');
-                        }
-                        outputDiv.textContent = output;
-                    } else {
-                        outputDiv.textContent = '(无输出)';
-                    }
-                    
-                    // 清理
-                    script.remove();
-                    outputElement.remove();
-                }, 1000);
-                
-            } catch (error) {
-                outputDiv.classList.add('error');
-                outputDiv.textContent = '[前端错误] ' + (error.message || String(error));
-            }
+            outputDiv.textContent = '运行中...';
+            runPythonCode(code, outputDiv);
         }
     </script>
 </body>

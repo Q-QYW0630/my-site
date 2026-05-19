@@ -885,28 +885,19 @@ y = x * 2
         </div>
     </footer>
 
-    <!-- 必要的 JavaScript 库 -->
-        <script type="text/javascript">
-        // Pyodide 初始化状态
+    <!-- 加载 Pyodide -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.26.1/full/pyodide.js"></script>
+    
+    <script type="text/javascript">
         let pyodide = null;
         let pyodideReady = false;
+        let currentOutputElement = null;
         
-        // 加载 Pyodide
-        async function loadPyodide() {
+        async function loadPyodideRuntime() {
             try {
                 console.log('正在加载 Pyodide...');
                 pyodide = await loadPyodide({
-                    indexURL: "https://cdn.jsdelivr.net/pyodide/v0.26.1/full/",
-                    stdout: ({text}) => {
-                        if (window.currentOutputElement) {
-                            window.currentOutputElement.textContent += text;
-                        }
-                    },
-                    stderr: ({text}) => {
-                        if (window.currentOutputElement) {
-                            window.currentOutputElement.textContent += text;
-                        }
-                    }
+                    indexURL: "https://cdn.jsdelivr.net/pyodide/v0.26.1/full/"
                 });
                 pyodideReady = true;
                 console.log('Pyodide 加载完成');
@@ -915,62 +906,54 @@ y = x * 2
             }
         }
         
-        // runCodeBlock 保持不变，使用新的 runPythonCode(button) {
+        async function runPythonCode(code, outputElement) {
+            outputElement.textContent = '';
+            outputElement.style.display = 'block';
+            currentOutputElement = outputElement;
+            
+            if (!pyodideReady) {
+                outputElement.textContent = '正在加载 Python 运行时...\n';
+                await loadPyodideRuntime();
+            }
+            
+            try {
+                outputElement.textContent = '';
+                
+                let output = '';
+                const originalStdout = pyodide.stdout;
+                const originalStderr = pyodide.stderr;
+                
+                pyodide.stdout = (text) => {
+                    output += text;
+                    outputElement.textContent = output;
+                };
+                
+                pyodide.stderr = (text) => {
+                    output += text;
+                    outputElement.textContent = output;
+                };
+                
+                await pyodide.runPythonAsync(code);
+                
+                pyodide.stdout = originalStdout;
+                pyodide.stderr = originalStderr;
+                
+                if (output === '') {
+                    outputElement.textContent = '(无输出)';
+                }
+            } catch (error) {
+                outputElement.textContent = '错误: ' + error.message;
+            }
+            
+            currentOutputElement = null;
+        }
+        
+        function runCodeBlock(button) {
             const codeBlock = button.closest('.code-block');
             const codeElement = codeBlock.querySelector('pre code');
             const outputElement = codeBlock.querySelector('.code-output-block');
-            
-            // 获取代码内容
             const code = codeElement.textContent;
             runPythonCode(code, outputElement);
-        }
-        
-        // 代码运行器使用 Pyodide.querySelector('.floating-code-runner'));
-            } catch (error) {
-                console.error('代码运行器初始化失败:', error);
-            }
-        }
-        
-        // 拖拽功能
-        function makeDraggable(element) {
-            try {
-                const dragHandle = document.getElementById('code-runner-drag-handle');
-                if (!dragHandle) return;
-                
-                let isDragging = false;
-                let offsetX, offsetY;
-                
-                dragHandle.addEventListener('mousedown', function(e) {
-                    isDragging = true;
-                    offsetX = e.clientX - element.getBoundingClientRect().left;
-                    offsetY = e.clientY - element.getBoundingClientRect().top;
-                    element.style.cursor = 'grabbing';
-                });
-                
-                document.addEventListener('mousemove', function(e) {
-                    if (!isDragging) return;
-                    
-                    const x = e.clientX - offsetX;
-                    const y = e.clientY - offsetY;
-                    
-                    // 限制在视窗内
-                    const maxX = window.innerWidth - element.offsetWidth;
-                    const maxY = window.innerHeight - element.offsetHeight;
-                    
-                    const boundedX = Math.max(0, Math.min(x, maxX));
-                    const boundedY = Math.max(0, Math.min(y, maxY));
-                    
-                    element.style.left = boundedX + 'px';
-                    element.style.top = boundedY + 'px';
-                });
-                
-                document.addEventListener('mouseup', function() {
-                    isDragging = false;
-                    element.style.cursor = 'grab';
-                });
-            } catch (error) {
-                console.error('拖拽功能初始化失败:', error);
-            }
         }
     </script>
     
@@ -1007,18 +990,9 @@ y = x * 2
             });
         });
 
-        // 页面加载完成后初始化代码运行功能
         window.addEventListener('DOMContentLoaded', function() {
-            initCodeRunner();
-            // 延迟初始化 Brython
-            setTimeout(initBrython, 500);
+            console.log('页面加载完成，准备加载 Pyodide...');
         });
-        
-        // Brython 加载完成回调
-        window.brythonLoadComplete = function() {
-            console.log('Brython 加载完成');
-            window.brythonInitialized = true;
-        };
     </script>
 </body>
 </html>

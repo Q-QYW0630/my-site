@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python 练习题 | 巩固所学知识</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/theme/monokai.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <span class="brand-icon">🐍</span>
+                <span class="brand-text">Python 课程</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">返回首页</a></li>
+                <li><a href="course.html" class="btn-primary">继续学习</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="exercises-page">
+        <div class="exercises-container">
+            <div class="page-header">
+                <h1 class="section-title">Python 练习题</h1>
+                <p style="text-align: center; color: var(--text-secondary); margin-bottom: 30px;">通过练习巩固所学知识，提升编程能力</p>
+                
+                <div class="difficulty-legend" style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+                    <div class="difficulty-item" style="display: flex; align-items: center; gap: 8px;">
+                        <span class="difficulty-badge difficulty-easy">★ 入门</span>
+                        <span style="font-size: 0.9rem;">基础语法</span>
+                    </div>
+                    <div class="difficulty-item" style="display: flex; align-items: center; gap: 8px;">
+                        <span class="difficulty-badge difficulty-medium">★★ 进阶</span>
+                        <span style="font-size: 0.9rem;">控制流程</span>
+                    </div>
+                    <div class="difficulty-item" style="display: flex; align-items: center; gap: 8px;">
+                        <span class="difficulty-badge difficulty-hard">★★★ 挑战</span>
+                        <span style="font-size: 0.9rem;">综合应用</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第一章练习 -->
+            <div class="chapter-section" style="background: white; border-radius: 16px; padding: 24px; margin-bottom: 24px;">
+                <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--primary-color); margin-bottom: 20px;">第一章：基础语法</h2>
+
+                <div class="exercise-item">
+                    <div class="exercise-header">
+                        <span class="exercise-title">练习 1.1 - 打印问候语</span>
+                        <span class="difficulty-badge difficulty-easy">★ 入门</span>
+                    </div>
+                    <div class="exercise-description">创建变量存储姓名，然后打印"你好，[姓名]！欢迎学习 Python！"</div>
+                    <div class="exercise-code-block">
+                        <div class="exercise-code-header">
+                            <span>编写代码</span>
+                            <button class="run-code-btn" onclick="runExercise('ex1-1')">运行代码</button>
+                        </div>
+                        <textarea class="code-input" id="ex1-1-input"># 请在这里编写代码
+name = "你的名字"
+# 打印问候语</textarea>
+                        <div class="exercise-output" id="ex1-1-output"></div>
+                    </div>
+                </div>
+
+                <div class="exercise-item">
+                    <div class="exercise-header">
+                        <span class="exercise-title">练习 1.2 - 计算圆面积</span>
+                        <span class="difficulty-badge difficulty-easy">★ 入门</span>
+                    </div>
+                    <div class="exercise-description">计算半径为 5 的圆的面积，圆周率取 3.14159</div>
+                    <div class="exercise-hint">💡 提示：圆面积 = π × r²</div>
+                    <div class="exercise-code-block">
+                        <div class="exercise-code-header">
+                            <span>编写代码</span>
+                            <button class="run-code-btn" onclick="runExercise('ex1-2')">运行代码</button>
+                        </div>
+                        <textarea class="code-input" id="ex1-2-input"># 请在这里编写代码
+radius = 5
+pi = 3.14159
+# 计算圆面积
+area = 
+print("圆面积:", area)</textarea>
+                        <div class="exercise-output" id="ex1-2-output"></div>
+                    </div>
+                </div>
+
+                <div class="exercise-item">
+                    <div class="exercise-header">
+                        <span class="exercise-title">练习 1.3 - 变量交换</span>
+                        <span class="difficulty-badge difficulty-easy">★ 入门</span>
+                    </div>
+                    <div class="exercise-description">交换两个变量的值：x = 10, y = 20，交换后 x 应该是 20，y 应该是 10</div>
+                    <div class="exercise-code-block">
+                        <div class="exercise-code-header">
+                            <span>编写代码</span>
+                            <button class="run-code-btn" onclick="runExercise('ex1-3')">运行代码</button>
+                        </div>
+                        <textarea class="code-input" id="ex1-3-input"># 请在这里编写代码
+x = 10
+y = 20
+print(f"交换前: x={x}, y={y}")
+# 交换 x 和 y 的值
+
+print(f"交换后: x={x}, y={y}")</textarea>
+                        <div class="exercise-output" id="ex1-3-output"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第二章练习 -->
+            <div class="chapter-section" style="background: white; border-radius: 16px; padding: 24px; margin-bottom: 24px;">
+                <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--primary-color); margin-bottom: 20px;">第二章：控制流程</h2>
+
+                <div class="exercise-item">
+                    <div class="exercise-header">
+                        <span class="exercise-title">练习 2.1 - 成绩评级</span>
+                        <span class="difficulty-badge difficulty-medium">★★ 进阶</span>
+                    </div>
+                    <div class="exercise-description">根据分数判断等级：90-100 优秀，80-89 良好，70-79 中等，60-69 及格，60以下不及格</div>
+                    <div class="exercise-code-block">
+                        <div class="exercise-code-header">
+                            <span>编写代码</span>
+                            <button class="run-code-btn" onclick="runExercise('ex2-1')">运行代码</button>
+                        </div>
+                        <textarea class="code-input" id="ex2-1-input"># 请在这里编写代码
+score = 85
+# 根据分数判断等级
+if score >= 90:
+    grade = "优秀"
+# 补充完整条件判断
+
+print(f"成绩等级: {grade}")</textarea>
+                        <div class="exercise-output" id="ex2-1-output"></div>
+                    </div>
+                </div>
+
+                <div class="exercise-item">
+                    <div class="exercise-header">
+                        <span class="exercise-title">练习 2.2 - 累加求和</span>
+                        <span class="difficulty-badge difficulty-medium">★★ 进阶</span>
+                    </div>
+                    <div class="exercise-description">使用 for 循环计算 1+2+3+...+100 的总和</div>
+                    <div class="exercise-code-block">
+                        <div class="exercise-code-header">
+                            <span>编写代码</span>
+                            <button class="run-code-btn" onclick="runExercise('ex2-2')">运行代码</button>
+                        </div>
+                        <textarea class="code-input" id="ex2-2-input"># 请在这里编写代码
+total = 0
+# 使用 for 循环累加
+for i in range(1, 101):
+    
+print("总和:", total)</textarea>
+                        <div class="exercise-output" id="ex2-2-output"></div>
+                    </div>
+                </div>
+
+                <div class="exercise-item">
+                    <div class="exercise-header">
+                        <span class="exercise-title">练习 2.3 - 九九乘法表</span>
+                        <span class="difficulty-badge difficulty-hard">★★★ 挑战</span>
+                    </div>
+                    <div class="exercise-description">使用双层循环打印九九乘法表</div>
+                    <div class="exercise-hint">💡 提示：使用 end='' 让 print 不换行</div>
+                    <div class="exercise-code-block">
+                        <div class="exercise-code-header">
+                            <span>编写代码</span>
+                            <button class="run-code-btn" onclick="runExercise('ex2-3')">运行代码</button>
+                        </div>
+                        <textarea class="code-input" id="ex2-3-input"># 请在这里编写代码
+# 打印九九乘法表
+for i in range(1, 10):
+    for j in range(1, i+1):
+        # 打印乘法表达式
+        
+    # 换行</textarea>
+                        <div class="exercise-output" id="ex2-3-output"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第三章练习 -->
+            <div class="chapter-section" style="background: white; border-radius: 16px; padding: 24px; margin-bottom: 24px;">
+                <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--primary-color); margin-bottom: 20px;">第三章：数据结构</h2>
+
+                <div class="exercise-item">
+                    <div class="exercise-header">
+                        <span class="exercise-title">练习 3.1 - 列表操作</span>
+                        <span class="difficulty-badge difficulty-medium">★★ 进阶</span>
+                    </div>
+                    <div class="exercise-description">计算列表 [85, 92, 78, 90, 88] 的平均分、最高分和最低分</div>
+                    <div class="exercise-code-block">
+                        <div class="exercise-code-header">
+                            <span>编写代码</span>
+                            <button class="run-code-btn" onclick="runExercise('ex3-1')">运行代码</button>
+                        </div>
+                        <textarea class="code-input" id="ex3-1-input"># 请在这里编写代码
+scores = [85, 92, 78, 90, 88]
+# 计算平均分
+average = 
+# 计算最高分
+max_score = 
+# 计算最低分
+min_score = 
+print(f"平均分: {average}, 最高分: {max_score}, 最低分: {min_score}")</textarea>
+                        <div class="exercise-output" id="ex3-1-output"></div>
+                    </div>
+                </div>
+
+                <div class="exercise-item">
+                    <div class="exercise-header">
+                        <span class="exercise-title">练习 3.2 - 列表推导式</span>
+                        <span class="difficulty-badge difficulty-medium">★★ 进阶</span>
+                    </div>
+                    <div class="exercise-description">使用列表推导式生成 1-10 的平方列表 [1, 4, 9, ..., 100]</div>
+                    <div class="exercise-code-block">
+                        <div class="exercise-code-header">
+                            <span>编写代码</span>
+                            <button class="run-code-btn" onclick="runExercise('ex3-2')">运行代码</button>
+                        </div>
+                        <textarea class="code-input" id="ex3-2-input"># 请在这里编写代码
+# 使用列表推导式生成平方列表
+squares = 
+print(squares)</textarea>
+                        <div class="exercise-output" id="ex3-2-output"></div>
+                    </div>
+                </div>
+
+                <div class="exercise-item">
+                    <div class="exercise-header">
+                        <span class="exercise-title">练习 3.3 - 字典操作</span>
+                        <span class="difficulty-badge difficulty-hard">★★★ 挑战</span>
+                    </div>
+                    <div class="exercise-description">创建字典存储学生信息，然后遍历打印所有键值对</div>
+                    <div class="exercise-code-block">
+                        <div class="exercise-code-header">
+                            <span>编写代码</span>
+                            <button class="run-code-btn" onclick="runExercise('ex3-3')">运行代码</button>
+                        </div>
+                        <textarea class="code-input" id="ex3-3-input"># 请在这里编写代码
+# 创建学生字典
+student = {
+    "name": "小明",
+    "age": 20,
+    "major": "计算机科学",
+    "grades": [85, 90, 88]
+}
+
+# 遍历字典并打印
+for key, value in student.items():
+    print(f"{key}: {value}")</textarea>
+                        <div class="exercise-output" id="ex3-3-output"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第四章练习 -->
+            <div class="chapter-section" style="background: white; border-radius: 16px; padding: 24px; margin-bottom: 24px;">
+                <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--primary-color); margin-bottom: 20px;">第四章：函数</h2>
+
+                <div class="exercise-item">
+                    <div class="exercise-header">
+                        <span class="exercise-title">练习 4.1 - 计算圆面积函数</span>
+                        <span class="difficulty-badge difficulty-medium">★★ 进阶</span>
+                    </div>
+                    <div class="exercise-description">定义一个函数 calculate_area，接收半径参数，返回圆的面积</div>
+                    <div class="exercise-code-block">
+                        <div class="exercise-code-header">
+                            <span>编写代码</span>
+                            <button class="run-code-btn" onclick="runExercise('ex4-1')">运行代码</button>
+                        </div>
+                        <textarea class="code-input" id="ex4-1-input"># 请在这里编写代码
+def calculate_area(radius):
+    """计算圆的面积"""
+    pi = 3.14159
+    # 计算并返回面积
+    return 
+
+# 测试函数
+result = calculate_area(5)
+print(f"半径为5的圆面积: {result}")</textarea>
+                        <div class="exercise-output" id="ex4-1-output"></div>
+                    </div>
+                </div>
+
+                <div class="exercise-item">
+                    <div class="exercise-header">
+                        <span class="exercise-title">练习 4.2 - 可变参数函数</span>
+                        <span class="difficulty-badge difficulty-hard">★★★ 挑战</span>
+                    </div>
+                    <div class="exercise-description">定义一个函数 find_max，接受任意数量的数字参数，返回最大值</div>
+                    <div class="exercise-code-block">
+                        <div class="exercise-code-header">
+                            <span>编写代码</span>
+                            <button class="run-code-btn" onclick="runExercise('ex4-2')">运行代码</button>
+                        </div>
+                        <textarea class="code-input" id="ex4-2-input"># 请在这里编写代码
+def find_max(*args):
+    """找出最大值"""
+    if not args:
+        return None
+    max_val = args[0]
+    # 遍历所有参数找最大值
+    
+    return max_val
+
+# 测试函数
+print(find_max(1, 5, 3, 9, 2))
+print(find_max(10, 20, 5))</textarea>
+                        <div class="exercise-output" id="ex4-2-output"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第五章练习 -->
+            <div class="chapter-section" style="background: white; border-radius: 16px; padding: 24px; margin-bottom: 24px;">
+                <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--primary-color); margin-bottom: 20px;">第五章：面向对象</h2>
+
+                <div class="exercise-item">
+                    <div class="exercise-header">
+                        <span class="exercise-title">练习 5.1 - 定义类</span>
+                        <span class="difficulty-badge difficulty-medium">★★ 进阶</span>
+                    </div>
+                    <div class="exercise-description">定义一个 Person 类，包含 name 和 age 属性，以及 introduce 方法</div>
+                    <div class="exercise-code-block">
+                        <div class="exercise-code-header">
+                            <span>编写代码</span>
+                            <button class="run-code-btn" onclick="runExercise('ex5-1')">运行代码</button>
+                        </div>
+                        <textarea class="code-input" id="ex5-1-input"># 请在这里编写代码
+class Person:
+    def __init__(self, name, age):
+        # 初始化属性
+        
+    
+    def introduce(self):
+        # 返回自我介绍字符串
+        return 
+
+# 创建对象并测试
+p = Person("小明", 20)
+print(p.introduce())</textarea>
+                        <div class="exercise-output" id="ex5-1-output"></div>
+                    </div>
+                </div>
+
+                <div class="exercise-item">
+                    <div class="exercise-header">
+                        <span class="exercise-title">练习 5.2 - 继承</span>
+                        <span class="difficulty-badge difficulty-hard">★★★ 挑战</span>
+                    </div>
+                    <div class="exercise-description">定义 Student 类继承 Person，添加 grade 属性和 study 方法</div>
+                    <div class="exercise-code-block">
+                        <div class="exercise-code-header">
+                            <span>编写代码</span>
+                            <button class="run-code-btn" onclick="runExercise('ex5-2')">运行代码</button>
+                        </div>
+                        <textarea class="code-input" id="ex5-2-input"># 请在这里编写代码
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+    
+    def introduce(self):
+        return f"我叫{self.name}，今年{self.age}岁"
+
+# 定义 Student 类继承 Person
+class Student(Person):
+    def __init__(self, name, age, grade):
+        # 调用父类构造方法
+        
+        self.grade = grade
+    
+    def study(self, subject):
+        # 返回学习信息
+        return 
+
+# 创建对象并测试
+stu = Student("小红", 18, "高三")
+print(stu.introduce())
+print(stu.study("数学"))</textarea>
+                        <div class="exercise-output" id="ex5-2-output"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 第六章练习 -->
+            <div class="chapter-section" style="background: white; border-radius: 16px; padding: 24px; margin-bottom: 24px;">
+                <h2 style="font-size: 1.5rem; font-weight: 700; color: var(--primary-color); margin-bottom: 20px;">第六章：综合练习</h2>
+
+                <div class="exercise-item">
+                    <div class="exercise-header">
+                        <span class="exercise-title">练习 6.1 - 猜数字游戏</span>
+                        <span class="difficulty-badge difficulty-hard">★★★ 挑战</span>
+                    </div>
+                    <div class="exercise-description">实现猜数字游戏：预设数字为 42，玩家有 5 次机会猜测</div>
+                    <div class="exercise-code-block">
+                        <div class="exercise-code-header">
+                            <span>编写代码</span>
+                            <button class="run-code-btn" onclick="runExercise('ex6-1')">运行代码</button>
+                        </div>
+                        <textarea class="code-input" id="ex6-1-input"># 猜数字游戏
+target = 42
+max_attempts = 5
+
+print("欢迎来到猜数字游戏！")
+print(f"我想了一个1-100之间的数字，你有{max_attempts}次机会。")
+
+for attempt in range(max_attempts):
+    # 获取用户输入（模拟）
+    guess = int(input("请输入你的猜测: "))
+    
+    if guess == target:
+        print(f"恭喜！你在第{attempt+1}次猜对了！")
+        break
+    elif guess < target:
+        print("太小了！")
+    else:
+        print("太大了！")
+else:
+    print(f"游戏结束！正确答案是{target}")</textarea>
+                        <div class="exercise-output" id="ex6-1-output"></div>
+                    </div>
+                </div>
+
+                <div class="exercise-item">
+                    <div class="exercise-header">
+                        <span class="exercise-title">练习 6.2 - 斐波那契数列</span>
+                        <span class="difficulty-badge difficulty-hard">★★★ 挑战</span>
+                    </div>
+                    <div class="exercise-description">生成斐波那契数列的前 15 项：1, 1, 2, 3, 5, 8, 13, ...</div>
+                    <div class="exercise-code-block">
+                        <div class="exercise-code-header">
+                            <span>编写代码</span>
+                            <button class="run-code-btn" onclick="runExercise('ex6-2')">运行代码</button>
+                        </div>
+                        <textarea class="code-input" id="ex6-2-input"># 请在这里编写代码
+# 生成斐波那契数列前15项
+fibonacci = [1, 1]
+for i in range(2, 15):
+    # 计算下一项
+    
+print("斐波那契数列前15项:", fibonacci)</textarea>
+                        <div class="exercise-output" id="ex6-2-output"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/mode/python/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/addon/edit/matchbrackets.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/addon/edit/closebrackets.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.26.1/full/pyodide.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

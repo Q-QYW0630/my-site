@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python 课程学习 | 基础语法与实战</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/theme/monokai.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <span class="brand-icon">🐍</span>
+                <span class="brand-text">Python 课程</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">返回首页</a></li>
+                <li><a href="exercises.html" class="btn-primary">练习题</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="course-page">
+        <aside class="course-sidebar">
+            <h3>课程目录</h3>
+            <ul class="course-nav" id="courseNav">
+                <li><a href="#chapter1" data-chapter="1">第1章 基础语法与变量</a></li>
+                <li><a href="#chapter2" data-chapter="2">第2章 控制流程</a></li>
+                <li><a href="#chapter3" data-chapter="3">第3章 数据结构</a></li>
+                <li><a href="#chapter4" data-chapter="4">第4章 函数</a></li>
+                <li><a href="#chapter5" data-chapter="5">第5章 面向对象</a></li>
+                <li><a href="#chapter6" data-chapter="6">第6章 模块与文件</a></li>
+            </ul>
+        </aside>
+
+        <main class="course-main">
+            <div id="chapter1" class="chapter-content">
+                <h1 class="chapter-title">第1章 基础语法与变量</h1>
+                
+                <p class="content-text">Python 是一种简洁优雅的编程语言，非常适合初学者。让我们从最基础的概念开始学习。</p>
+
+                <h2 class="section-title-sm">1.1 变量与数据类型</h2>
+                <p class="content-text">变量是存储数据的容器。Python 中有多种数据类型，包括：</p>
+                <ul class="content-text" style="margin-left: 24px; margin-bottom: 16px;">
+                    <li><strong>整数 (int)</strong>: 如 1, 2, 100</li>
+                    <li><strong>浮点数 (float)</strong>: 如 3.14, 2.5</li>
+                    <li><strong>字符串 (str)</strong>: 如 "Hello", 'Python'</li>
+                    <li><strong>布尔值 (bool)</strong>: True 或 False</li>
+                </ul>
+
+                <div class="code-block" id="code1-1">
+                    <div class="code-block-header">
+                        <span>代码示例</span>
+                        <button class="run-code-btn" onclick="runCode('code1-1')">运行代码</button>
+                    </div>
+                    <textarea class="code-input" id="code-input-1-1"># 变量定义
+name = "小明"
+age = 20
+height = 1.75
+is_student = True
+
+# 打印变量
+print("姓名:", name)
+print("年龄:", age)
+print("身高:", height)
+print("是否学生:", is_student)
+
+# 数据类型
+print("name 的类型:", type(name))
+print("age 的类型:", type(age))</textarea>
+                    <div class="code-output" id="output1-1"></div>
+                </div>
+
+                <div class="example-box">
+                    <p><strong>💡 小提示：</strong>在 Python 中，不需要提前声明变量类型，解释器会自动推断。</p>
+                </div>
+
+                <h2 class="section-title-sm">1.2 运算符</h2>
+                <p class="content-text">Python 支持多种运算符：</p>
+                
+                <div class="code-block" id="code1-2">
+                    <div class="code-block-header">
+                        <span>代码示例</span>
+                        <button class="run-code-btn" onclick="runCode('code1-2')">运行代码</button>
+                    </div>
+                    <textarea class="code-input" id="code-input-1-2"># 算术运算符
+a = 10
+b = 3
+print("加法:", a + b)    # 13
+print("减法:", a - b)    # 7
+print("乘法:", a * b)    # 30
+print("除法:", a / b)    # 3.333...
+print("取整:", a // b)   # 3
+print("取余:", a % b)    # 1
+print("幂运算:", a ** b)  # 1000
+
+# 比较运算符
+print("a > b:", a > b)   # True
+print("a == b:", a == b) # False
+
+# 赋值运算符
+x = 5
+x += 3  # 等同于 x = x + 3
+print("x += 3:", x)      # 8</textarea>
+                    <div class="code-output" id="output1-2"></div>
+                </div>
+
+                <h2 class="section-title-sm">1.3 字符串操作</h2>
+                <p class="content-text">字符串是 Python 中常用的数据类型，有很多实用的操作方法：</p>
+
+                <div class="code-block" id="code1-3">
+                    <div class="code-block-header">
+                        <span>代码示例</span>
+                        <button class="run-code-btn" onclick="runCode('code1-3')">运行代码</button>
+                    </div>
+                    <textarea class="code-input" id="code-input-1-3"># 字符串操作
+greeting = "Hello, Python!"
+
+# 字符串长度
+print("长度:", len(greeting))
+
+# 字符串拼接
+name = "小明"
+message = "你好, " + name + "!"
+print(message)
+
+# 字符串格式化 (f-string)
+age = 20
+info = f"{name}今年{age}岁"
+print(info)
+
+# 字符串方法
+print("转大写:", greeting.upper())
+print("转小写:", greeting.lower())
+print("替换:", greeting.replace("Python", "World"))</textarea>
+                    <div class="code-output" id="output1-3"></div>
+                </div>
+            </div>
+
+            <div id="chapter2" class="chapter-content" style="display: none;">
+                <h1 class="chapter-title">第2章 控制流程</h1>
+                
+                <p class="content-text">控制流程允许程序根据条件执行不同的代码块。</p>
+
+                <h2 class="section-title-sm">2.1 条件语句</h2>
+                <p class="content-text">使用 if-elif-else 进行条件判断：</p>
+
+                <div class="code-block" id="code2-1">
+                    <div class="code-block-header">
+                        <span>代码示例</span>
+                        <button class="run-code-btn" onclick="runCode('code2-1')">运行代码</button>
+                    </div>
+                    <textarea class="code-input" id="code-input-2-1"># 条件语句示例
+score = 85
+
+if score >= 90:
+    print("优秀")
+elif score >= 80:
+    print("良好")
+elif score >= 60:
+    print("及格")
+else:
+    print("不及格")
+
+# 嵌套条件
+age = 25
+if age >= 18:
+    print("成年人")
+    if age >= 60:
+        print("老年人")
+    else:
+        print("青年人")
+else:
+    print("未成年人")</textarea>
+                    <div class="code-output" id="output2-1"></div>
+                </div>
+
+                <div class="example-box">
+                    <p><strong>💡 小提示：</strong>Python 使用缩进（通常是4个空格）来表示代码块，而不是大括号。</p>
+                </div>
+
+                <h2 class="section-title-sm">2.2 for 循环</h2>
+                <p class="content-text">for 循环用于遍历序列（如列表、字符串）：</p>
+
+                <div class="code-block" id="code2-2">
+                    <div class="code-block-header">
+                        <span>代码示例</span>
+                        <button class="run-code-btn" onclick="runCode('code2-2')">运行代码</button>
+                    </div>
+                    <textarea class="code-input" id="code-input-2-2"># for 循环示例
+fruits = ["苹果", "香蕉", "橙子"]
+
+# 遍历列表
+print("水果列表:")
+for fruit in fruits:
+    print(fruit)
+
+# 使用 range() 生成数字序列
+print("\n数字 1-5:")
+for i in range(1, 6):
+    print(i)
+
+# 带索引遍历
+print("\n带索引:")
+for index, fruit in enumerate(fruits):
+    print(f"{index+1}. {fruit}")</textarea>
+                    <div class="code-output" id="output2-2"></div>
+                </div>
+
+                <h2 class="section-title-sm">2.3 while 循环</h2>
+                <p class="content-text">while 循环在条件为真时重复执行：</p>
+
+                <div class="code-block" id="code2-3">
+                    <div class="code-block-header">
+                        <span>代码示例</span>
+                        <button class="run-code-btn" onclick="runCode('code2-3')">运行代码</button>
+                    </div>
+                    <textarea class="code-input" id="code-input-2-3"># while 循环示例
+# 倒计时
+count = 5
+while count > 0:
+    print(count)
+    count -= 1
+print("开始!")
+
+# 循环控制
+print("\n打印偶数:")
+for i in range(1, 11):
+    if i % 2 != 0:
+        continue  # 跳过奇数
+    print(i)
+
+# 提前退出循环
+print("\n查找数字 5:")
+for i in range(1, 11):
+    if i == 5:
+        print(f"找到了 {i}")
+        break</textarea>
+                    <div class="code-output" id="output2-3"></div>
+                </div>
+            </div>
+
+            <div id="chapter3" class="chapter-content" style="display: none;">
+                <h1 class="chapter-title">第3章 数据结构</h1>
+                
+                <p class="content-text">Python 提供了多种内置数据结构来组织和管理数据。</p>
+
+                <h2 class="section-title-sm">3.1 列表 (List)</h2>
+                <p class="content-text">列表是有序、可变的集合：</p>
+
+                <div class="code-block" id="code3-1">
+                    <div class="code-block-header">
+                        <span>代码示例</span>
+                        <button class="run-code-btn" onclick="runCode('code3-1')">运行代码</button>
+                    </div>
+                    <textarea class="code-input" id="code-input-3-1"># 列表操作
+numbers = [1, 2, 3, 4, 5]
+
+# 访问元素
+print("第一个元素:", numbers[0])
+print("最后一个元素:", numbers[-1])
+
+# 添加元素
+numbers.append(6)
+print("添加后:", numbers)
+
+# 插入元素
+numbers.insert(2, 10)
+print("插入后:", numbers)
+
+# 删除元素
+numbers.remove(3)
+print("删除后:", numbers)
+
+# 列表切片
+print("前三个:", numbers[:3])
+print("后两个:", numbers[-2:])
+
+# 列表方法
+print("最大值:", max(numbers))
+print("最小值:", min(numbers))
+print("总和:", sum(numbers))</textarea>
+                    <div class="code-output" id="output3-1"></div>
+                </div>
+
+                <h2 class="section-title-sm">3.2 字典 (Dictionary)</h2>
+                <p class="content-text">字典是键值对的无序集合：</p>
+
+                <div class="code-block" id="code3-2">
+                    <div class="code-block-header">
+                        <span>代码示例</span>
+                        <button class="run-code-btn" onclick="runCode('code3-2')">运行代码</button>
+                    </div>
+                    <textarea class="code-input" id="code-input-3-2"># 字典操作
+student = {
+    "name": "小明",
+    "age": 20,
+    "major": "计算机科学",
+    "grades": [85, 90, 88]
+}
+
+# 访问值
+print("姓名:", student["name"])
+print("年龄:", student.get("age"))
+
+# 添加/修改
+student["gender"] = "男"
+student["age"] = 21
+print("更新后:", student)
+
+# 删除
+del student["gender"]
+print("删除后:", student)
+
+# 遍历字典
+print("\n遍历键:")
+for key in student.keys():
+    print(key)
+
+print("\n遍历值:")
+for value in student.values():
+    print(value)
+
+print("\n遍历键值对:")
+for key, value in student.items():
+    print(f"{key}: {value}")</textarea>
+                    <div class="code-output" id="output3-2"></div>
+                </div>
+
+                <h2 class="section-title-sm">3.3 元组与集合</h2>
+                <p class="content-text">元组是不可变的有序集合，集合是无序且不重复的：</p>
+
+                <div class="code-block" id="code3-3">
+                    <div class="code-block-header">
+                        <span>代码示例</span>
+                        <button class="run-code-btn" onclick="runCode('code3-3')">运行代码</button>
+                    </div>
+                    <textarea class="code-input" id="code-input-3-3"># 元组 (不可修改)
+point = (3, 4)
+print("元组:", point)
+print("x坐标:", point[0])
+
+# 集合 (无序，无重复)
+fruits = {"苹果", "香蕉", "橙子", "苹果"}
+print("\n集合:", fruits)  # 自动去重
+
+# 集合操作
+a = {1, 2, 3, 4}
+b = {3, 4, 5, 6}
+
+print("交集:", a & b)
+print("并集:", a | b)
+print("差集:", a - b)
+
+# 列表推导式
+numbers = [1, 2, 3, 4, 5]
+squares = [x ** 2 for x in numbers]
+print("\n平方列表:", squares)
+
+# 带条件的列表推导式
+evens = [x for x in numbers if x % 2 == 0]
+print("偶数列表:", evens)</textarea>
+                    <div class="code-output" id="output3-3"></div>
+                </div>
+            </div>
+
+            <div id="chapter4" class="chapter-content" style="display: none;">
+                <h1 class="chapter-title">第4章 函数</h1>
+                
+                <p class="content-text">函数是可重用的代码块，可以接收参数并返回结果。</p>
+
+                <h2 class="section-title-sm">4.1 函数定义与调用</h2>
+                <p class="content-text">使用 def 关键字定义函数：</p>
+
+                <div class="code-block" id="code4-1">
+                    <div class="code-block-header">
+                        <span>代码示例</span>
+                        <button class="run-code-btn" onclick="runCode('code4-1')">运行代码</button>
+                    </div>
+                    <textarea class="code-input" id="code-input-4-1"># 函数定义
+def greet(name):
+    """向某人问好"""
+    return f"你好, {name}!"
+
+# 调用函数
+message = greet("小明")
+print(message)
+
+# 带默认参数的函数
+def calculate_area(radius, pi=3.14):
+    """计算圆的面积"""
+    return pi * radius ** 2
+
+print("面积:", calculate_area(5))
+print("面积(精确):", calculate_area(5, 3.14159))
+
+# 多个返回值
+def get_stats(numbers):
+    return min(numbers), max(numbers), sum(numbers)/len(numbers)
+
+nums = [85, 90, 78, 92, 88]
+min_val, max_val, avg_val = get_stats(nums)
+print(f"最小值: {min_val}, 最大值: {max_val}, 平均值: {avg_val}")</textarea>
+                    <div class="code-output" id="output4-1"></div>
+                </div>
+
+                <h2 class="section-title-sm">4.2 可变参数</h2>
+                <p class="content-text">函数可以接受任意数量的参数：</p>
+
+                <div class="code-block" id="code4-2">
+                    <div class="code-block-header">
+                        <span>代码示例</span>
+                        <button class="run-code-btn" onclick="runCode('code4-2')">运行代码</button>
+                    </div>
+                    <textarea class="code-input" id="code-input-4-2"># 可变参数
+def add(*args):
+    """计算任意数量数字的和"""
+    total = 0
+    for num in args:
+        total += num
+    return total
+
+print("add(1, 2, 3):", add(1, 2, 3))
+print("add(10, 20, 30, 40):", add(10, 20, 30, 40))
+
+# 关键字参数
+def print_info(**kwargs):
+    """打印关键字参数"""
+    for key, value in kwargs.items():
+        print(f"{key}: {value}")
+
+print_info(name="小明", age=20, major="计算机")
+
+# 综合示例
+def calculate(*numbers, operation="sum"):
+    if operation == "sum":
+        return sum(numbers)
+    elif operation == "product":
+        result = 1
+        for num in numbers:
+            result *= num
+        return result
+    elif operation == "average":
+        return sum(numbers) / len(numbers)
+
+print("总和:", calculate(1, 2, 3, 4, 5))
+print("乘积:", calculate(1, 2, 3, operation="product"))
+print("平均:", calculate(10, 20, 30, operation="average"))</textarea>
+                    <div class="code-output" id="output4-2"></div>
+                </div>
+
+                <h2 class="section-title-sm">4.3 匿名函数</h2>
+                <p class="content-text">使用 lambda 创建简单的匿名函数：</p>
+
+                <div class="code-block" id="code4-3">
+                    <div class="code-block-header">
+                        <span>代码示例</span>
+                        <button class="run-code-btn" onclick="runCode('code4-3')">运行代码</button>
+                    </div>
+                    <textarea class="code-input" id="code-input-4-3"># 匿名函数
+add = lambda x, y: x + y
+print("3 + 5 =", add(3, 5))
+
+# 配合内置函数使用
+numbers = [1, 2, 3, 4, 5]
+
+# map: 对每个元素应用函数
+squares = list(map(lambda x: x ** 2, numbers))
+print("平方:", squares)
+
+# filter: 过滤元素
+evens = list(filter(lambda x: x % 2 == 0, numbers))
+print("偶数:", evens)
+
+# sorted: 排序
+students = [
+    {"name": "小明", "score": 85},
+    {"name": "小红", "score": 92},
+    {"name": "小刚", "score": 78}
+]
+
+# 按分数排序
+sorted_students = sorted(students, key=lambda s: s["score"], reverse=True)
+print("按分数排序:")
+for s in sorted_students:
+    print(f"{s['name']}: {s['score']}")</textarea>
+                    <div class="code-output" id="output4-3"></div>
+                </div>
+            </div>
+
+            <div id="chapter5" class="chapter-content" style="display: none;">
+                <h1 class="chapter-title">第5章 面向对象</h1>
+                
+                <p class="content-text">面向对象编程是一种编程范式，使用类和对象来组织代码。</p>
+
+                <h2 class="section-title-sm">5.1 类与对象</h2>
+                <p class="content-text">类是对象的模板，对象是类的实例：</p>
+
+                <div class="code-block" id="code5-1">
+                    <div class="code-block-header">
+                        <span>代码示例</span>
+                        <button class="run-code-btn" onclick="runCode('code5-1')">运行代码</button>
+                    </div>
+                    <textarea class="code-input" id="code-input-5-1"># 定义类
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+    
+    def introduce(self):
+        return f"我叫{self.name}，今年{self.age}岁"
+
+# 创建对象
+p1 = Person("小明", 20)
+p2 = Person("小红", 18)
+
+print(p1.introduce())
+print(p2.introduce())
+
+# 修改属性
+p1.age = 21
+print(p1.introduce())
+
+# 类属性
+class Student(Person):
+    school = "第一中学"  # 类属性
+    
+    def __init__(self, name, age, grade):
+        super().__init__(name, age)
+        self.grade = grade
+    
+    def study(self, subject):
+        return f"{self.name}正在学习{subject}"
+
+stu = Student("小刚", 16, "高一")
+print(stu.introduce())
+print(stu.study("数学"))
+print("学校:", Student.school)</textarea>
+                    <div class="code-output" id="output5-1"></div>
+                </div>
+
+                <h2 class="section-title-sm">5.2 继承</h2>
+                <p class="content-text">子类可以继承父类的属性和方法：</p>
+
+                <div class="code-block" id="code5-2">
+                    <div class="code-block-header">
+                        <span>代码示例</span>
+                        <button class="run-code-btn" onclick="runCode('code5-2')">运行代码</button>
+                    </div>
+                    <textarea class="code-input" id="code-input-5-2"># 继承示例
+class Animal:
+    def __init__(self, name):
+        self.name = name
+    
+    def speak(self):
+        pass
+
+class Dog(Animal):
+    def speak(self):
+        return f"{self.name} 汪汪汪!"
+
+class Cat(Animal):
+    def speak(self):
+        return f"{self.name} 喵喵喵!"
+
+class Bird(Animal):
+    def __init__(self, name, can_fly):
+        super().__init__(name)
+        self.can_fly = can_fly
+    
+    def speak(self):
+        sound = "叽叽喳喳!"
+        if self.can_fly:
+            return f"{self.name} 在天上{sound}"
+        else:
+            return f"{self.name} 在地上{sound}"
+
+# 创建对象
+dog = Dog("旺财")
+cat = Cat("咪咪")
+bird1 = Bird("麻雀", True)
+bird2 = Bird("企鹅", False)
+
+print(dog.speak())
+print(cat.speak())
+print(bird1.speak())
+print(bird2.speak())
+
+# isinstance 检查
+print("\n类型检查:")
+print(f"dog 是 Animal 吗? {isinstance(dog, Animal)}")
+print(f"dog 是 Dog 吗? {isinstance(dog, Dog)}")
+print(f"cat 是 Dog 吗? {isinstance(cat, Dog)}")</textarea>
+                    <div class="code-output" id="output5-2"></div>
+                </div>
+
+                <h2 class="section-title-sm">5.3 封装与方法</h2>
+                <p class="content-text">封装是将数据和操作数据的方法绑定在一起：</p>
+
+                <div class="code-block" id="code5-3">
+                    <div class="code-block-header">
+                        <span>代码示例</span>
+                        <button class="run-code-btn" onclick="runCode('code5-3')">运行代码</button>
+                    </div>
+                    <textarea class="code-input" id="code-input-5-3"># 封装示例
+class BankAccount:
+    def __init__(self, account_number, balance=0):
+        self.account_number = account_number
+        self.__balance = balance  # 私有属性
+    
+    def deposit(self, amount):
+        if amount > 0:
+            self.__balance += amount
+            return f"存款成功，余额: {self.__balance}"
+        else:
+            return "存款金额必须大于0"
+    
+    def withdraw(self, amount):
+        if 0 < amount <= self.__balance:
+            self.__balance -= amount
+            return f"取款成功，余额: {self.__balance}"
+        else:
+            return "取款金额无效"
+    
+    def get_balance(self):
+        return f"账户 {self.account_number} 余额: {self.__balance}"
+
+# 使用账户
+account = BankAccount("123456", 1000)
+print(account.get_balance())
+print(account.deposit(500))
+print(account.withdraw(300))
+print(account.withdraw(2000))
+
+# 尝试直接访问私有属性（会失败）
+# print(account.__balance)  # 报错
+
+# 魔术方法
+class Rectangle:
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+    
+    def area(self):
+        return self.width * self.height
+    
+    def __str__(self):
+        return f"Rectangle({self.width}, {self.height})"
+    
+    def __add__(self, other):
+        return Rectangle(self.width + other.width, self.height + other.height)
+
+rect1 = Rectangle(3, 4)
+rect2 = Rectangle(2, 5)
+print(rect1)
+print("面积:", rect1.area())
+rect3 = rect1 + rect2
+print(rect3)
+print("合并面积:", rect3.area())</textarea>
+                    <div class="code-output" id="output5-3"></div>
+                </div>
+            </div>
+
+            <div id="chapter6" class="chapter-content" style="display: none;">
+                <h1 class="chapter-title">第6章 模块与文件</h1>
+                
+                <p class="content-text">模块是组织代码的方式，文件操作是读写数据的基础。</p>
+
+                <h2 class="section-title-sm">6.1 模块导入</h2>
+                <p class="content-text">Python 有丰富的标准库，可以通过 import 导入：</p>
+
+                <div class="code-block" id="code6-1">
+                    <div class="code-block-header">
+                        <span>代码示例</span>
+                        <button class="run-code-btn" onclick="runCode('code6-1')">运行代码</button>
+                    </div>
+                    <textarea class="code-input" id="code-input-6-1"># 导入模块
+import math
+
+print("π =", math.pi)
+print("√16 =", math.sqrt(16))
+print("sin(90°) =", math.sin(math.pi/2))
+
+# 导入特定函数
+from random import randint, choice
+
+print("\n随机整数(1-100):", randint(1, 100))
+print("随机选择:", choice(["苹果", "香蕉", "橙子"]))
+
+# 导入并更名
+import datetime as dt
+
+now = dt.datetime.now()
+print("\n当前时间:", now)
+print("格式化时间:", now.strftime("%Y年%m月%d日 %H:%M:%S"))
+
+# 导入所有内容
+from math import *
+print("\ncos(0) =", cos(0))
+print("e^2 =", exp(2))</textarea>
+                    <div class="code-output" id="output6-1"></div>
+                </div>
+
+                <h2 class="section-title-sm">6.2 文件操作</h2>
+                <p class="content-text">读写文件是常见的操作：</p>
+
+                <div class="code-block" id="code6-2">
+                    <div class="code-block-header">
+                        <span>代码示例</span>
+                        <button class="run-code-btn" onclick="runCode('code6-2')">运行代码</button>
+                    </div>
+                    <textarea class="code-input" id="code-input-6-2"># 文件操作示例
+# 写入文件
+content = """第一行内容
+第二行内容
+第三行内容"""
+
+with open("example.txt", "w") as f:
+    f.write(content)
+print("文件写入成功")
+
+# 读取文件
+with open("example.txt", "r") as f:
+    content = f.read()
+print("\n文件内容:")
+print(content)
+
+# 逐行读取
+with open("example.txt", "r") as f:
+    lines = f.readlines()
+print("\n逐行读取:")
+for i, line in enumerate(lines, 1):
+    print(f"第{i}行: {line.strip()}")
+
+# 追加内容
+with open("example.txt", "a") as f:
+    f.write("\n第四行内容")
+print("\n追加成功")
+
+# 读取验证
+with open("example.txt", "r") as f:
+    print("追加后的内容:")
+    print(f.read())</textarea>
+                    <div class="code-output" id="output6-2"></div>
+                </div>
+
+                <h2 class="section-title-sm">6.3 异常处理</h2>
+                <p class="content-text">处理运行时错误：</p>
+
+                <div class="code-block" id="code6-3">
+                    <div class="code-block-header">
+                        <span>代码示例</span>
+                        <button class="run-code-btn" onclick="runCode('code6-3')">运行代码</button>
+                    </div>
+                    <textarea class="code-input" id="code-input-6-3"># 异常处理
+try:
+    num1 = int(input("请输入第一个数字: "))
+    num2 = int(input("请输入第二个数字: "))
+    result = num1 / num2
+    print(f"{num1} / {num2} = {result}")
+except ValueError:
+    print("错误: 请输入有效的数字")
+except ZeroDivisionError:
+    print("错误: 除数不能为零")
+except Exception as e:
+    print(f"发生未知错误: {e}")
+else:
+    print("计算成功!")
+finally:
+    print("程序结束")
+
+# 文件操作中的异常处理
+try:
+    with open("nonexistent.txt", "r") as f:
+        content = f.read()
+except FileNotFoundError:
+    print("\n错误: 文件不存在")
+except IOError:
+    print("\n错误: 文件读取失败")
+
+# 自定义异常
+class InvalidAgeError(Exception):
+    pass
+
+def check_age(age):
+    if age < 0 or age > 120:
+        raise InvalidAgeError(f"无效的年龄: {age}")
+    return f"年龄有效: {age}"
+
+try:
+    print(check_age(25))
+    print(check_age(150))
+except InvalidAgeError as e:
+    print(f"自定义异常: {e}")</textarea>
+                    <div class="code-output" id="output6-3"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/mode/python/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/addon/edit/matchbrackets.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.12/addon/edit/closebrackets.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.26.1/full/pyodide.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
