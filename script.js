@@ -1,7 +1,6 @@
 let pyodide = null;
 let pyodideReady = false;
 let editors = {};
-let currentOutputElement = null;
 
 async function loadPyodideRuntime() {
     if (pyodideReady) return;
@@ -12,76 +11,65 @@ async function loadPyodideRuntime() {
             indexURL: "https://cdn.jsdelivr.net/pyodide/v0.26.1/full/"
         });
         
-        pyodide.globals.set("console", {
-            log: (...args) => {
-                if (currentOutputElement) {
-                    currentOutputElement.textContent += args.map(arg => 
-                        typeof arg === 'object' ? JSON.stringify(arg) : String(arg)
-                    ).join(' ') + '\n';
-                }
-                console.log(...args);
-            }
-        });
+        await pyodide.runPythonAsync(`
+import sys
+import io
+`);
         
         pyodideReady = true;
         console.log('Pyodide 加载完成');
     } catch (error) {
         console.error('Pyodide 加载失败:', error);
-        if (currentOutputElement) {
-            currentOutputElement.textContent = 'Pyodide 加载失败: ' + error.message;
-            currentOutputElement.classList.add('error');
-        }
     }
 }
 
 async function runPythonCode(code, outputElement) {
-    currentOutputElement = outputElement;
     outputElement.textContent = '';
     outputElement.classList.remove('error', 'success');
 
     if (!pyodideReady) {
-        outputElement.textContent = '正在加载 Python 运行时...\n';
+        outputElement.textContent = '正在加载 Python 运行时...';
         await loadPyodideRuntime();
     }
 
     if (!pyodide) {
         outputElement.textContent = '错误: Pyodide 未加载成功';
         outputElement.classList.add('error');
-        currentOutputElement = null;
         return;
     }
 
     try {
-        outputElement.textContent = '';
-        
-        const oldStdout = pyodide.globals.get("sys").stdout;
-        const oldStderr = pyodide.globals.get("sys").stderr;
-        
-        const stringIO = pyodide.globals.get("io").StringIO.new();
-        pyodide.globals.get("sys").stdout = stringIO;
-        pyodide.globals.get("sys").stderr = stringIO;
+        await pyodide.runPythonAsync(`
+import sys
+import io
 
-        try {
-            await pyodide.runPythonAsync(code);
-        } finally {
-            pyodide.globals.get("sys").stdout = oldStdout;
-            pyodide.globals.get("sys").stderr = oldStderr;
-        }
+output_buffer = io.StringIO()
+old_stdout = sys.stdout
+old_stderr = sys.stderr
+sys.stdout = output_buffer
+sys.stderr = output_buffer
 
-        const output = stringIO.getvalue();
+try:
+    exec(${JSON.stringify(code)})
+finally:
+    sys.stdout = old_stdout
+    sys.stderr = old_stderr
+
+output = output_buffer.getvalue()
+`);
         
-        if (output.trim() === '') {
-            outputElement.textContent = '(无输出)';
-        } else {
+        const output = pyodide.globals.get("output");
+        
+        if (output && output.trim()) {
             outputElement.textContent = output;
             outputElement.classList.add('success');
+        } else {
+            outputElement.textContent = '(无输出)';
         }
     } catch (error) {
         outputElement.classList.add('error');
         outputElement.textContent = '错误: ' + error.message;
         console.error('Python 执行错误:', error);
-    } finally {
-        currentOutputElement = null;
     }
 }
 
@@ -115,7 +103,6 @@ function initEditor(textareaId) {
     });
 
     editors[textareaId] = editor;
-    console.log('初始化编辑器:', textareaId);
     return editor;
 }
 
@@ -123,14 +110,9 @@ function runCode(blockId) {
     const inputId = 'code-input-' + blockId.split('-').slice(1).join('-');
     const outputId = 'output' + blockId.slice(4);
     
-    console.log('runCode:', blockId, inputId, outputId);
-    
     const editor = editors[inputId];
     const code = editor ? editor.getValue() : document.getElementById(inputId)?.value;
     const outputElement = document.getElementById(outputId);
-    
-    console.log('代码:', code);
-    console.log('输出元素:', outputElement);
     
     if (outputElement && code !== undefined) {
         runPythonCode(code, outputElement);
@@ -141,14 +123,9 @@ function runExercise(exerciseId) {
     const inputId = exerciseId + '-input';
     const outputId = exerciseId + '-output';
     
-    console.log('runExercise:', exerciseId, inputId, outputId);
-    
     const editor = editors[inputId];
     const code = editor ? editor.getValue() : document.getElementById(inputId)?.value;
     const outputElement = document.getElementById(outputId);
-    
-    console.log('代码:', code);
-    console.log('输出元素:', outputElement);
     
     if (outputElement && code !== undefined) {
         runPythonCode(code, outputElement);
@@ -193,14 +170,12 @@ function initCourseNavigation() {
 
 function initAllEditors() {
     const textareas = document.querySelectorAll('textarea.code-input');
-    console.log('找到 textarea 数量:', textareas.length);
     textareas.forEach(textarea => {
         initEditor(textarea.id);
     });
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM 加载完成');
     initAllEditors();
     initCourseNavigation();
     loadPyodideRuntime();
